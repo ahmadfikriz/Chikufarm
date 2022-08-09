@@ -7,6 +7,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { use } from 'passport';
 import { User } from 'src/user/entities/user.entity';
 import { AuthDto } from './auth.dto';
 import { AuthService } from './auth.service';
@@ -26,7 +27,14 @@ export class AuthController {
 
   @Post()
   async login(@Body() authDto: AuthDto) {
-    await this.authService.cekUser(authDto.email, authDto.password);
-    return this.authService.generateToken({ id: User.id });
+    const user = await this.authService.cekUser(authDto.email, authDto.password);
+    try {
+      console.log('email :', authDto.email);
+      console.log('password :', authDto.password);
+    } catch (e) {
+      throw e;
+    }
+    return this.authService.generateToken(user);
   }
 }
+

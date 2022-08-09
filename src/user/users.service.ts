@@ -63,8 +63,11 @@ export class UsersService {
     }
   }
 
-  findEmail(email) {
-    return this.usersRepository.findOneBy({email:email})
+  async findEmail(email) {
+    return await this.usersRepository.createQueryBuilder('user')
+    .leftJoinAndSelect('user.role', 'role')
+    .where('email = :email', {email:email})
+    .getOne()
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
