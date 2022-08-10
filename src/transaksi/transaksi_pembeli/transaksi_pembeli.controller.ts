@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {
   Controller,
   Get,
@@ -9,12 +10,17 @@ import {
   HttpStatus,
   ParseUUIDPipe,
   Put,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
 import { TransaksiPembeliService } from './transaksi_pembeli.service';
 import { CreateTransaksiPembeliDto } from './dto/create-transaksi_pembeli.dto';
 import { UpdateTransaksiPembeliDto } from './dto/update-transaksi_pembeli.dto';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiConsumes } from '@nestjs/swagger';
 import { JwtGuard } from 'src/auth/jwt.guard';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { extname } from 'path';
 
 @ApiBearerAuth()
 @UseGuards(JwtGuard)
@@ -25,7 +31,24 @@ export class TransaksiPembeliController {
   ) {}
 
   @Post()
-  async create(@Body() createTransaksiPembeliDto: CreateTransaksiPembeliDto) {
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({ type: CreateTransaksiPembeliDto })
+  @UseInterceptors(
+    FileInterceptor('bukti_bayar', {
+      storage: diskStorage({
+        destination: './src/transaksi/transaksi_pembeli/bukti',
+        filename: (req: any, file, cb) => {
+          const namaFile = [req.user.id, Date.now()].join('-');
+          cb(null, namaFile + extname(file.originalname));
+        },
+      }),
+    }),
+  )
+  async create(
+    @Body() createTransaksiPembeliDto: CreateTransaksiPembeliDto,
+    @UploadedFile() bukti_bayar: Express.Multer.File,
+  ) {
+    createTransaksiPembeliDto.bukti_bayar = bukti_bayar.filename;
     return {
       data: await this.transaksiPembeliService.create(
         createTransaksiPembeliDto,

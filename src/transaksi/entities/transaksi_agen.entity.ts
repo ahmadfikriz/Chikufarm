@@ -49,8 +49,8 @@ export class transaksi_agen {
   })
   deleted_at: Date;
 
-  @ManyToOne(() => User, (idtransaksi_agen) => idtransaksi_agen.id)
-  agent: User;
+  @ManyToOne(() => User, (id_agen) => id_agen.id)
+  agen: User;
 
   @ManyToOne(() => request, (id_request) => id_request.id)
   request: request;

@@ -1,5 +1,7 @@
+/* eslint-disable prettier/prettier */
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { UsersService } from 'src/user/users.service';
 import { EntityNotFoundError, Repository } from 'typeorm';
 import { transaksi_agen } from '../entities/transaksi_agen.entity';
 import { CreateTransaksiAgenDto } from './dto/create-transaksi_agen.dto';
@@ -10,22 +12,32 @@ export class TransaksiAgenService {
   constructor(
     @InjectRepository(transaksi_agen)
     private transaksiAgenRepository: Repository<transaksi_agen>,
+    private usersService: UsersService
   ) {}
 
   async create(createTransaksiAgenDto: CreateTransaksiAgenDto) {
-    const result = await this.transaksiAgenRepository.insert(
-      createTransaksiAgenDto,
-    );
+    console.log(createTransaksiAgenDto)
+    const newTransaksi = new transaksi_agen();
+      newTransaksi.total_bayar = createTransaksiAgenDto.total_bayar
+      newTransaksi.tanggal = createTransaksiAgenDto.tanggal
+      newTransaksi.bank = createTransaksiAgenDto.bank
+      newTransaksi.bukti_bayar = createTransaksiAgenDto.bukti_bayar
+      newTransaksi.agen = await this.usersService.findByUser(createTransaksiAgenDto.nama_agen)
 
+      const result = await this.transaksiAgenRepository.insert(newTransaksi)
+     
+      
     return this.transaksiAgenRepository.findOneOrFail({
       where: {
         id: result.identifiers[0].id,
-      },
+      },relations: ['agen']
     });
   }
 
   findAll() {
-    return this.transaksiAgenRepository.findAndCount();
+    return this.transaksiAgenRepository.findAndCount({
+    where: {},relations: ['agen']
+    });
   }
 
   async findOne(id: string) {

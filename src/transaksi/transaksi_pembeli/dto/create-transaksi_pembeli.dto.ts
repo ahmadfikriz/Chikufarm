@@ -2,20 +2,11 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
   IsNotEmpty,
+  IsOptional,
   IsString,
 } from 'class-validator';
 
 export class CreateTransaksiPembeliDto {
-  @ApiProperty({ required: true })
-  @IsNotEmpty()
-  @IsString()
-  id_cart: string;
-
-  @ApiProperty({ required: true })
-  @IsNotEmpty()
-  @IsString()
-  id_pembeli: string;
-
   @ApiProperty({ required: true })
   @IsNotEmpty()
   @IsString()
@@ -30,8 +21,7 @@ export class CreateTransaksiPembeliDto {
   @IsString()
   bank: string;
 
-  @ApiProperty({ required: true })
-  @IsNotEmpty()
-  @IsString()
+  @ApiProperty({ format:'binary' })
+  @IsOptional()
   bukti_bayar: string;
 }

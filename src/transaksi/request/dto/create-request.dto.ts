@@ -8,11 +8,6 @@ import {
 export class CreateRequestDto {
   @ApiProperty({ required: true })
   @IsNotEmpty()
-  @IsString()
-  idtransaksi_agen: string;
-
-  @ApiProperty({ required: true })
-  @IsNotEmpty()
   tanggal: Date;
 
   @ApiProperty({ required: true })

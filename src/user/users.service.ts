@@ -13,6 +13,7 @@ export class UsersService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
+    
     private roleService: RoleService
   ) {}
 
@@ -38,7 +39,9 @@ export class UsersService {
   }
 
   findAll() {
-    return this.usersRepository.findAndCount();
+    return this.usersRepository.findAndCount({
+    where: {},relations: ['role']
+  });
   }
 
   async findOne(id: string) {
@@ -62,7 +65,7 @@ export class UsersService {
       }
     }
   }
-
+  
   async findEmail(email) {
     return await this.usersRepository.createQueryBuilder('user')
     .leftJoinAndSelect('user.role', 'role')
@@ -134,5 +137,25 @@ export class UsersService {
     const valid = bcrypt.compare(plainPassword, hash)
     
     return valid
+  }
+
+  async findByUser(nama: string){
+    try {
+      return await this.usersRepository.findOneOrFail({
+        where: {
+          nama
+        }
+      })
+    } catch (error) {
+      if (error instanceof EntityNotFoundError) {
+        throw new HttpException(
+          {
+            statusCode: HttpStatus.NOT_FOUND,
+            error: 'Data not found',
+          },
+          HttpStatus.NOT_FOUND,
+        );
+    }
+  }
   }
 }

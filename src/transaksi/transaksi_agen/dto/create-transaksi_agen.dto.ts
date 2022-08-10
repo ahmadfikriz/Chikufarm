@@ -11,6 +11,11 @@ export class CreateTransaksiAgenDto {
   @ApiProperty({ required: true })
   @IsNotEmpty()
   @IsString()
+  nama_agen: string;
+
+  @ApiProperty({ required: true })
+  @IsNotEmpty()
+  @IsString()
   total_bayar: string;
 
   @ApiProperty({ required: true })

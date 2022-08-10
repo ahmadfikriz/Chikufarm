@@ -65,13 +65,13 @@ export class User {
   @ManyToOne(() => role, (id_role) => id_role.id)
   role: role;
 
-  @OneToMany(() => produk_agen, (idtransaksi_agen) => idtransaksi_agen.id)
+  @OneToMany(() => produk_agen, (transaksi_agen) => transaksi_agen.id)
   produk_agen: produk_agen;
 
-  @OneToMany(() => request, (idtransaksi_agen) => idtransaksi_agen.id)
+  @OneToMany(() => request, (transaksi_agen) => transaksi_agen.id)
   request: request;
 
-  @OneToMany(() => transaksi_agen, (idtransaksi_agen) => idtransaksi_agen.id)
+  @OneToMany(() => transaksi_agen, (transaksi_agen) => transaksi_agen.id)
   transaksi_agen: transaksi_agen;
 
   @OneToMany(() => cart, (id_pembeli) => id_pembeli.id)

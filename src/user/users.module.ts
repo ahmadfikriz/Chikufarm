@@ -30,7 +30,7 @@ import { RoleModule } from './role/role.module';
       transaksi_agen,
       transaksi_pembeli,
     ]),
-    RoleModule
+    RoleModule,
   ],
   controllers: [UsersController],
   providers: [UsersService],
