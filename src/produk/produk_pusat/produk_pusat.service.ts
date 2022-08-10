@@ -1,22 +1,23 @@
-/* eslint-disable prettier/prettier */
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { EntityNotFoundError, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateProdukDto } from './dto/create-produk.dto';
-import { UpdateProdukDto } from './dto/update-produk.dto';
-import { produk_agen } from './entities/produk_agen.entity';
+import { Repository, EntityNotFoundError } from 'typeorm';
+import { produkPusat } from '../entities/produk_pusat.entity';
+import { CreateProdukPusatDto } from './dto/create-produk_pusat.dto';
+import { UpdateProdukPusatDto } from './dto/update-produk_pusat.dto';
 
 @Injectable()
-export class ProdukService {
+export class ProdukPusatService {
   constructor(
-    @InjectRepository(produk_agen)
-    private produkRepository: Repository<produk_agen>,
+    @InjectRepository(produkPusat)
+    private produkPusatRepository: Repository<produkPusat>,
   ) {}
 
-  async create(createProdukDto: CreateProdukDto) {
-    const result = await this.produkRepository.insert(createProdukDto);
+  async create(createProdukPusatDto: CreateProdukPusatDto) {
+    const result = await this.produkPusatRepository.insert(
+      createProdukPusatDto,
+    );
 
-    return this.produkRepository.findOneOrFail({
+    return this.produkPusatRepository.findOneOrFail({
       where: {
         id: result.identifiers[0].id,
       },
@@ -24,12 +25,12 @@ export class ProdukService {
   }
 
   findAll() {
-    return this.produkRepository.findAndCount();
+    return this.produkPusatRepository.findAndCount();
   }
 
   async findOne(id: string) {
     try {
-      return await this.produkRepository.findOneOrFail({
+      return await this.produkPusatRepository.findOneOrFail({
         where: {
           id,
         },
@@ -49,9 +50,9 @@ export class ProdukService {
     }
   }
 
-  async update(id: string, updateProdukDto: UpdateProdukDto) {
+  async update(id: string, updateProdukPusatDto: UpdateProdukPusatDto) {
     try {
-      await this.produkRepository.findOneOrFail({
+      await this.produkPusatRepository.findOneOrFail({
         where: {
           id,
         },
@@ -70,9 +71,9 @@ export class ProdukService {
       }
     }
 
-    await this.produkRepository.update(id, updateProdukDto);
+    await this.produkPusatRepository.update(id, updateProdukPusatDto);
 
-    return this.produkRepository.findOneOrFail({
+    return this.produkPusatRepository.findOneOrFail({
       where: {
         id,
       },
@@ -81,7 +82,7 @@ export class ProdukService {
 
   async remove(id: string) {
     try {
-      await this.produkRepository.findOneOrFail({
+      await this.produkPusatRepository.findOneOrFail({
         where: {
           id,
         },
@@ -100,6 +101,6 @@ export class ProdukService {
       }
     }
 
-    await this.produkRepository.delete(id);
+    await this.produkPusatRepository.delete(id);
   }
 }

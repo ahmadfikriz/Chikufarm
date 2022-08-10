@@ -13,20 +13,20 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { JwtGuard } from 'src/auth/jwt.guard';
-import { CreateProdukDto } from './dto/create-produk.dto';
-import { UpdateProdukDto } from './dto/update-produk.dto';
-import { ProdukService } from './produk.service';
+import { CreateProdukAgenDto } from './dto/create-produk_agen.dto';
+import { UpdateProdukAgenDto } from './dto/update-produk_agen.dto';
+import { ProdukAgenService } from './produk_agen.service';
 
 @ApiBearerAuth()
 @UseGuards(JwtGuard)
-@Controller('produk')
-export class ProdukController {
-  constructor(private readonly produkService: ProdukService) {}
+@Controller('produk_agen')
+export class ProdukAgenController {
+  constructor(private readonly produkAgenService: ProdukAgenService) {}
 
   @Post()
-  async create(@Body() createProdukDto: CreateProdukDto) {
+  async create(@Body() createProdukAgenDto: CreateProdukAgenDto) {
     return {
-      data: await this.produkService.create(createProdukDto),
+      data: await this.produkAgenService.create(createProdukAgenDto),
       statusCode: HttpStatus.CREATED,
       message: 'success',
     };
@@ -34,7 +34,7 @@ export class ProdukController {
 
   @Get()
   async findAll() {
-    const [data, count] = await this.produkService.findAll();
+    const [data, count] = await this.produkAgenService.findAll();
 
     return {
       data,
@@ -47,7 +47,7 @@ export class ProdukController {
   @Get(':id')
   async findOne(@Param('id', ParseUUIDPipe) id: string) {
     return {
-      data: await this.produkService.findOne(id),
+      data: await this.produkAgenService.findOne(id),
       statusCode: HttpStatus.OK,
       message: 'success',
     };
@@ -56,10 +56,10 @@ export class ProdukController {
   @Put(':id')
   async update(
     @Param('id', ParseUUIDPipe) id: string,
-    @Body() updateProdukDto: UpdateProdukDto,
+    @Body() updateProdukAgenDto: UpdateProdukAgenDto,
   ) {
     return {
-      data: await this.produkService.update(id, updateProdukDto),
+      data: await this.produkAgenService.update(id, updateProdukAgenDto),
       statusCode: HttpStatus.OK,
       message: 'success',
     };
@@ -67,7 +67,7 @@ export class ProdukController {
 
   @Delete(':id')
   async remove(@Param('id', ParseUUIDPipe) id: string) {
-    await this.produkService.remove(id);
+    await this.produkAgenService.remove(id);
 
     return {
       statusCode: HttpStatus.OK,

@@ -1,25 +1,25 @@
 import { Module } from '@nestjs/common';
-import { ProdukService } from './produk.service';
-import { ProdukController } from './produk.controller';
-import { User } from 'src/user/entities/user.entity';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { ProdukPusatService } from './produk_pusat.service';
+import { ProdukPusatController } from './produk_pusat.controller';
 import { request } from 'src/transaksi/entities/request.entity';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { cart } from 'src/transaksi/entities/cart.entity';
 import { cart_detail } from 'src/transaksi/entities/cart_detail.entity';
 import { request_detail } from 'src/transaksi/entities/request_detail.entity';
 import { transaksi_agen } from 'src/transaksi/entities/transaksi_agen.entity';
 import { transaksi_pembeli } from 'src/transaksi/entities/transaksi_pembeli.entity';
 import { role } from 'src/user/entities/role.entity';
-import { produk_agen } from './entities/produk_agen.entity';
-import { produk_pusat } from './entities/produk_pusat.entity';
+import { User } from 'src/user/entities/user.entity';
+import { produkAgen } from '../entities/produk_agen.entity';
+import { produkPusat } from '../entities/produk_pusat.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([
       User,
       role,
-      produk_pusat,
-      produk_agen,
+      produkPusat,
+      produkAgen,
       request,
       request_detail,
       cart,
@@ -28,7 +28,7 @@ import { produk_pusat } from './entities/produk_pusat.entity';
       transaksi_pembeli,
     ]),
   ],
-  controllers: [ProdukController],
-  providers: [ProdukService],
+  controllers: [ProdukPusatController],
+  providers: [ProdukPusatService],
 })
-export class ProdukModule {}
+export class ProdukPusatModule {}

@@ -3,8 +3,8 @@ import { CartService } from './cart.service';
 import { CartController } from './cart.controller';
 import { request } from '../entities/request.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { produk_agen } from 'src/produk/entities/produk_agen.entity';
-import { produk_pusat } from 'src/produk/entities/produk_pusat.entity';
+import { produkAgen } from 'src/produk/entities/produk_agen.entity';
+import { produkPusat } from 'src/produk/entities/produk_pusat.entity';
 import { role } from 'src/user/entities/role.entity';
 import { User } from 'src/user/entities/user.entity';
 import { cart } from '../entities/cart.entity';
@@ -19,8 +19,8 @@ import { bank } from '../entities/bank.entity';
     TypeOrmModule.forFeature([
       User,
       role,
-      produk_pusat,
-      produk_agen,
+      produkPusat,
+      produkAgen,
       request,
       request_detail,
       cart,

@@ -5,7 +5,7 @@ import {
   IsString,
 } from 'class-validator';
 
-export class CreateProdukDto {
+export class CreateProdukAgenDto {
   @ApiProperty({ required: true })
   @IsNotEmpty()
   @IsString()

@@ -2,7 +2,7 @@
 /* eslint-disable arrow-body-style */
 /* eslint-disable camelcase */
 import { role } from './role.entity';
-import { produk_agen } from 'src/produk/entities/produk_agen.entity';
+import { produkAgen } from 'src/produk/entities/produk_agen.entity';
 import { bank } from 'src/transaksi/entities/bank.entity';
 import { cart } from 'src/transaksi/entities/cart.entity';
 import { request } from 'src/transaksi/entities/request.entity';
@@ -65,8 +65,8 @@ export class User {
   @ManyToOne(() => role, (id_role) => id_role.id)
   role: role;
 
-  @OneToMany(() => produk_agen, (transaksi_agen) => transaksi_agen.id)
-  produk_agen: produk_agen;
+  @OneToMany(() => produkAgen, (transaksi_agen) => transaksi_agen.id)
+  produkAgen: produkAgen;
 
   @OneToMany(() => request, (transaksi_agen) => transaksi_agen.id)
   request: request;

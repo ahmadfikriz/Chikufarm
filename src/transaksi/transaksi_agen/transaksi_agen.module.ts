@@ -4,8 +4,6 @@ import { TransaksiAgenController } from './transaksi_agen.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'src/user/entities/user.entity';
 import { role } from 'src/user/entities/role.entity';
-import { produk_pusat } from 'src/produk/entities/produk_pusat.entity';
-import { produk_agen } from 'src/produk/entities/produk_agen.entity';
 import { request } from '../entities/request.entity';
 import { request_detail } from '../entities/request_detail.entity';
 import { cart } from '../entities/cart.entity';
@@ -14,14 +12,16 @@ import { transaksi_agen } from '../entities/transaksi_agen.entity';
 import { transaksi_pembeli } from '../entities/transaksi_pembeli.entity';
 import { bank } from '../entities/bank.entity';
 import { UsersModule } from 'src/user/users.module';
+import { produkAgen } from 'src/produk/entities/produk_agen.entity';
+import { produkPusat } from 'src/produk/entities/produk_pusat.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([
       User,
       role,
-      produk_pusat,
-      produk_agen,
+      produkPusat,
+      produkAgen,
       request,
       request_detail,
       cart,

@@ -15,7 +15,7 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class produk_agen {
+export class produkAgen {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -52,6 +52,6 @@ export class produk_agen {
   @ManyToOne(()=>User, user=>user.id)
   agent: User;
 
-  @OneToMany(() => cart_detail, (id_produk_agen) => id_produk_agen.id)
-  produk_agen: cart_detail;
+  @OneToMany(() => cart_detail, (id_produkAgen) => id_produkAgen.id)
+  produkAgen: cart_detail;
 }

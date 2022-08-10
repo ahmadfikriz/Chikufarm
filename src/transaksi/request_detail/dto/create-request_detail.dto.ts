@@ -10,12 +10,12 @@ export class CreateRequestDetailDto {
   @ApiProperty({ required: true })
   @IsNotEmpty()
   @IsString()
-  id_produk_pusat: string;
+  id_produkPusat: string;
 
   @ApiProperty({ required: true })
   @IsNotEmpty()
   @IsString()
-  jumlah_produk: string;
+  jumlah_produkAgen: string;
 
   @ApiProperty({ required: true })
   @IsNotEmpty()

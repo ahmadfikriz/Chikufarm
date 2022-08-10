@@ -13,7 +13,7 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class produk_pusat {
+export class produkPusat {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -44,6 +44,6 @@ export class produk_pusat {
   })
   deleted_at: Date;
 
-  @OneToMany(() => request_detail, (id_produk_pusat) => id_produk_pusat.id)
-  produk_pusat: request_detail;
+  @OneToMany(() => request_detail, (id_produkPusat) => id_produkPusat.id)
+  produkPusat: request_detail;
 }

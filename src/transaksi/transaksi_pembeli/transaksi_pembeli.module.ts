@@ -3,8 +3,8 @@ import { TransaksiPembeliService } from './transaksi_pembeli.service';
 import { TransaksiPembeliController } from './transaksi_pembeli.controller';
 import { request } from 'src/transaksi/entities/request.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { produk_agen } from 'src/produk/entities/produk_agen.entity';
-import { produk_pusat } from 'src/produk/entities/produk_pusat.entity';
+import { produkAgen } from 'src/produk/entities/produk_agen.entity';
+import { produkPusat } from 'src/produk/entities/produk_pusat.entity';
 import { cart } from 'src/transaksi/entities/cart.entity';
 import { cart_detail } from 'src/transaksi/entities/cart_detail.entity';
 import { request_detail } from 'src/transaksi/entities/request_detail.entity';
@@ -19,8 +19,8 @@ import { bank } from '../entities/bank.entity';
     TypeOrmModule.forFeature([
       User,
       role,
-      produk_pusat,
-      produk_agen,
+      produkPusat,
+      produkAgen,
       request,
       request_detail,
       cart,

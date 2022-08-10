@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { produk_agen } from 'src/produk/entities/produk_agen.entity';
+import { produkAgen } from 'src/produk/entities/produk_agen.entity';
 import {
     Column,
     CreateDateColumn,
@@ -20,7 +20,7 @@ import { cart } from './cart.entity';
     id: string;
   
     @Column()
-    jumlah_produk: string;
+    jumlah_produkAgen: string;
   
     @Column()
     total_harga: string;
@@ -46,6 +46,6 @@ import { cart } from './cart.entity';
     @ManyToOne(() =>cart, (id_cart) =>id_cart.id)
     cart: cart;
 
-    @ManyToOne(() =>produk_agen, (id_produk_agen) =>id_produk_agen.id)
-    produk_agen: produk_agen;
+    @ManyToOne(() =>produkAgen, (id_produkAgen) =>id_produkAgen.id)
+    produkAgen: produkAgen;
   }

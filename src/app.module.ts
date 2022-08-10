@@ -8,7 +8,6 @@ import { UsersModule } from './user/users.module';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { LoggerModule } from 'nestjs-pino';
 import configuration from './config/configuration';
-import { ProdukModule } from './produk/produk.module';
 import { RoleModule } from './user/role/role.module';
 import { AuthModule } from './auth/auth.module';
 import { TransaksiAgenModule } from './transaksi/transaksi_agen/transaksi_agen.module';
@@ -18,6 +17,8 @@ import { RequestDetailModule } from './transaksi/request_detail/request_detail.m
 import { CartModule } from './transaksi/cart/cart.module';
 import { CartDetailModule } from './transaksi/cart_detail/cart_detail.module';
 import { BankModule } from './transaksi/bank/bank.module';
+import { ProdukAgenModule } from './produk/produk_agen/produk_agen.module';
+import { ProdukPusatModule } from './produk/produk_pusat/produk_pusat.module';
 
 @Module({
   imports: [
@@ -86,7 +87,7 @@ import { BankModule } from './transaksi/bank/bank.module';
     }),
     RoleModule,
     UsersModule,
-    ProdukModule,
+    ProdukAgenModule,
     AuthModule,
     TransaksiAgenModule,
     TransaksiPembeliModule,
@@ -95,6 +96,7 @@ import { BankModule } from './transaksi/bank/bank.module';
     CartModule,
     CartDetailModule,
     BankModule,
+    ProdukPusatModule,
   ],
 })
 export class AppModule {}
