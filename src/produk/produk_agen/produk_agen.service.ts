@@ -102,4 +102,24 @@ export class ProdukAgenService {
 
     await this.produkAgenRepository.delete(id);
   }
+
+  async findByProdukAgen(nama: string) {
+    try {
+      return await this.produkAgenRepository.findOneOrFail({
+        where: {
+          nama,
+        },
+      });
+    } catch (error) {
+      if (error instanceof EntityNotFoundError) {
+        throw new HttpException(
+          {
+            statusCode: HttpStatus.NOT_FOUND,
+            error: 'Data not found',
+          },
+          HttpStatus.NOT_FOUND,
+        );
+      }
+    }
+  }
 }

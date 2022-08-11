@@ -1,5 +1,7 @@
+/* eslint-disable prettier/prettier */
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ProdukAgenService } from 'src/produk/produk_agen/produk_agen.service';
 import { Repository, EntityNotFoundError } from 'typeorm';
 import { cart_detail } from '../entities/cart_detail.entity';
 import { CreateCartDetailDto } from './dto/create-cart_detail.dto';
@@ -10,15 +12,23 @@ export class CartDetailService {
   constructor(
     @InjectRepository(cart_detail)
     private cartDetailRepository: Repository<cart_detail>,
+    private produkAgenService: ProdukAgenService,
   ) {}
 
   async create(createCartDetailDto: CreateCartDetailDto) {
-    const result = await this.cartDetailRepository.insert(createCartDetailDto);
+    console.log(createCartDetailDto)
+    const newCartDetail = new cart_detail();
+    newCartDetail.jumlah_produk = createCartDetailDto.jumlah_produk
+    newCartDetail.total_harga = createCartDetailDto.total_harga
+    newCartDetail.produkAgen = await this.produkAgenService.findByProdukAgen(createCartDetailDto.nama_produk)
 
+    const result = await this.cartDetailRepository.insert(newCartDetail)
+     
+      
     return this.cartDetailRepository.findOneOrFail({
       where: {
         id: result.identifiers[0].id,
-      },
+      },relations: ['produkAgen']
     });
   }
 
