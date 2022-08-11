@@ -25,7 +25,7 @@ export class TransaksiAgenService {
       newTransaksi.bank = createTransaksiAgenDto.bank
       newTransaksi.bukti_bayar = createTransaksiAgenDto.bukti_bayar
       newTransaksi.agen = await this.usersService.findByUser(createTransaksiAgenDto.nama_agen)
-      newTransaksi.request = await this.requestService.findByRequest(createTransaksiAgenDto.nama_agen)
+      // newTransaksi.request = await this.requestService.findByRequest(createTransaksiAgenDto.nama_agen)
 
       const result = await this.transaksiAgenRepository.insert(newTransaksi)
      

@@ -32,5 +32,6 @@ import { bank } from '../entities/bank.entity';
   ],
   controllers: [CartController],
   providers: [CartService],
+  exports: [CartService],
 })
 export class CartModule {}

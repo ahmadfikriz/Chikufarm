@@ -19,6 +19,9 @@ import { transaksi_pembeli } from './transaksi_pembeli.entity';
   export class cart {
     @PrimaryGeneratedColumn('uuid')
     id: string;
+
+    @Column()
+    nama: string;
   
     @Column()
     tanggal: Date;

@@ -10,6 +10,11 @@ export class CreateTransaksiPembeliDto {
   @ApiProperty({ required: true })
   @IsNotEmpty()
   @IsString()
+  nama_pembeli: string;
+
+  @ApiProperty({ required: true })
+  @IsNotEmpty()
+  @IsString()
   total_bayar: string;
 
   @ApiProperty({ required: true })

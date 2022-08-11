@@ -101,4 +101,24 @@ export class CartService {
 
     await this.cartRepository.delete(id);
   }
+
+  async findByCart(nama: string){
+    try {
+      return await this.cartRepository.findOneOrFail({
+        where: {
+          nama
+        }
+      })
+    } catch (error) {
+      if (error instanceof EntityNotFoundError) {
+        throw new HttpException(
+          {
+            statusCode: HttpStatus.NOT_FOUND,
+            error: 'Data not found',
+          },
+          HttpStatus.NOT_FOUND,
+        );
+    }
+  }
+  }
 }

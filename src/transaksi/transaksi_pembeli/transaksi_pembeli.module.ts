@@ -13,6 +13,8 @@ import { transaksi_pembeli } from 'src/transaksi/entities/transaksi_pembeli.enti
 import { role } from 'src/user/entities/role.entity';
 import { User } from 'src/user/entities/user.entity';
 import { bank } from '../entities/bank.entity';
+import { UsersModule } from 'src/user/users.module';
+import { CartModule } from '../cart/cart.module';
 
 @Module({
   imports: [
@@ -29,8 +31,11 @@ import { bank } from '../entities/bank.entity';
       transaksi_pembeli,
       bank,
     ]),
+    UsersModule,
+    CartModule,
   ],
   controllers: [TransaksiPembeliController],
   providers: [TransaksiPembeliService],
+  exports: [TransaksiPembeliService],
 })
 export class TransaksiPembeliModule {}
