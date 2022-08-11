@@ -10,6 +10,7 @@ import {
   ParseUUIDPipe,
   HttpStatus,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -33,8 +34,9 @@ export class UsersController {
   }
 
   @Get()
-  async findAll() {
-    const [data, count] = await this.usersService.findAll();
+  async findAll(@Query('type') type:Number) {
+    console.log(type, "isi type")
+    const [data, count] =  await this.usersService.findAll(type);
 
     return {
       data,

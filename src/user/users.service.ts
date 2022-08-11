@@ -38,10 +38,24 @@ export class UsersService {
     });
   }
 
-  findAll() {
-    return this.usersRepository.findAndCount({
-    where: {},relations: ['role']
-  });
+  async findAll(type) {
+    let role;
+    let q;
+    if(type){
+      console.log("masuk sini?")
+      role =await this.roleService.findOne(type);
+      console.log("role", role)
+      q =  this.usersRepository.createQueryBuilder('user')
+      .leftJoinAndSelect('user.role', 'role')
+      .where('role_id =:type', {type:type})
+      .getManyAndCount()
+    }else{
+      console.log("masuk sana")
+      q =  this.usersRepository.findAndCount({
+       relations: ['role']
+      });
+    }
+   return q
   }
 
   async findOne(id: string) {
