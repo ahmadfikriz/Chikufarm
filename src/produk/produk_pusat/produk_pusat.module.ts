@@ -30,5 +30,6 @@ import { produkPusat } from '../entities/produk_pusat.entity';
   ],
   controllers: [ProdukPusatController],
   providers: [ProdukPusatService],
+  exports: [ProdukPusatService],
 })
 export class ProdukPusatModule {}

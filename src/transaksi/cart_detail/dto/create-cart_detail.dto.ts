@@ -15,7 +15,7 @@ export class CreateCartDetailDto {
   @ApiProperty({ required: true })
   @IsNotEmpty()
   @IsString()
-  jumlah_produkAgen: string;
+  jumlah_produk: string;
 
   @ApiProperty({ required: true })
   @IsNotEmpty()

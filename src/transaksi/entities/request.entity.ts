@@ -22,6 +22,9 @@ export class request {
   id: string;
 
   @Column()
+  nama: string;
+
+  @Column()
   tanggal: Date;
 
   @Column()

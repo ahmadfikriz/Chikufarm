@@ -21,7 +21,7 @@ import { request } from './request.entity';
     id: string;
   
     @Column()
-    jumlah_produkAgen: string;
+    jumlah_produk: string;
   
     @Column()
     total_harga: string;

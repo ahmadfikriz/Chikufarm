@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EntityNotFoundError, Repository } from 'typeorm';
@@ -100,5 +101,25 @@ export class RequestService {
     }
 
     await this.requestRepository.delete(id);
+  }
+
+  async findByRequest(nama: string) {
+    try {
+      return await this.requestRepository.findOneOrFail({
+        where: {
+          nama,
+        },
+      });
+    } catch (error) {
+      if (error instanceof EntityNotFoundError) {
+        throw new HttpException(
+          {
+            statusCode: HttpStatus.NOT_FOUND,
+            error: 'Data not found',
+          },
+          HttpStatus.NOT_FOUND,
+        );
+      }
+    }
   }
 }

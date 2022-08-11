@@ -13,6 +13,7 @@ import { request_detail } from '../entities/request_detail.entity';
 import { transaksi_agen } from '../entities/transaksi_agen.entity';
 import { transaksi_pembeli } from '../entities/transaksi_pembeli.entity';
 import { bank } from '../entities/bank.entity';
+import { RequestDetailModule } from '../request_detail/request_detail.module';
 
 @Module({
   imports: [
@@ -32,5 +33,6 @@ import { bank } from '../entities/bank.entity';
   ],
   controllers: [RequestController],
   providers: [RequestService],
+  exports: [RequestService],
 })
 export class RequestModule {}

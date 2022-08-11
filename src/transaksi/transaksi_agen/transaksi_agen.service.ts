@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UsersService } from 'src/user/users.service';
 import { EntityNotFoundError, Repository } from 'typeorm';
 import { transaksi_agen } from '../entities/transaksi_agen.entity';
+import { RequestService } from '../request/request.service';
 import { CreateTransaksiAgenDto } from './dto/create-transaksi_agen.dto';
 import { UpdateTransaksiAgenDto } from './dto/update-transaksi_agen.dto';
 
@@ -12,7 +13,8 @@ export class TransaksiAgenService {
   constructor(
     @InjectRepository(transaksi_agen)
     private transaksiAgenRepository: Repository<transaksi_agen>,
-    private usersService: UsersService
+    private usersService: UsersService,
+    private requestService: RequestService
   ) {}
 
   async create(createTransaksiAgenDto: CreateTransaksiAgenDto) {
@@ -23,6 +25,7 @@ export class TransaksiAgenService {
       newTransaksi.bank = createTransaksiAgenDto.bank
       newTransaksi.bukti_bayar = createTransaksiAgenDto.bukti_bayar
       newTransaksi.agen = await this.usersService.findByUser(createTransaksiAgenDto.nama_agen)
+      newTransaksi.request = await this.requestService.findByRequest(createTransaksiAgenDto.nama_agen)
 
       const result = await this.transaksiAgenRepository.insert(newTransaksi)
      

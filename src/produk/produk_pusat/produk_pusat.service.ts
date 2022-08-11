@@ -103,4 +103,24 @@ export class ProdukPusatService {
 
     await this.produkPusatRepository.delete(id);
   }
+
+  async findByProdukPusat(nama: string) {
+    try {
+      return await this.produkPusatRepository.findOneOrFail({
+        where: {
+          nama,
+        },
+      });
+    } catch (error) {
+      if (error instanceof EntityNotFoundError) {
+        throw new HttpException(
+          {
+            statusCode: HttpStatus.NOT_FOUND,
+            error: 'Data not found',
+          },
+          HttpStatus.NOT_FOUND,
+        );
+      }
+    }
+  }
 }

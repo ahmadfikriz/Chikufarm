@@ -1,5 +1,7 @@
+/* eslint-disable prettier/prettier */
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ProdukPusatService } from 'src/produk/produk_pusat/produk_pusat.service';
 import { Repository, EntityNotFoundError } from 'typeorm';
 import { request_detail } from '../entities/request_detail.entity';
 import { CreateRequestDetailDto } from './dto/create-request_detail.dto';
@@ -10,23 +12,31 @@ export class RequestDetailService {
   constructor(
     @InjectRepository(request_detail)
     private requestDetailRepository: Repository<request_detail>,
+    private produkPusatService: ProdukPusatService,
   ) {}
 
   async create(createRequestDetailDto: CreateRequestDetailDto) {
-    const result = await this.requestDetailRepository.insert(
-      createRequestDetailDto,
-    );
+    console.log(createRequestDetailDto)
+    const newRequestDetail = new request_detail();
+    newRequestDetail.jumlah_produk = createRequestDetailDto.jumlah_produk
+    newRequestDetail.total_harga = createRequestDetailDto.total_harga
+    newRequestDetail.produkPusat = await this.produkPusatService.findByProdukPusat(createRequestDetailDto.nama_produk)
 
+    const result = await this.requestDetailRepository.insert(newRequestDetail)
+     
+      
     return this.requestDetailRepository.findOneOrFail({
       where: {
         id: result.identifiers[0].id,
-      },
+      },relations: ['produkPusat']
     });
   }
 
   findAll() {
-    return this.requestDetailRepository.findAndCount();
-  }
+    return this.requestDetailRepository.findAndCount({
+    where: {},relations: ['produkPusat']
+  });
+}
 
   async findOne(id: string) {
     try {
