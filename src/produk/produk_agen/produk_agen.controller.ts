@@ -10,8 +10,13 @@ import {
   ParseUUIDPipe,
   HttpStatus,
   UseGuards,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiBearerAuth, ApiBody, ApiConsumes } from '@nestjs/swagger';
+import { diskStorage } from 'multer';
+import { extname } from 'path';
 import { JwtGuard } from 'src/auth/jwt.guard';
 import { CreateProdukAgenDto } from './dto/create-produk_agen.dto';
 import { UpdateProdukAgenDto } from './dto/update-produk_agen.dto';
@@ -24,7 +29,24 @@ export class ProdukAgenController {
   constructor(private readonly produkAgenService: ProdukAgenService) {}
 
   @Post()
-  async create(@Body() createProdukAgenDto: CreateProdukAgenDto) {
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({ type: CreateProdukAgenDto })
+  @UseInterceptors(
+    FileInterceptor('foto', {
+      storage: diskStorage({
+        destination: './src/produk/produk_agen/foto',
+        filename: (req: any, file, cb) => {
+          const namaFile = [req.user.id, Date.now()].join('-');
+          cb(null, namaFile + extname(file.originalname));
+        },
+      }),
+    }),
+  )
+  async create(
+    @Body() createProdukAgenDto: CreateProdukAgenDto,
+    @UploadedFile() foto: Express.Multer.File,
+  ) {
+    createProdukAgenDto.foto = foto.filename;
     return {
       data: await this.produkAgenService.create(createProdukAgenDto),
       statusCode: HttpStatus.CREATED,

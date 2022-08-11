@@ -31,6 +31,9 @@ export class produkAgen {
   @Column()
   stok: string;
 
+  @Column()
+  foto: string;
+
   @CreateDateColumn({
     type: 'timestamp with time zone',
     nullable: false,
