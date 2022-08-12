@@ -12,6 +12,7 @@ import { transaksi_pembeli } from 'src/transaksi/entities/transaksi_pembeli.enti
 import { role } from 'src/user/entities/role.entity';
 import { produkAgen } from '../entities/produk_agen.entity';
 import { produkPusat } from '../entities/produk_pusat.entity';
+import { UsersModule } from 'src/user/users.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { produkPusat } from '../entities/produk_pusat.entity';
       transaksi_agen,
       transaksi_pembeli,
     ]),
+    UsersModule,
   ],
   controllers: [ProdukAgenController],
   providers: [ProdukAgenService],

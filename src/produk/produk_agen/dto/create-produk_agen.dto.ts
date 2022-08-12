@@ -10,7 +10,12 @@ export class CreateProdukAgenDto {
   @ApiProperty({ required: true })
   @IsNotEmpty()
   @IsString()
-  nama: string;
+  nama_agen: string;
+  
+  @ApiProperty({ required: true })
+  @IsNotEmpty()
+  @IsString()
+  nama_produk: string;
 
   @ApiProperty({ required: true })
   @IsNotEmpty()

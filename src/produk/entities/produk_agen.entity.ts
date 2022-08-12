@@ -20,7 +20,7 @@ export class produkAgen {
   id: string;
 
   @Column()
-  nama: string;
+  nama_produk: string;
 
   @Column()
   deskripsi: string;
@@ -53,7 +53,7 @@ export class produkAgen {
   deleted_at: Date;
 
   @ManyToOne(()=>User, user=>user.id)
-  agent: User;
+  agen: User;
 
   @OneToMany(() => cart_detail, (id_produkAgen) => id_produkAgen.id)
   produkAgen: cart_detail;
