@@ -5,7 +5,7 @@ export class CreateBankDto {
   @ApiProperty({ required: true })
   @IsNotEmpty()
   @IsString()
-  id_user: string;
+  nama_user: string;
 
   @ApiProperty({ required: true })
   @IsNotEmpty()
@@ -19,5 +19,6 @@ export class CreateBankDto {
 
   @ApiProperty({ required: true })
   @IsNotEmpty()
-  no_rekening: number;
+  @IsString()
+  no_rekening: string;
 }

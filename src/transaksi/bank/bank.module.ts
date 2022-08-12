@@ -13,6 +13,8 @@ import { request_detail } from '../entities/request_detail.entity';
 import { transaksi_agen } from '../entities/transaksi_agen.entity';
 import { transaksi_pembeli } from '../entities/transaksi_pembeli.entity';
 import { bank } from '../entities/bank.entity';
+import { UsersService } from 'src/user/users.service';
+import { UsersModule } from 'src/user/users.module';
 
 @Module({
   imports: [
@@ -29,8 +31,10 @@ import { bank } from '../entities/bank.entity';
       transaksi_pembeli,
       bank,
     ]),
+    UsersModule,
   ],
   controllers: [BankController],
   providers: [BankService],
+  exports: [BankService],
 })
 export class BankModule {}

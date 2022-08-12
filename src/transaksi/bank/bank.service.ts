@@ -1,5 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { UsersService } from 'src/user/users.service';
 import { Repository, EntityNotFoundError } from 'typeorm';
 import { bank } from '../entities/bank.entity';
 import { CreateBankDto } from './dto/create-bank.dto';
@@ -10,21 +11,32 @@ export class BankService {
   constructor(
     @InjectRepository(bank)
     private bankRepository: Repository<bank>,
+    private usersService: UsersService,
   ) {}
 
   async create(createBankDto: CreateBankDto) {
-    const result = await this.bankRepository.insert(createBankDto);
+    console.log(createBankDto)
+    const newBank = new bank();
+    newBank.nama_bank = createBankDto.nama_bank
+    newBank.nama_akun_bank = createBankDto.nama_akun_bank
+    newBank.no_rekening = createBankDto.no_rekening
+    newBank.user = await this.usersService.findByUser(createBankDto.nama_user)
 
+    const result = await this.bankRepository.insert(newBank)
+     
+      
     return this.bankRepository.findOneOrFail({
       where: {
         id: result.identifiers[0].id,
-      },
+      },relations: ['user']
     });
   }
 
   findAll() {
-    return this.bankRepository.findAndCount();
-  }
+    return this.bankRepository.findAndCount({
+    where: {},relations: ['user']
+  });
+}
 
   async findOne(id: string) {
     try {

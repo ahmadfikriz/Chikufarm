@@ -25,7 +25,7 @@ import {
     nama_akun_bank: string;
   
     @Column()
-    no_rekening: number;
+    no_rekening: string;
   
     @CreateDateColumn({
       type: 'timestamp with time zone',

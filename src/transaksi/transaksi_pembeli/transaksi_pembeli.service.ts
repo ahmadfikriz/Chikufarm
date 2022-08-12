@@ -14,7 +14,7 @@ export class TransaksiPembeliService {
     @InjectRepository(transaksi_pembeli)
     private transaksiPembeliRepository: Repository<transaksi_pembeli>,
     private usersService: UsersService,
-    private cartService: CartService,
+    // private cartService: CartService,
   ) {}
 
   async create(createTransaksiPembeliDto: CreateTransaksiPembeliDto) {
