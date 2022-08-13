@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+import { produkPusat } from 'src/produk/entities/produk_pusat.entity';
 import { User } from 'src/user/entities/user.entity';
 import {
   Column,
@@ -13,7 +14,6 @@ import {
   UpdateDateColumn,
   VersionColumn,
 } from 'typeorm';
-import { request_detail } from './request_detail.entity';
 import { transaksi_agen } from './transaksi_agen.entity';
 
 @Entity()
@@ -22,7 +22,10 @@ export class request {
   id: string;
 
   @Column()
-  nama: string;
+  jumlah_produk: string;
+  
+  @Column()
+  total_harga: string;
 
   @Column()
   tanggal: Date;
@@ -49,10 +52,10 @@ export class request {
   deleted_at: Date;
 
   @ManyToOne(()=>User, user=>user.id)
-  agent: User;
+  agen: User;
 
-  @OneToMany(() => request_detail, (id_request) => id_request.id)
-  request_detail: request_detail;
+  @ManyToOne(() => produkPusat, (id_produkPusat) => id_produkPusat.id)
+  produkPusat: produkPusat;
 
   @OneToMany(() => transaksi_agen, (id_request) => id_request.id)
   transaksi_agen: transaksi_agen;

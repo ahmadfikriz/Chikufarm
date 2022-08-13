@@ -10,7 +10,6 @@ import { bank } from 'src/transaksi/entities/bank.entity';
 import { cart } from 'src/transaksi/entities/cart.entity';
 import { cart_detail } from 'src/transaksi/entities/cart_detail.entity';
 import { request } from 'src/transaksi/entities/request.entity';
-import { request_detail } from 'src/transaksi/entities/request_detail.entity';
 import { transaksi_agen } from 'src/transaksi/entities/transaksi_agen.entity';
 import { transaksi_pembeli } from 'src/transaksi/entities/transaksi_pembeli.entity';
 import { RoleModule } from './role/role.module';
@@ -24,7 +23,6 @@ import { RoleModule } from './role/role.module';
       produkAgen,
       bank,
       request,
-      request_detail,
       cart,
       cart_detail,
       transaksi_agen,

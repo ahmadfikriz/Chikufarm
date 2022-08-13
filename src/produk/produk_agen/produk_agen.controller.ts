@@ -22,12 +22,12 @@ import { CreateProdukAgenDto } from './dto/create-produk_agen.dto';
 import { UpdateProdukAgenDto } from './dto/update-produk_agen.dto';
 import { ProdukAgenService } from './produk_agen.service';
 
-@ApiBearerAuth()
-@UseGuards(JwtGuard)
 @Controller('produk_agen')
 export class ProdukAgenController {
   constructor(private readonly produkAgenService: ProdukAgenService) {}
 
+  @ApiBearerAuth()
+  @UseGuards(JwtGuard)
   @Post()
   @ApiConsumes('multipart/form-data')
   @ApiBody({ type: CreateProdukAgenDto })
@@ -75,6 +75,8 @@ export class ProdukAgenController {
     };
   }
 
+  @ApiBearerAuth()
+  @UseGuards(JwtGuard)
   @Put(':id')
   async update(
     @Param('id', ParseUUIDPipe) id: string,
@@ -87,6 +89,8 @@ export class ProdukAgenController {
     };
   }
 
+  @ApiBearerAuth()
+  @UseGuards(JwtGuard)
   @Delete(':id')
   async remove(@Param('id', ParseUUIDPipe) id: string) {
     await this.produkAgenService.remove(id);

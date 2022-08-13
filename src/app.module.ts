@@ -13,7 +13,6 @@ import { AuthModule } from './auth/auth.module';
 import { TransaksiAgenModule } from './transaksi/transaksi_agen/transaksi_agen.module';
 import { TransaksiPembeliModule } from './transaksi/transaksi_pembeli/transaksi_pembeli.module';
 import { RequestModule } from './transaksi/request/request.module';
-import { RequestDetailModule } from './transaksi/request_detail/request_detail.module';
 import { CartModule } from './transaksi/cart/cart.module';
 import { CartDetailModule } from './transaksi/cart_detail/cart_detail.module';
 import { BankModule } from './transaksi/bank/bank.module';
@@ -92,7 +91,6 @@ import { ProdukPusatModule } from './produk/produk_pusat/produk_pusat.module';
     TransaksiAgenModule,
     TransaksiPembeliModule,
     RequestModule,
-    RequestDetailModule,
     CartModule,
     CartDetailModule,
     BankModule,

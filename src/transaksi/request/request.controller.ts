@@ -13,7 +13,7 @@ import {
 import { RequestService } from './request.service';
 import { CreateRequestDto } from './dto/create-request.dto';
 import { UpdateRequestDto } from './dto/update-request.dto';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiConsumes } from '@nestjs/swagger';
 import { JwtGuard } from 'src/auth/jwt.guard';
 
 @ApiBearerAuth()

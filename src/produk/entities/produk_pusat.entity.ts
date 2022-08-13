@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable camelcase */
-import { request_detail } from 'src/transaksi/entities/request_detail.entity';
+import { request } from 'src/transaksi/entities/request.entity';
 import {
   Column,
   CreateDateColumn,
@@ -44,6 +44,6 @@ export class produkPusat {
   })
   deleted_at: Date;
 
-  @OneToMany(() => request_detail, (id_produkPusat) => id_produkPusat.id)
-  produkPusat: request_detail;
+  @OneToMany(() => request, (id_produkPusat) => id_produkPusat.id)
+  produkPusat: request;
 }

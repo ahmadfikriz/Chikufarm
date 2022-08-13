@@ -14,7 +14,7 @@ export class TransaksiAgenService {
     @InjectRepository(transaksi_agen)
     private transaksiAgenRepository: Repository<transaksi_agen>,
     private usersService: UsersService,
-    // private requestService: RequestService,
+    private requestService: RequestService,
   ) {}
 
   async create(createTransaksiAgenDto: CreateTransaksiAgenDto) {

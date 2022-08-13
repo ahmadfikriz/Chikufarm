@@ -8,6 +8,26 @@ import {
 export class CreateRequestDto {
   @ApiProperty({ required: true })
   @IsNotEmpty()
+  @IsString()
+  nama_agen: string;
+
+  @ApiProperty({ required: true })
+  @IsNotEmpty()
+  @IsString()
+  nama_produk: string;
+
+  @ApiProperty({ required: true })
+  @IsNotEmpty()
+  @IsString()
+  jumlah_produk: string;
+
+  @ApiProperty({ required: true })
+  @IsNotEmpty()
+  @IsString()
+  total_harga: string;
+
+  @ApiProperty({ required: true })
+  @IsNotEmpty()
   tanggal: Date;
 
   @ApiProperty({ required: true })

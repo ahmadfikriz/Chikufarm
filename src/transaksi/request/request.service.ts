@@ -1,6 +1,8 @@
 /* eslint-disable prettier/prettier */
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ProdukPusatService } from 'src/produk/produk_pusat/produk_pusat.service';
+import { UsersService } from 'src/user/users.service';
 import { EntityNotFoundError, Repository } from 'typeorm';
 import { request } from '../entities/request.entity';
 import { CreateRequestDto } from './dto/create-request.dto';
@@ -11,21 +13,35 @@ export class RequestService {
   constructor(
     @InjectRepository(request)
     private requestRepository: Repository<request>,
+    private usersService: UsersService,
+    private produkPusatService: ProdukPusatService,
   ) {}
 
   async create(createRequestDto: CreateRequestDto) {
-    const result = await this.requestRepository.insert(createRequestDto);
+    console.log(createRequestDto)
+    const newRequest = new request();
+    newRequest.tanggal = createRequestDto.tanggal
+    newRequest.status = createRequestDto.status
+    newRequest.jumlah_produk = createRequestDto.jumlah_produk
+    newRequest.total_harga = createRequestDto.total_harga
+    newRequest.agen = await this.usersService.findByUser(createRequestDto.nama_agen)
+    newRequest.produkPusat = await this.produkPusatService.findByProdukPusat(createRequestDto.nama_produk)
 
+    const result = await this.requestRepository.insert(newRequest)
+     
+      
     return this.requestRepository.findOneOrFail({
       where: {
         id: result.identifiers[0].id,
-      },
+      },relations: ['produkPusat', 'agen']
     });
   }
 
   findAll() {
-    return this.requestRepository.findAndCount();
-  }
+    return this.requestRepository.findAndCount({
+    where: {},relations: ['produkPusat', 'agen']
+  });
+}
 
   async findOne(id: string) {
     try {
@@ -103,23 +119,23 @@ export class RequestService {
     await this.requestRepository.delete(id);
   }
 
-  async findByRequest(nama: string) {
-    try {
-      return await this.requestRepository.findOneOrFail({
-        where: {
-          nama,
-        },
-      });
-    } catch (error) {
-      if (error instanceof EntityNotFoundError) {
-        throw new HttpException(
-          {
-            statusCode: HttpStatus.NOT_FOUND,
-            error: 'Data not found',
-          },
-          HttpStatus.NOT_FOUND,
-        );
-      }
-    }
-  }
+  // async findByRequest(nama_agen: string) {
+  //   try {
+  //     return await this.requestRepository.findOneOrFail({
+  //       where: {
+  //         nama_agen,
+  //       },
+  //     });
+  //   } catch (error) {
+  //     if (error instanceof EntityNotFoundError) {
+  //       throw new HttpException(
+  //         {
+  //           statusCode: HttpStatus.NOT_FOUND,
+  //           error: 'Data not found',
+  //         },
+  //         HttpStatus.NOT_FOUND,
+  //       );
+  //     }
+  //   }
+  // }
 }
