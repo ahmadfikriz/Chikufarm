@@ -35,13 +35,13 @@ export class TransaksiAgenService {
     return this.transaksiAgenRepository.findOneOrFail({
       where: {
         id: result.identifiers[0].id,
-      },relations: ['request', 'agen', 'produkPusat']
+      },relations: ['agen', 'request', 'produkPusat']
     });
   }
 
   findAll() {
     return this.transaksiAgenRepository.findAndCount({
-    where: {},relations: ['request', 'agen', 'produkPusat']
+    where: {},relations: ['agen', 'request', 'produkPusat']
     });
   }
 

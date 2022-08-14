@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ProdukAgenService } from 'src/produk/produk_agen/produk_agen.service';
 import { transaksi_pembeli } from 'src/transaksi/entities/transaksi_pembeli.entity';
 import { UsersService } from 'src/user/users.service';
 import { EntityNotFoundError, Repository } from 'typeorm';
@@ -15,17 +16,18 @@ export class TransaksiPembeliService {
     private transaksiPembeliRepository: Repository<transaksi_pembeli>,
     private usersService: UsersService,
     private cartService: CartService,
+    private produkAgenService: ProdukAgenService,
   ) {}
 
   async create(createTransaksiPembeliDto: CreateTransaksiPembeliDto) {
     console.log(createTransaksiPembeliDto)
     const newTransaksi = new transaksi_pembeli();
       newTransaksi.total_bayar = createTransaksiPembeliDto.total_bayar
-      newTransaksi.tanggal = createTransaksiPembeliDto.tanggal
       newTransaksi.bank = createTransaksiPembeliDto.bank
       newTransaksi.bukti_bayar = createTransaksiPembeliDto.bukti_bayar
       newTransaksi.pembeli = await this.usersService.findByUser(createTransaksiPembeliDto.nama_pembeli)
       newTransaksi.cart = await this.cartService.findByCart(createTransaksiPembeliDto.id_cart)
+      newTransaksi.produkAgen = await this.produkAgenService.findByProdukAgen(createTransaksiPembeliDto.nama_produk)
 
       const result = await this.transaksiPembeliRepository.insert(newTransaksi)
      
@@ -33,13 +35,13 @@ export class TransaksiPembeliService {
     return this.transaksiPembeliRepository.findOneOrFail({
       where: {
         id: result.identifiers[0].id,
-      },relations: ['pembeli', 'cart']
+      },relations: ['pembeli', 'cart', 'produkAgen']
     });
   }
 
   findAll() {
     return this.transaksiPembeliRepository.findAndCount({
-    where: {},relations: ['pembeli', 'cart']
+    where: {},relations: ['pembeli', 'cart', 'produkAgen']
   });
 }
 

@@ -20,10 +20,9 @@ export class CartService {
   async create(createCartDto: CreateCartDto) {
     console.log(createCartDto)
     const newCart = new cart();
-    newCart.tanggal = createCartDto.tanggal
-    newCart.status = createCartDto.status
     newCart.jumlah_produk = createCartDto.jumlah_produk
     newCart.total_harga = createCartDto.total_harga
+    newCart.status = createCartDto.status
     newCart.pembeli = await this.usersService.findByUser(createCartDto.nama_pembeli)
     newCart.produkAgen = await this.produkAgenService.findByProdukAgen(createCartDto.nama_produk)
 

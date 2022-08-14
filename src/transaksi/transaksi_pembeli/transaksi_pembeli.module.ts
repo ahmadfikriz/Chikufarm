@@ -13,6 +13,7 @@ import { User } from 'src/user/entities/user.entity';
 import { bank } from '../entities/bank.entity';
 import { UsersModule } from 'src/user/users.module';
 import { CartModule } from '../cart/cart.module';
+import { ProdukAgenModule } from 'src/produk/produk_agen/produk_agen.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { CartModule } from '../cart/cart.module';
     ]),
     UsersModule,
     CartModule,
+    ProdukAgenModule,
   ],
   controllers: [TransaksiPembeliController],
   providers: [TransaksiPembeliService],

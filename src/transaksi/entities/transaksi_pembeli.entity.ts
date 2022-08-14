@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+import { produkAgen } from 'src/produk/entities/produk_agen.entity';
 import { User } from 'src/user/entities/user.entity';
 import {
   Column,
@@ -21,7 +22,10 @@ export class transaksi_pembeli {
   @Column()
   total_bayar: string;
 
-  @Column()
+  @CreateDateColumn({
+    type: 'timestamp with time zone',
+    nullable: false,
+  })
   tanggal: Date;
 
   @Column()
@@ -53,4 +57,7 @@ export class transaksi_pembeli {
 
   @ManyToOne(() => cart, (id_cart) => id_cart.id)
   cart: cart;
+
+  @ManyToOne(() =>produkAgen, (id_produkAgen) =>id_produkAgen.id)
+  produkAgen: produkAgen;
 }

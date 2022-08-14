@@ -24,9 +24,5 @@ export class CreateCartDto {
 
   @ApiProperty({ required: true })
   @IsNotEmpty()
-  tanggal: Date;
-
-  @ApiProperty({ required: true })
-  @IsNotEmpty()
   status: boolean;
 }

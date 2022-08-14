@@ -26,7 +26,10 @@ import { transaksi_pembeli } from './transaksi_pembeli.entity';
     @Column()
     total_harga: string;
   
-    @Column()
+    @CreateDateColumn({
+      type: 'timestamp with time zone',
+      nullable: false,
+    })
     tanggal: Date;
   
     @Column()
