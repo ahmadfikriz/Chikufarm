@@ -20,7 +20,6 @@ export class RequestService {
   async create(createRequestDto: CreateRequestDto) {
     console.log(createRequestDto)
     const newRequest = new request();
-    newRequest.tanggal = createRequestDto.tanggal
     newRequest.status = createRequestDto.status
     newRequest.jumlah_produk = createRequestDto.jumlah_produk
     newRequest.total_harga = createRequestDto.total_harga

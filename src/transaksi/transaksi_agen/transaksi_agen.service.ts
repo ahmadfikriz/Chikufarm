@@ -16,17 +16,18 @@ export class TransaksiAgenService {
     private transaksiAgenRepository: Repository<transaksi_agen>,
     private usersService: UsersService,
     private requestService: RequestService,
+    private produkPusatService: ProdukPusatService,
   ) {}
 
   async create(createTransaksiAgenDto: CreateTransaksiAgenDto) {
     console.log(createTransaksiAgenDto)
     const newTransaksi = new transaksi_agen();
       newTransaksi.total_bayar = createTransaksiAgenDto.total_bayar
-      newTransaksi.tanggal = createTransaksiAgenDto.tanggal
       newTransaksi.bank = createTransaksiAgenDto.bank
       newTransaksi.bukti_bayar = createTransaksiAgenDto.bukti_bayar
       newTransaksi.agen = await this.usersService.findByUser(createTransaksiAgenDto.nama_agen)
       newTransaksi.request = await this.requestService.findByRequest(createTransaksiAgenDto.id_request)
+      newTransaksi.produkPusat = await this.produkPusatService.findByProdukPusat(createTransaksiAgenDto.nama_produk)
 
       const result = await this.transaksiAgenRepository.insert(newTransaksi)
      
@@ -34,13 +35,13 @@ export class TransaksiAgenService {
     return this.transaksiAgenRepository.findOneOrFail({
       where: {
         id: result.identifiers[0].id,
-      },relations: ['request', 'agen']
+      },relations: ['request', 'agen', 'produkPusat']
     });
   }
 
   findAll() {
     return this.transaksiAgenRepository.findAndCount({
-    where: {},relations: ['request', 'agen']
+    where: {},relations: ['request', 'agen', 'produkPusat']
     });
   }
 

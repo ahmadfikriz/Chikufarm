@@ -16,16 +16,17 @@ export class CreateTransaksiAgenDto {
   @ApiProperty({ required: true })
   @IsNotEmpty()
   @IsString()
+  nama_produk: string;
+
+  @ApiProperty({ required: true })
+  @IsNotEmpty()
+  @IsString()
   id_request: string;
 
   @ApiProperty({ required: true })
   @IsNotEmpty()
   @IsString()
   total_bayar: string;
-
-  @ApiProperty({ required: true })
-  @IsNotEmpty()
-  tanggal: Date;
 
   @ApiProperty({ required: true })
   @IsNotEmpty()

@@ -23,7 +23,10 @@ export class transaksi_agen {
   @Column()
   total_bayar: string;
 
-  @Column()
+  @CreateDateColumn({
+    type: 'timestamp with time zone',
+    nullable: false,
+  })
   tanggal: Date;
 
   @Column()
@@ -55,4 +58,7 @@ export class transaksi_agen {
 
   @ManyToOne(() => request, (id_request) => id_request.id)
   request: request;
+
+  @ManyToOne(() => produkPusat, (id_produkPusat) => id_produkPusat.id)
+  produkPusat: produkPusat;
 }

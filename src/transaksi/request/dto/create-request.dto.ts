@@ -28,9 +28,5 @@ export class CreateRequestDto {
 
   @ApiProperty({ required: true })
   @IsNotEmpty()
-  tanggal: Date;
-
-  @ApiProperty({ required: true })
-  @IsNotEmpty()
   status: boolean;
 }
