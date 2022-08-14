@@ -6,7 +6,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { produkAgen } from 'src/produk/entities/produk_agen.entity';
 import { produkPusat } from 'src/produk/entities/produk_pusat.entity';
 import { cart } from 'src/transaksi/entities/cart.entity';
-import { cart_detail } from 'src/transaksi/entities/cart_detail.entity';
 import { transaksi_agen } from 'src/transaksi/entities/transaksi_agen.entity';
 import { transaksi_pembeli } from 'src/transaksi/entities/transaksi_pembeli.entity';
 import { role } from 'src/user/entities/role.entity';
@@ -24,7 +23,6 @@ import { CartModule } from '../cart/cart.module';
       produkAgen,
       request,
       cart,
-      cart_detail,
       transaksi_agen,
       transaksi_pembeli,
       bank,

@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { cart_detail } from 'src/transaksi/entities/cart_detail.entity';
+import { cart } from 'src/transaksi/entities/cart.entity';
 import { User } from 'src/user/entities/user.entity';
 import {
   Column,
@@ -55,6 +55,6 @@ export class produkAgen {
   @ManyToOne(()=>User, user=>user.id)
   agen: User;
 
-  @OneToMany(() => cart_detail, (id_produkAgen) => id_produkAgen.id)
-  produkAgen: cart_detail;
+  @OneToMany(() => cart, (id_produkAgen) => id_produkAgen.id)
+  produkAgen: cart;
 }

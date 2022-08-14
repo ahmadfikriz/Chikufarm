@@ -14,7 +14,7 @@ export class TransaksiPembeliService {
     @InjectRepository(transaksi_pembeli)
     private transaksiPembeliRepository: Repository<transaksi_pembeli>,
     private usersService: UsersService,
-    // private cartService: CartService,
+    private cartService: CartService,
   ) {}
 
   async create(createTransaksiPembeliDto: CreateTransaksiPembeliDto) {
@@ -25,7 +25,7 @@ export class TransaksiPembeliService {
       newTransaksi.bank = createTransaksiPembeliDto.bank
       newTransaksi.bukti_bayar = createTransaksiPembeliDto.bukti_bayar
       newTransaksi.pembeli = await this.usersService.findByUser(createTransaksiPembeliDto.nama_pembeli)
-      // newTransaksi.cart = await this.cartService.findByCart(createTransaksiPembeliDto.nama_pembeli)
+      newTransaksi.cart = await this.cartService.findByCart(createTransaksiPembeliDto.id_cart)
 
       const result = await this.transaksiPembeliRepository.insert(newTransaksi)
      
@@ -33,13 +33,13 @@ export class TransaksiPembeliService {
     return this.transaksiPembeliRepository.findOneOrFail({
       where: {
         id: result.identifiers[0].id,
-      },relations: ['pembeli']
+      },relations: ['pembeli', 'cart']
     });
   }
 
   findAll() {
     return this.transaksiPembeliRepository.findAndCount({
-    where: {},relations: ['pembeli']
+    where: {},relations: ['pembeli', 'cart']
   });
 }
 

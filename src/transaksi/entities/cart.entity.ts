@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+import { produkAgen } from 'src/produk/entities/produk_agen.entity';
 import { User } from 'src/user/entities/user.entity';
 import {
     Column,
@@ -12,16 +13,18 @@ import {
     UpdateDateColumn,
     VersionColumn,
   } from 'typeorm';
-import { cart_detail } from './cart_detail.entity';
 import { transaksi_pembeli } from './transaksi_pembeli.entity';
   
   @Entity()
   export class cart {
-    @PrimaryGeneratedColumn('uuid')
+    @PrimaryGeneratedColumn()
     id: string;
 
     @Column()
-    nama: string;
+    jumlah_produk: string;
+  
+    @Column()
+    total_harga: string;
   
     @Column()
     tanggal: Date;
@@ -50,8 +53,8 @@ import { transaksi_pembeli } from './transaksi_pembeli.entity';
     @ManyToOne(()=>User, user=>user.id)
     pembeli: User;
 
-    @OneToMany(() => cart_detail, (id_cart) => id_cart.id)
-    cart_detail: cart_detail;
+    @ManyToOne(() =>produkAgen, (id_produkAgen) =>id_produkAgen.id)
+    produkAgen: produkAgen;
 
     @OneToMany(() => transaksi_pembeli, (id_cart) => id_cart.id)
     transaksi_pembeli: transaksi_pembeli;

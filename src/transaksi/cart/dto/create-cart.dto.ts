@@ -5,7 +5,22 @@ export class CreateCartDto {
   @ApiProperty({ required: true })
   @IsNotEmpty()
   @IsString()
-  id_pembeli: string;
+  nama_pembeli: string;
+
+  @ApiProperty({ required: true })
+  @IsNotEmpty()
+  @IsString()
+  nama_produk: string;
+
+  @ApiProperty({ required: true })
+  @IsNotEmpty()
+  @IsString()
+  jumlah_produk: string;
+
+  @ApiProperty({ required: true })
+  @IsNotEmpty()
+  @IsString()
+  total_harga: string;
 
   @ApiProperty({ required: true })
   @IsNotEmpty()
