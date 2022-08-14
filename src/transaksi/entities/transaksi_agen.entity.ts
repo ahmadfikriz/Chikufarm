@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+import { produkPusat } from 'src/produk/entities/produk_pusat.entity';
 import { User } from 'src/user/entities/user.entity';
 import {
   Column,

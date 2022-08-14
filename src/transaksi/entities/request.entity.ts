@@ -18,7 +18,7 @@ import { transaksi_agen } from './transaksi_agen.entity';
 
 @Entity()
 export class request {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn()
   id: string;
 
   @Column()

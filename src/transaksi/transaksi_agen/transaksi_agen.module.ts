@@ -14,6 +14,7 @@ import { UsersModule } from 'src/user/users.module';
 import { produkAgen } from 'src/produk/entities/produk_agen.entity';
 import { produkPusat } from 'src/produk/entities/produk_pusat.entity';
 import { RequestModule } from '../request/request.module';
+import { ProdukPusatModule } from 'src/produk/produk_pusat/produk_pusat.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { RequestModule } from '../request/request.module';
     ]),
     UsersModule,
     RequestModule,
+    ProdukPusatModule,
   ],
   controllers: [TransaksiAgenController],
   providers: [TransaksiAgenService],

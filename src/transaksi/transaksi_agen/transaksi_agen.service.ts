@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ProdukPusatService } from 'src/produk/produk_pusat/produk_pusat.service';
 import { UsersService } from 'src/user/users.service';
 import { EntityNotFoundError, Repository } from 'typeorm';
 import { transaksi_agen } from '../entities/transaksi_agen.entity';
@@ -25,7 +26,7 @@ export class TransaksiAgenService {
       newTransaksi.bank = createTransaksiAgenDto.bank
       newTransaksi.bukti_bayar = createTransaksiAgenDto.bukti_bayar
       newTransaksi.agen = await this.usersService.findByUser(createTransaksiAgenDto.nama_agen)
-      // newTransaksi.request = await this.requestService.findByRequest(createTransaksiAgenDto.nama_agen)
+      newTransaksi.request = await this.requestService.findByRequest(createTransaksiAgenDto.no_request)
 
       const result = await this.transaksiAgenRepository.insert(newTransaksi)
      
@@ -33,13 +34,13 @@ export class TransaksiAgenService {
     return this.transaksiAgenRepository.findOneOrFail({
       where: {
         id: result.identifiers[0].id,
-      },relations: ['agen']
+      },relations: ['request', 'agen']
     });
   }
 
   findAll() {
     return this.transaksiAgenRepository.findAndCount({
-    where: {},relations: ['agen']
+    where: {},relations: ['request', 'agen']
     });
   }
 

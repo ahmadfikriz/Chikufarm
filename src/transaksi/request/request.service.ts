@@ -29,7 +29,6 @@ export class RequestService {
 
     const result = await this.requestRepository.insert(newRequest)
      
-      
     return this.requestRepository.findOneOrFail({
       where: {
         id: result.identifiers[0].id,
@@ -119,23 +118,23 @@ export class RequestService {
     await this.requestRepository.delete(id);
   }
 
-  // async findByRequest(nama_agen: string) {
-  //   try {
-  //     return await this.requestRepository.findOneOrFail({
-  //       where: {
-  //         nama_agen,
-  //       },
-  //     });
-  //   } catch (error) {
-  //     if (error instanceof EntityNotFoundError) {
-  //       throw new HttpException(
-  //         {
-  //           statusCode: HttpStatus.NOT_FOUND,
-  //           error: 'Data not found',
-  //         },
-  //         HttpStatus.NOT_FOUND,
-  //       );
-  //     }
-  //   }
-  // }
+  async findByRequest(id: string) {
+    try {
+      return await this.requestRepository.findOneOrFail({
+        where: {
+          id,
+        },
+      });
+    } catch (error) {
+      if (error instanceof EntityNotFoundError) {
+        throw new HttpException(
+          {
+            statusCode: HttpStatus.NOT_FOUND,
+            error: 'Data not found',
+          },
+          HttpStatus.NOT_FOUND,
+        );
+      }
+    }
+  }
 }
