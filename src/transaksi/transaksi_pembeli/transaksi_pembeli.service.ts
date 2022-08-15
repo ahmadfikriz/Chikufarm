@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { generateExcel } from 'src/helper/export_excel';
 import { ProdukAgenService } from 'src/produk/produk_agen/produk_agen.service';
 import { transaksi_pembeli } from 'src/transaksi/entities/transaksi_pembeli.entity';
 import { UsersService } from 'src/user/users.service';
@@ -122,5 +123,11 @@ export class TransaksiPembeliService {
     }
 
     await this.transaksiPembeliRepository.delete(id);
+  }
+
+  async export(){
+    const transaction = await this.transaksiPembeliRepository.find({relations: ['pembeli', 'cart', 'produkAgen']})
+
+    return await generateExcel(transaction, 'dataTransaksiPembeli')
   }
 }

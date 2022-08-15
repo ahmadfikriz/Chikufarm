@@ -9,7 +9,7 @@ export const dataTransaksiPembeli = [
     },
     {
         title: 'Nama Agen',
-        dataIndex: 'user.pembeli',
+        dataIndex: 'pembeli.nama',
         width: 20
     },
     {
@@ -29,7 +29,7 @@ export const dataTransaksiPembeli = [
     },
     {
         title: 'Bank',
-        dataIndex: 'bank.nama_bank',
+        dataIndex: 'bank',
         width: 20
     },
     {

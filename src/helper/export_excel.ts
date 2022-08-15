@@ -52,7 +52,7 @@ export async function generateExcel(data, type) {
 
 
 
-async function setDataHitLogApi(dataHitLogApi) {
+async function setDataUser(dataHitLogApi) {
   try {
     const dataFiltered = [];
 
@@ -95,7 +95,7 @@ async function setDataHitTransaksiAgen(dataHitLogApi) {
       filterElement['produkPusat.nama_produk'] = element?.produkPusat.nama_produk;
       filterElement['request.id'] = element?.request.id;
       filterElement['total_bayar'] = element?.total_bayar;
-      filterElement['bank.nama_bank'] = element?.bank.nama_bank;
+      filterElement['bank'] = element?.bank;
       filterElement['tanggal'] =  element?.tanggal;
       
 
@@ -115,10 +115,42 @@ async function setDataHitTransaksiAgen(dataHitLogApi) {
   }
 }
 
+  async function setDataHitTransaksiPembeli(dataHitLogApi) {
+    try {
+      const dataFiltered = [];
+  
+      await dataHitLogApi.forEach((element) => {
+        const filterElement = [];
+  
+        filterElement['id'] = element?.id;
+        filterElement['pembeli.nama'] = element?.pembeli.nama;
+        filterElement['produkAgen.nama_produk'] = element?.produkAgen.nama_produk;
+        filterElement['cart.id'] = element?.cart.id;
+        filterElement['total_bayar'] = element?.total_bayar;
+        filterElement['bank'] = element?.bank;
+        filterElement['tanggal'] =  element?.tanggal;
+        
+  
+        dataFiltered.push(filterElement);
+      });
+  
+      return dataFiltered;
+    } catch (e) {
+      console.log(e, 'setDataHitLogAPI');
+      throw new HttpException(
+        {
+          statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+          message: e.message,
+        },
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
 export async function DataToExcel(filepath, data, type) {
   try {
     if (type === 'dataUser') {
-      const dataFiltered = await setDataHitLogApi(data);
+      const dataFiltered = await setDataUser(data);
 
       await excelInserter({
         filename: filepath,
@@ -145,20 +177,20 @@ export async function DataToExcel(filepath, data, type) {
           },
         ],
       });
-    // } else if (type === 'dataTransaksiPembeli') {
-    //     const dataFiltered = await setDataHitTransaction(data);
+    } else if (type === 'dataTransaksiPembeli') {
+        const dataFiltered = await setDataHitTransaksiPembeli(data);
   
-    //     await excelInserter({
-    //       filename: filepath,
-    //       sheets: [
-    //         {
-    //           name: 'Data Transaksi Pembeli',
-    //           startRowFrom: 1,
-    //           headers: dataTransaksiPembeli,
-    //           data: dataFiltered,
-    //         },
-    //       ],
-    //     });
+        await excelInserter({
+          filename: filepath,
+          sheets: [
+            {
+              name: 'Data Transaksi Pembeli',
+              startRowFrom: 1,
+              headers: dataTransaksiPembeli,
+              data: dataFiltered,
+            },
+          ],
+        });
     } else if (type === 'Customer-Register') {
       //kode yang sama tapi beda set header dan data nya
     } else if (type === 'Summary-Services') {

@@ -70,6 +70,11 @@ export class TransaksiPembeliController {
     );
   }
 
+  @Get('export/data')
+  async export(){
+    return await this.transaksiPembeliService.export()
+  }
+
   @Get()
   async findAll() {
     const [data, count] = await this.transaksiPembeliService.findAll();

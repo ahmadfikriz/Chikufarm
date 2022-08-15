@@ -29,7 +29,7 @@ export const dataTransaksiAgen = [
     },
     {
         title: 'Bank',
-        dataIndex: 'bank.nama_bank',
+        dataIndex: 'bank',
         width: 20
     },
     {
