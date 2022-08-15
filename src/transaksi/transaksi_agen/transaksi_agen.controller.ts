@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {
   Controller,
   Get,
@@ -11,16 +12,18 @@ import {
   Put,
   UploadedFile,
   UseInterceptors,
+  Res,
 } from '@nestjs/common';
 import { TransaksiAgenService } from './transaksi_agen.service';
 import { CreateTransaksiAgenDto } from './dto/create-transaksi_agen.dto';
 import { UpdateTransaksiAgenDto } from './dto/update-transaksi_agen.dto';
 import { ApiBearerAuth, ApiBody, ApiConsumes } from '@nestjs/swagger';
 import { JwtGuard } from 'src/auth/jwt.guard';
-import { extname } from 'path';
+import { extname, join } from 'path';
 import { diskStorage } from 'multer';
 import { Express } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { of } from 'rxjs';
 
 @ApiBearerAuth()
 @UseGuards(JwtGuard)
@@ -28,7 +31,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 export class TransaksiAgenController {
   constructor(private readonly transaksiAgenService: TransaksiAgenService) {}
 
-  @Post()
+  @Post('create')
   @ApiConsumes('multipart/form-data')
   @ApiBody({ type: CreateTransaksiAgenDto })
   @UseInterceptors(
@@ -53,6 +56,15 @@ export class TransaksiAgenController {
       message: 'success',
     };
   }
+
+  @Get('bukti_bayar')
+  async getBuktiBayar(@Param('bukti_bayar') bukti_bayar: string, @Res() res) {
+    return of(
+      res.sendFile(
+        join(process.cwd(), `./src/transaksi/transaksi_agen/bukti/${bukti_bayar}`),
+      ),
+    );
+  } 
 
   @Get()
   async findAll() {
