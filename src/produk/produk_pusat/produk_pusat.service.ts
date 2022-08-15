@@ -104,11 +104,11 @@ export class ProdukPusatService {
     await this.produkPusatRepository.delete(id);
   }
 
-  async findByProdukPusat(nama: string) {
+  async findByProdukPusat(nama_produk: string) {
     try {
       return await this.produkPusatRepository.findOneOrFail({
         where: {
-          nama,
+          nama_produk,
         },
       });
     } catch (error) {

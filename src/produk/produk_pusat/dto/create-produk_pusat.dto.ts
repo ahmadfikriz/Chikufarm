@@ -5,7 +5,7 @@ export class CreateProdukPusatDto {
   @ApiProperty({ required: true })
   @IsNotEmpty()
   @IsString()
-  nama: string;
+  nama_produk: string;
 
   @ApiProperty({ required: true })
   @IsNotEmpty()

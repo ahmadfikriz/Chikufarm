@@ -7,6 +7,7 @@ import { User } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
 import { RoleService } from './role/role.service';
+import { generateExcel } from 'src/helper/export_excel';
 
 @Injectable()
 export class UsersService {
@@ -171,5 +172,11 @@ export class UsersService {
         );
     }
   }
+  }
+
+  async export(){
+    const dataUser = await this.usersRepository.find({relations: ['role']})
+
+    return generateExcel(dataUser, 'dataUser');
   }
 }

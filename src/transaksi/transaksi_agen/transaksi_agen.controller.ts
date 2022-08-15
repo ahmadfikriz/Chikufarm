@@ -66,6 +66,11 @@ export class TransaksiAgenController {
     );
   } 
 
+  @Get('export/data')
+  async export(){
+    return await this.transaksiAgenService.export()
+  }
+
   @Get()
   async findAll() {
     const [data, count] = await this.transaksiAgenService.findAll();

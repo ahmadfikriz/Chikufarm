@@ -46,6 +46,11 @@ export class UsersController {
     };
   }
 
+  @Get('export/data')
+  async export(){
+    return await this.usersService.export()
+  }
+
   @Get(':id')
   async findOne(@Param('id', ParseUUIDPipe) id: string) {
     return {

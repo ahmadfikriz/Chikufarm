@@ -18,7 +18,7 @@ export class produkPusat {
   id: string;
 
   @Column()
-  nama: string;
+  nama_produk: string;
 
   @Column()
   deskripsi: string;
