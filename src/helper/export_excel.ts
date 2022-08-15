@@ -91,7 +91,7 @@ async function setDataHitTransaksiAgen(dataHitLogApi) {
       const filterElement = [];
 
       filterElement['id'] = element?.id;
-      filterElement['user.nama'] = element?.user.nama;
+      filterElement['agen.nama'] = element?.agen.nama;
       filterElement['produkPusat.nama_produk'] = element?.produkPusat.nama_produk;
       filterElement['request.id'] = element?.request.id;
       filterElement['total_bayar'] = element?.total_bayar;

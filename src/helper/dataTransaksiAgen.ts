@@ -9,7 +9,7 @@ export const dataTransaksiAgen = [
     },
     {
         title: 'Nama Agen',
-        dataIndex: 'user.nama',
+        dataIndex: 'agen.nama',
         width: 20
     },
     {
