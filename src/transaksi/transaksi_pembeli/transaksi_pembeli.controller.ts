@@ -12,6 +12,7 @@ import {
   Put,
   UploadedFile,
   UseInterceptors,
+  Res,
 } from '@nestjs/common';
 import { TransaksiPembeliService } from './transaksi_pembeli.service';
 import { CreateTransaksiPembeliDto } from './dto/create-transaksi_pembeli.dto';
@@ -20,7 +21,9 @@ import { ApiBearerAuth, ApiBody, ApiConsumes } from '@nestjs/swagger';
 import { JwtGuard } from 'src/auth/jwt.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import { extname } from 'path';
+import { extname, join } from 'path';
+import { create } from 'domain';
+import { of } from 'rxjs';
 
 @ApiBearerAuth()
 @UseGuards(JwtGuard)
@@ -30,7 +33,7 @@ export class TransaksiPembeliController {
     private readonly transaksiPembeliService: TransaksiPembeliService,
   ) {}
 
-  @Post()
+  @Post('create')
   @ApiConsumes('multipart/form-data')
   @ApiBody({ type: CreateTransaksiPembeliDto })
   @UseInterceptors(
@@ -56,6 +59,15 @@ export class TransaksiPembeliController {
       statusCode: HttpStatus.CREATED,
       message: 'success',
     };
+  }
+
+  @Get('bukti_bayar')
+  async getBuktiBayar(@Param('bukti_bayar') bukti_bayar: string, @Res() res) {
+    return of(
+      res.sendFile(
+        join(process.cwd(), `./src/transaksi/transaksi_pembeli/bukti/${bukti_bayar}`),
+      ),
+    );
   }
 
   @Get()
