@@ -12,11 +12,13 @@ import {
   UseGuards,
   UploadedFile,
   UseInterceptors,
+  Res,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiBody, ApiConsumes } from '@nestjs/swagger';
 import { diskStorage } from 'multer';
-import { extname } from 'path';
+import { extname, join } from 'path';
+import { of } from 'rxjs';
 import { JwtGuard } from 'src/auth/jwt.guard';
 import { CreateProdukAgenDto } from './dto/create-produk_agen.dto';
 import { UpdateProdukAgenDto } from './dto/update-produk_agen.dto';
@@ -53,6 +55,15 @@ export class ProdukAgenController {
       message: 'success',
     };
   }
+
+  @Get('foto')
+  async getBuktiBayar(@Param('foto') foto: string, @Res() res) {
+    return of(
+      res.sendFile(
+        join(process.cwd(), `./src/produk/produk_agen/foto/${foto}`),
+      ),
+    );
+  } 
 
   @Get()
   async findAll() {
