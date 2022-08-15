@@ -25,8 +25,4 @@ export class CreateRequestDto {
   @IsNotEmpty()
   @IsString()
   total_harga: string;
-
-  @ApiProperty({ required: true })
-  @IsNotEmpty()
-  status: boolean;
 }

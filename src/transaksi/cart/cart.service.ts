@@ -22,7 +22,6 @@ export class CartService {
     const newCart = new cart();
     newCart.jumlah_produk = createCartDto.jumlah_produk
     newCart.total_harga = createCartDto.total_harga
-    newCart.status = createCartDto.status
     newCart.pembeli = await this.usersService.findByUser(createCartDto.nama_pembeli)
     newCart.produkAgen = await this.produkAgenService.findByProdukAgen(createCartDto.nama_produk)
 

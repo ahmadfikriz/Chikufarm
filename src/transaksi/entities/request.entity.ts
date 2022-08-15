@@ -16,6 +16,11 @@ import {
 } from 'typeorm';
 import { transaksi_agen } from './transaksi_agen.entity';
 
+export enum StatusRequest {
+  UNPAID = 'Menunggu Pembayaran',
+  DONE = 'Selesai',
+}
+
 @Entity()
 export class request {
   @PrimaryGeneratedColumn()
@@ -33,7 +38,11 @@ export class request {
   })
   tanggal: Date;
 
-  @Column()
+  @Column({
+    type: 'enum',
+    enum: StatusRequest,
+    default: StatusRequest.UNPAID,
+  })
   status: boolean;
 
   @CreateDateColumn({

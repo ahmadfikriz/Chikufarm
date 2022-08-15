@@ -14,6 +14,11 @@ import {
     VersionColumn,
   } from 'typeorm';
 import { transaksi_pembeli } from './transaksi_pembeli.entity';
+
+export enum StatusCart {
+  UNPAID = 'Menunggu Pembayaran',
+  DONE = 'Selesai',
+}
   
   @Entity()
   export class cart {
@@ -32,7 +37,11 @@ import { transaksi_pembeli } from './transaksi_pembeli.entity';
     })
     tanggal: Date;
   
-    @Column()
+    @Column({
+      type: 'enum',
+      enum: StatusCart,
+      default: StatusCart.UNPAID,
+    })
     status: boolean;
   
     @CreateDateColumn({
