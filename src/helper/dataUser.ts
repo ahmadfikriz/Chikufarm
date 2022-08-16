@@ -29,7 +29,7 @@ export const dataUser = [
     },
     {
         title: 'Role',
-        dataIndex: 'role.role_type',
+        dataIndex: 'role.nama',
         width: 20
     },
 

@@ -64,7 +64,7 @@ async function setDataUser(dataHitLogApi) {
       filterElement['email'] = element?.email;
       filterElement['no_hp'] = element?.no_hp;
       filterElement['alamat'] = element?.alamat;
-      filterElement['role.role_type'] = element?.role.role_type;
+      filterElement['role.nama'] = element?.role.nama;
       
 
       dataFiltered.push(filterElement);
