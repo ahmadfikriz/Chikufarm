@@ -10,7 +10,7 @@ export class CreateTransaksiPembeliDto {
   @ApiProperty({ required: true })
   @IsNotEmpty()
   @IsString()
-  email_pembeli: string;
+  email: string;
 
   @ApiProperty({ required: true })
   @IsNotEmpty()
@@ -25,12 +25,12 @@ export class CreateTransaksiPembeliDto {
   @ApiProperty({ required: true })
   @IsNotEmpty()
   @IsString()
-  total_bayar: string;
+  no_rekening: string;
 
   @ApiProperty({ required: true })
   @IsNotEmpty()
   @IsString()
-  bank: string;
+  total_bayar: string;
 
   @ApiProperty({ format:'binary' })
   @IsOptional()

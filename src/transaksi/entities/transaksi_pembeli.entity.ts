@@ -12,6 +12,7 @@ import {
   UpdateDateColumn,
   VersionColumn,
 } from 'typeorm';
+import { bank } from './bank.entity';
 import { cart } from './cart.entity';
 
 @Entity()
@@ -27,9 +28,6 @@ export class transaksi_pembeli {
     nullable: false,
   })
   tanggal: Date;
-
-  @Column()
-  bank: string;
 
   @Column()
   bukti_bayar: string;
@@ -54,6 +52,9 @@ export class transaksi_pembeli {
 
   @ManyToOne(() => User, (id_pembeli) => id_pembeli.id)
   pembeli: User;
+
+  @ManyToOne(() => bank, (id_bank) => id_bank.id)
+  bank: bank;
 
   @ManyToOne(() => cart, (id_cart) => id_cart.id)
   cart: cart;

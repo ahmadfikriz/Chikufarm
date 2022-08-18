@@ -27,10 +27,10 @@ export class TransaksiAgenService {
     const newTransaksi = new transaksi_agen();
       newTransaksi.total_bayar = createTransaksiAgenDto.total_bayar
       newTransaksi.bukti_bayar = createTransaksiAgenDto.bukti_bayar
-      newTransaksi.bank = await this.bankService.findByBank(createTransaksiAgenDto.no_rekening)
-      newTransaksi.agen = await this.usersService.findByUser(createTransaksiAgenDto.email_agen)
+      newTransaksi.agen = await this.usersService.findByUser(createTransaksiAgenDto.email)
       newTransaksi.request = await this.requestService.findByRequest(createTransaksiAgenDto.id_request)
       newTransaksi.produkPusat = await this.produkPusatService.findByProdukPusat(createTransaksiAgenDto.nama_produk)
+      newTransaksi.bank = await this.bankService.findByBank(createTransaksiAgenDto.no_rekening)
 
       const result = await this.transaksiAgenRepository.insert(newTransaksi)
      
@@ -44,7 +44,7 @@ export class TransaksiAgenService {
 
   findAll() {
     return this.transaksiAgenRepository.findAndCount({
-    where: {},relations: ['agen', 'request', 'produkPusat']
+    where: {},relations: ['agen', 'request', 'produkPusat', 'bank']
     });
   }
 
@@ -125,7 +125,7 @@ export class TransaksiAgenService {
   }
 
   async export(){
-    const transaction = await this.transaksiAgenRepository.find({relations: ['agen', 'request', 'produkPusat']})
+    const transaction = await this.transaksiAgenRepository.find({relations: ['agen', 'request', 'produkPusat', 'bank']})
 
     return await generateExcel(transaction, 'dataTransaksiAgen')
   }

@@ -29,7 +29,12 @@ export const dataTransaksiPembeli = [
     },
     {
         title: 'Bank',
-        dataIndex: 'bank',
+        dataIndex: 'bank.nama_bank',
+        width: 20
+    },
+    {
+        title: 'No.Rekening',
+        dataIndex: 'bank.no_rekening',
         width: 20
     },
     {

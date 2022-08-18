@@ -6,6 +6,7 @@ import { ProdukAgenService } from 'src/produk/produk_agen/produk_agen.service';
 import { transaksi_pembeli } from 'src/transaksi/entities/transaksi_pembeli.entity';
 import { UsersService } from 'src/user/users.service';
 import { EntityNotFoundError, Repository } from 'typeorm';
+import { BankService } from '../bank/bank.service';
 import { CartService } from '../cart/cart.service';
 import { CreateTransaksiPembeliDto } from './dto/create-transaksi_pembeli.dto';
 import { UpdateTransaksiPembeliDto } from './dto/update-transaksi_pembeli.dto';
@@ -18,17 +19,18 @@ export class TransaksiPembeliService {
     private usersService: UsersService,
     private cartService: CartService,
     private produkAgenService: ProdukAgenService,
+    private bankService: BankService,
   ) {}
 
   async create(createTransaksiPembeliDto: CreateTransaksiPembeliDto) {
     console.log(createTransaksiPembeliDto)
     const newTransaksi = new transaksi_pembeli();
       newTransaksi.total_bayar = createTransaksiPembeliDto.total_bayar
-      newTransaksi.bank = createTransaksiPembeliDto.bank
       newTransaksi.bukti_bayar = createTransaksiPembeliDto.bukti_bayar
-      newTransaksi.pembeli = await this.usersService.findByUser(createTransaksiPembeliDto.email_pembeli)
+      newTransaksi.pembeli = await this.usersService.findByUser(createTransaksiPembeliDto.email)
       newTransaksi.cart = await this.cartService.findByCart(createTransaksiPembeliDto.id_cart)
       newTransaksi.produkAgen = await this.produkAgenService.findByProdukAgen(createTransaksiPembeliDto.nama_produk)
+      newTransaksi.bank = await this.bankService.findByBank(createTransaksiPembeliDto.no_rekening)
 
       const result = await this.transaksiPembeliRepository.insert(newTransaksi)
      
@@ -36,13 +38,13 @@ export class TransaksiPembeliService {
     return this.transaksiPembeliRepository.findOneOrFail({
       where: {
         id: result.identifiers[0].id,
-      },relations: ['pembeli', 'cart', 'produkAgen']
+      },relations: ['pembeli', 'cart', 'produkAgen', 'bank']
     });
   }
 
   findAll() {
     return this.transaksiPembeliRepository.findAndCount({
-    where: {},relations: ['pembeli', 'cart', 'produkAgen']
+    where: {},relations: ['pembeli', 'cart', 'produkAgen', 'bank']
   });
 }
 
@@ -126,7 +128,7 @@ export class TransaksiPembeliService {
   }
 
   async export(){
-    const transaction = await this.transaksiPembeliRepository.find({relations: ['pembeli', 'cart', 'produkAgen']})
+    const transaction = await this.transaksiPembeliRepository.find({relations: ['pembeli', 'cart', 'produkAgen', 'bank']})
 
     return await generateExcel(transaction, 'dataTransaksiPembeli')
   }

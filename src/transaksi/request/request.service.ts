@@ -22,7 +22,7 @@ export class RequestService {
     const newRequest = new request();
     newRequest.jumlah_produk = createRequestDto.jumlah_produk
     newRequest.total_harga = createRequestDto.total_harga
-    newRequest.agen = await this.usersService.findByUser(createRequestDto.nama_agen)
+    newRequest.agen = await this.usersService.findByUser(createRequestDto.email)
     newRequest.produkPusat = await this.produkPusatService.findByProdukPusat(createRequestDto.nama_produk)
 
     const result = await this.requestRepository.insert(newRequest)

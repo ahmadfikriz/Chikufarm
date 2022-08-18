@@ -5,7 +5,7 @@ export class CreateCartDto {
   @ApiProperty({ required: true })
   @IsNotEmpty()
   @IsString()
-  nama_pembeli: string;
+  email: string;
 
   @ApiProperty({ required: true })
   @IsNotEmpty()
