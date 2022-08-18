@@ -11,7 +11,7 @@ export class CreateTransaksiAgenDto {
   @ApiProperty({ required: true })
   @IsNotEmpty()
   @IsString()
-  nama_agen: string;
+  email_agen: string;
 
   @ApiProperty({ required: true })
   @IsNotEmpty()
@@ -26,12 +26,12 @@ export class CreateTransaksiAgenDto {
   @ApiProperty({ required: true })
   @IsNotEmpty()
   @IsString()
-  total_bayar: string;
+  no_rekening: string;
 
   @ApiProperty({ required: true })
   @IsNotEmpty()
   @IsString()
-  bank: string;
+  total_bayar: string;
 
   @ApiProperty({ format:'binary' })
   @IsOptional()

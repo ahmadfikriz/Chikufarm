@@ -13,9 +13,10 @@ import {
   UploadedFile,
   UseInterceptors,
   Res,
+  Req,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiBearerAuth, ApiBody, ApiConsumes } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { diskStorage } from 'multer';
 import { extname, join } from 'path';
 import { of } from 'rxjs';
@@ -24,6 +25,7 @@ import { CreateProdukAgenDto } from './dto/create-produk_agen.dto';
 import { UpdateProdukAgenDto } from './dto/update-produk_agen.dto';
 import { ProdukAgenService } from './produk_agen.service';
 
+@ApiTags('Produk Agen')
 @Controller('produk_agen')
 export class ProdukAgenController {
   constructor(private readonly produkAgenService: ProdukAgenService) {}
@@ -81,6 +83,19 @@ export class ProdukAgenController {
   async findOne(@Param('id', ParseUUIDPipe) id: string) {
     return {
       data: await this.produkAgenService.findOne(id),
+      statusCode: HttpStatus.OK,
+      message: 'success',
+    };
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(JwtGuard)
+  @Get('agen')
+  async findByAgenId(@Req() req) {
+    const data = await this.produkAgenService.findByIdAgen(req.id);
+
+    return {
+      data,
       statusCode: HttpStatus.OK,
       message: 'success',
     };

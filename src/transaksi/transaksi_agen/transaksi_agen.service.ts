@@ -5,6 +5,7 @@ import { generateExcel } from 'src/helper/export_excel';
 import { ProdukPusatService } from 'src/produk/produk_pusat/produk_pusat.service';
 import { UsersService } from 'src/user/users.service';
 import { EntityNotFoundError, Repository } from 'typeorm';
+import { BankService } from '../bank/bank.service';
 import { transaksi_agen } from '../entities/transaksi_agen.entity';
 import { RequestService } from '../request/request.service';
 import { CreateTransaksiAgenDto } from './dto/create-transaksi_agen.dto';
@@ -18,15 +19,16 @@ export class TransaksiAgenService {
     private usersService: UsersService,
     private requestService: RequestService,
     private produkPusatService: ProdukPusatService,
+    private bankService: BankService,
   ) {}
 
   async create(createTransaksiAgenDto: CreateTransaksiAgenDto) {
     console.log(createTransaksiAgenDto)
     const newTransaksi = new transaksi_agen();
       newTransaksi.total_bayar = createTransaksiAgenDto.total_bayar
-      newTransaksi.bank = createTransaksiAgenDto.bank
       newTransaksi.bukti_bayar = createTransaksiAgenDto.bukti_bayar
-      newTransaksi.agen = await this.usersService.findByUser(createTransaksiAgenDto.nama_agen)
+      newTransaksi.bank = await this.bankService.findByBank(createTransaksiAgenDto.no_rekening)
+      newTransaksi.agen = await this.usersService.findByUser(createTransaksiAgenDto.email_agen)
       newTransaksi.request = await this.requestService.findByRequest(createTransaksiAgenDto.id_request)
       newTransaksi.produkPusat = await this.produkPusatService.findByProdukPusat(createTransaksiAgenDto.nama_produk)
 
@@ -36,7 +38,7 @@ export class TransaksiAgenService {
     return this.transaksiAgenRepository.findOneOrFail({
       where: {
         id: result.identifiers[0].id,
-      },relations: ['agen', 'request', 'produkPusat']
+      },relations: ['agen', 'request', 'produkPusat', 'bank']
     });
   }
 

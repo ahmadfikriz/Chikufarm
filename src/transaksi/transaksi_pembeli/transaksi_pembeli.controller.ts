@@ -17,7 +17,7 @@ import {
 import { TransaksiPembeliService } from './transaksi_pembeli.service';
 import { CreateTransaksiPembeliDto } from './dto/create-transaksi_pembeli.dto';
 import { UpdateTransaksiPembeliDto } from './dto/update-transaksi_pembeli.dto';
-import { ApiBearerAuth, ApiBody, ApiConsumes } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { JwtGuard } from 'src/auth/jwt.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
@@ -25,6 +25,7 @@ import { extname, join } from 'path';
 import { create } from 'domain';
 import { of } from 'rxjs';
 
+@ApiTags('Transaksi Pembeli')
 @ApiBearerAuth()
 @UseGuards(JwtGuard)
 @Controller('transaksi_pembeli')

@@ -64,7 +64,7 @@ export class UsersService {
       return await this.usersRepository.findOneOrFail({
         where: {
           id,
-        },
+        }, relations: ['role']
       });
     } catch (e) {
       if (e instanceof EntityNotFoundError) {
@@ -154,11 +154,11 @@ export class UsersService {
     return valid
   }
 
-  async findByUser(nama: string){
+  async findByUser(email: string){
     try {
       return await this.usersRepository.findOneOrFail({
         where: {
-          nama
+          email
         }
       })
     } catch (error) {

@@ -17,7 +17,7 @@ import {
 import { TransaksiAgenService } from './transaksi_agen.service';
 import { CreateTransaksiAgenDto } from './dto/create-transaksi_agen.dto';
 import { UpdateTransaksiAgenDto } from './dto/update-transaksi_agen.dto';
-import { ApiBearerAuth, ApiBody, ApiConsumes } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { JwtGuard } from 'src/auth/jwt.guard';
 import { extname, join } from 'path';
 import { diskStorage } from 'multer';
@@ -25,6 +25,7 @@ import { Express } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { of } from 'rxjs';
 
+@ApiTags('Transaksi Agen')
 @ApiBearerAuth()
 @UseGuards(JwtGuard)
 @Controller('transaksi_agen')

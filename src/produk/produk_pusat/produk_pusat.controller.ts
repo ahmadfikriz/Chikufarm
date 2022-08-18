@@ -14,9 +14,10 @@ import {
 import { ProdukPusatService } from './produk_pusat.service';
 import { CreateProdukPusatDto } from './dto/create-produk_pusat.dto';
 import { UpdateProdukPusatDto } from './dto/update-produk_pusat.dto';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtGuard } from 'src/auth/jwt.guard';
 
+@ApiTags('Produk Pusat')
 @ApiBearerAuth()
 @UseGuards(JwtGuard)
 @Controller('produk_pusat')

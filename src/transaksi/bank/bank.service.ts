@@ -113,4 +113,24 @@ export class BankService {
 
     await this.bankRepository.delete(id);
   }
+
+  async findByBank(no_rekening: string){
+    try {
+      return await this.bankRepository.findOneOrFail({
+        where: {
+          no_rekening
+        }
+      })
+    } catch (error) {
+      if (error instanceof EntityNotFoundError) {
+        throw new HttpException(
+          {
+            statusCode: HttpStatus.NOT_FOUND,
+            error: 'Data not found',
+          },
+          HttpStatus.NOT_FOUND,
+        );
+    }
+  }
+  }
 }

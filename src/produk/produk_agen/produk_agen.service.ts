@@ -136,4 +136,28 @@ export class ProdukAgenService {
       }
     }
   }
+
+  async findByIdAgen(id) {
+    try {
+      const user = await this.usersService.findOne(id);
+
+      return await this.produkAgenRepository
+      .createQueryBuilder('agen')
+      .innerJoinAndSelect('agen.user', 'user')
+      .where('user.id = :id', { id: user.id })
+      .getMany();
+    } catch (e) {
+      if (e instanceof EntityNotFoundError) {
+        throw new HttpException(
+          {
+            statusCode: HttpStatus.NOT_FOUND,
+            error: 'Data not found',
+          },
+          HttpStatus.NOT_FOUND,
+        );
+      } else {
+        throw e;
+      }
+    }
+  }
 }

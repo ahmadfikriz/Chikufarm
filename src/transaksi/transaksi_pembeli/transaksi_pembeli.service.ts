@@ -26,7 +26,7 @@ export class TransaksiPembeliService {
       newTransaksi.total_bayar = createTransaksiPembeliDto.total_bayar
       newTransaksi.bank = createTransaksiPembeliDto.bank
       newTransaksi.bukti_bayar = createTransaksiPembeliDto.bukti_bayar
-      newTransaksi.pembeli = await this.usersService.findByUser(createTransaksiPembeliDto.nama_pembeli)
+      newTransaksi.pembeli = await this.usersService.findByUser(createTransaksiPembeliDto.email_pembeli)
       newTransaksi.cart = await this.cartService.findByCart(createTransaksiPembeliDto.id_cart)
       newTransaksi.produkAgen = await this.produkAgenService.findByProdukAgen(createTransaksiPembeliDto.nama_produk)
 

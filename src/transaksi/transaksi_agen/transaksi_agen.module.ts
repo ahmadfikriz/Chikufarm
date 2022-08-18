@@ -14,6 +14,7 @@ import { produkAgen } from 'src/produk/entities/produk_agen.entity';
 import { produkPusat } from 'src/produk/entities/produk_pusat.entity';
 import { RequestModule } from '../request/request.module';
 import { ProdukPusatModule } from 'src/produk/produk_pusat/produk_pusat.module';
+import { BankModule } from '../bank/bank.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { ProdukPusatModule } from 'src/produk/produk_pusat/produk_pusat.module';
       transaksi_pembeli,
       bank,
     ]),
+    BankModule,
     UsersModule,
     RequestModule,
     ProdukPusatModule,

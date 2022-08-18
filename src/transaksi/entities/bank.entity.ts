@@ -12,6 +12,8 @@ import {
     UpdateDateColumn,
     VersionColumn,
   } from 'typeorm';
+import { transaksi_agen } from './transaksi_agen.entity';
+import { transaksi_pembeli } from './transaksi_pembeli.entity';
   
   @Entity()
   export class bank {
@@ -47,5 +49,11 @@ import {
 
     @ManyToOne(() =>User, (id_user) =>id_user.id)
     user: User;
+
+    @OneToMany(() =>transaksi_agen, (id_transaksi_agen) =>id_transaksi_agen.id)
+    transaksi_agen: transaksi_agen;
+
+    @OneToMany(() =>transaksi_pembeli, (id_transaksi_pembeli) =>id_transaksi_pembeli.id)
+    transaksi_pembeli: transaksi_pembeli;
   }
   

@@ -15,9 +15,10 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtGuard } from 'src/auth/jwt.guard';
 
+@ApiTags('User')
 // @ApiBearerAuth()
 // @UseGuards(JwtGuard)
 @Controller('users')
@@ -34,7 +35,7 @@ export class UsersController {
   }
 
   @Get()
-  async findAll(@Query('type') type:Number) {
+  async findAll(@Query('type') type:number) {
     console.log(type, "isi type")
     const [data, count] =  await this.usersService.findAll(type);
 
