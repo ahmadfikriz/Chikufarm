@@ -27,10 +27,10 @@ export class request {
   id: string;
 
   @Column()
-  jumlah_produk: string;
+  jumlah_produk: number;
   
   @Column()
-  total_harga: string;
+  total_harga: number;
 
   @CreateDateColumn({
     type: 'timestamp with time zone',

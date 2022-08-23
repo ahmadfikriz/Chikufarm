@@ -55,7 +55,7 @@ export class transaksi_pembeli {
   @ManyToOne(() => User, (id_pembeli) => id_pembeli.id)
   pembeli: User;
 
-  @ManyToOne(() => cart, (id_cart) => id_cart.id)
+  @ManyToOne(() => cart, {onDelete: 'CASCADE'})
   cart: cart;
 
   @ManyToOne(() =>produkAgen, (id_produkAgen) =>id_produkAgen.id)

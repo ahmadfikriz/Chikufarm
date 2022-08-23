@@ -28,7 +28,7 @@ export class AuthService {
 
   generateToken(user:any) {
     console.log(user,"isi user")
-    const dataToken = { id: user.id, role_id: user.role.id, rolename: user.role.nama};
+    const dataToken = { id: user.id, role_id: user.role.id, rolename: user.role.nama, name: user.nama};
     const token = this.jwtService.sign(dataToken);
 
     return { token: token };

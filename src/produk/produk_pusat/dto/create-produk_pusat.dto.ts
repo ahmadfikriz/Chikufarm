@@ -14,6 +14,6 @@ export class CreateProdukPusatDto {
 
   @ApiProperty({ required: true })
   @IsNotEmpty()
-  @IsString()
-  harga: string;
+  
+  harga: number;
 }

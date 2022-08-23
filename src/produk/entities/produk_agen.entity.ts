@@ -26,10 +26,10 @@ export class produkAgen {
   deskripsi: string;
 
   @Column()
-  harga: string;
+  harga: number;
 
   @Column()
-  stok: string;
+  stok: number;
 
   @Column()
   foto: string;

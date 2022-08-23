@@ -25,12 +25,12 @@ export class CreateProdukAgenDto {
   @ApiProperty({ required: true })
   @IsNotEmpty()
   @IsString()
-  harga: string;
+  harga: number;
 
   @ApiProperty({ required: true })
   @IsNotEmpty()
   @IsString()
-  stok: string;
+  stok: number;
 
   @ApiProperty({ format:'binary' })
   @IsOptional()

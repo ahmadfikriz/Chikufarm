@@ -19,10 +19,10 @@ export class CreateRequestDto {
   @ApiProperty({ required: true })
   @IsNotEmpty()
   @IsString()
-  jumlah_produk: string;
+  jumlah_produk: number;
 
   @ApiProperty({ required: true })
   @IsNotEmpty()
   @IsString()
-  total_harga: string;
+  total_harga: number;
 }
