@@ -24,7 +24,7 @@ export class produkPusat {
   deskripsi: string;
 
   @Column()
-  harga: string;
+  harga: number;
 
   @CreateDateColumn({
     type: 'timestamp with time zone',

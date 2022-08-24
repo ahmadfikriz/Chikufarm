@@ -21,7 +21,7 @@ export class CartService {
     console.log(createCartDto)
     const newCart = new cart();
     newCart.jumlah_produk = createCartDto.jumlah_produk
-    newCart.total_harga = createCartDto.total_harga
+    newCart.total_harga = createCartDto.harga_produk * createCartDto.jumlah_produk
     newCart.pembeli = await this.usersService.findByUser(createCartDto.email)
     newCart.produkAgen = await this.produkAgenService.findByProdukAgen(createCartDto.nama_produk)
 

@@ -22,14 +22,14 @@ export enum StatusCart {
   
   @Entity()
   export class cart {
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn('uuid')
     id: string;
 
     @Column()
-    jumlah_produk: string;
+    jumlah_produk: number;
   
     @Column()
-    total_harga: string;
+    total_harga: number;
   
     @CreateDateColumn({
       type: 'timestamp with time zone',
@@ -42,7 +42,7 @@ export enum StatusCart {
       enum: StatusCart,
       default: StatusCart.UNPAID,
     })
-    status: boolean;
+    status: StatusCart;
   
     @CreateDateColumn({
       type: 'timestamp with time zone',
@@ -68,6 +68,6 @@ export enum StatusCart {
     @ManyToOne(() =>produkAgen, (id_produkAgen) =>id_produkAgen.id)
     produkAgen: produkAgen;
 
-    @OneToMany(() => transaksi_pembeli, (id_cart) => id_cart.id)
+    @OneToMany(() => transaksi_pembeli, (id_cart) => id_cart.id, {onDelete: 'CASCADE'})
     transaksi_pembeli: transaksi_pembeli;
   }

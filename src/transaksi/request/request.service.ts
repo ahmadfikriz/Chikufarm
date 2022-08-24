@@ -21,7 +21,7 @@ export class RequestService {
     console.log(createRequestDto)
     const newRequest = new request();
     newRequest.jumlah_produk = createRequestDto.jumlah_produk
-    newRequest.total_harga = createRequestDto.total_harga
+    newRequest.harga_produk = createRequestDto.harga_produk * createRequestDto.jumlah_produk
     newRequest.agen = await this.usersService.findByUser(createRequestDto.email)
     newRequest.produkPusat = await this.produkPusatService.findByProdukPusat(createRequestDto.nama_produk)
 

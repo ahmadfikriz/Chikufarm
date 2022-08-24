@@ -23,14 +23,14 @@ export enum StatusRequest {
 
 @Entity()
 export class request {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
-  jumlah_produk: string;
+  jumlah_produk: number;
   
   @Column()
-  total_harga: string;
+  harga_produk: number;
 
   @CreateDateColumn({
     type: 'timestamp with time zone',
@@ -43,7 +43,7 @@ export class request {
     enum: StatusRequest,
     default: StatusRequest.UNPAID,
   })
-  status: boolean;
+  status: StatusRequest;
 
   @CreateDateColumn({
     type: 'timestamp with time zone',

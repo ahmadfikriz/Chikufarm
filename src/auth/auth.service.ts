@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { User } from 'src/user/entities/user.entity';
@@ -28,7 +29,7 @@ export class AuthService {
 
   generateToken(user:any) {
     console.log(user,"isi user")
-    const dataToken = { id: user.id, role_id: user.role.id, rolename: user.role.nama};
+    const dataToken = { id: user.id, role_id: user.role.id, rolename: user.role.nama, name: user.nama};
     const token = this.jwtService.sign(dataToken);
 
     return { token: token };
