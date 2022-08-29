@@ -38,9 +38,9 @@ export class TransaksiPembeliController {
   @ApiConsumes('multipart/form-data')
   @ApiBody({ type: CreateTransaksiPembeliDto })
   @UseInterceptors(
-    FileInterceptor('bukti_bayar', {
+    FileInterceptor('file', {
       storage: diskStorage({
-        destination: './src/transaksi/transaksi_pembeli/bukti',
+        destination: './src/uploads/Transaksi Agen',
         filename: (req: any, file, cb) => {
           const namaFile = [req.user.id, Date.now()].join('-');
           cb(null, namaFile + extname(file.originalname));
@@ -62,14 +62,14 @@ export class TransaksiPembeliController {
     };
   }
 
-  @Get('bukti_bayar')
-  async getBuktiBayar(@Param('bukti_bayar') bukti_bayar: string, @Res() res) {
-    return of(
-      res.sendFile(
-        join(process.cwd(), `./src/transaksi/transaksi_pembeli/bukti/${bukti_bayar}`),
-      ),
-    );
-  }
+  // @Get('bukti_bayar')
+  // async getBuktiBayar(@Param('bukti_bayar') bukti_bayar: string, @Res() res) {
+  //   return of(
+  //     res.sendFile(
+  //       join(process.cwd(), `./src/transaksi/transaksi_pembeli/bukti/${bukti_bayar}`),
+  //     ),
+  //   );
+  // }
 
   @Get('export/data')
   async export(){

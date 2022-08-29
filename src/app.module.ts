@@ -17,6 +17,7 @@ import { CartModule } from './transaksi/cart/cart.module';
 import { BankModule } from './transaksi/bank/bank.module';
 import { ProdukAgenModule } from './produk/produk_agen/produk_agen.module';
 import { ProdukPusatModule } from './produk/produk_pusat/produk_pusat.module';
+import { FileModule } from './file/file.module';
 
 @Module({
   imports: [
@@ -93,6 +94,7 @@ import { ProdukPusatModule } from './produk/produk_pusat/produk_pusat.module';
     CartModule,
     BankModule,
     ProdukPusatModule,
+    FileModule,
   ],
 })
 export class AppModule {}

@@ -36,9 +36,9 @@ export class ProdukAgenController {
   @ApiConsumes('multipart/form-data')
   @ApiBody({ type: CreateProdukAgenDto })
   @UseInterceptors(
-    FileInterceptor('foto', {
+    FileInterceptor('file', {
       storage: diskStorage({
-        destination: './src/produk/produk_agen/foto',
+        destination: './src/uploads/Produk Agen',
         filename: (req: any, file, cb) => {
           const namaFile = [req.user.id, Date.now()].join('-');
           cb(null, namaFile + extname(file.originalname));
@@ -58,14 +58,14 @@ export class ProdukAgenController {
     };
   }
 
-  @Get('foto')
-  async getBuktiBayar(@Param('foto') foto: string, @Res() res) {
-    return of(
-      res.sendFile(
-        join(process.cwd(), `./src/produk/produk_agen/foto/${foto}`),
-      ),
-    );
-  } 
+  // @Get('foto')
+  // async getBuktiBayar(@Param('foto') foto: string, @Res() res) {
+  //   return of(
+  //     res.sendFile(
+  //       join(process.cwd(), `./src/produk/produk_agen/foto/${foto}`),
+  //     ),
+  //   );
+  // } 
 
   @Get()
   async findAll() {
