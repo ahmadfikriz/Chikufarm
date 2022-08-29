@@ -3,8 +3,10 @@ import { ApiProperty } from '@nestjs/swagger';
 import {
   IsNotEmpty,
   IsNumber,
+  IsOptional,
   IsString,
 } from 'class-validator';
+import { StatusRequest } from 'src/transaksi/entities/request.entity';
 
 export class CreateRequestDto {
   @ApiProperty({ required: true })
@@ -26,4 +28,7 @@ export class CreateRequestDto {
   @IsNotEmpty()
   @IsNumber()
   harga_produk: number;
+
+  @IsOptional()
+  status: StatusRequest
 }

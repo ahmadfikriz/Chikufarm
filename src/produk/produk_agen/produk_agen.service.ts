@@ -23,7 +23,7 @@ export class ProdukAgenService {
     newProdukAgen.harga = createProdukAgenDto.harga
     newProdukAgen.stok = createProdukAgenDto.stok
     newProdukAgen.foto = createProdukAgenDto.foto
-    newProdukAgen.agen = await this.usersService.findByUser(createProdukAgenDto.nama_agen)
+    newProdukAgen.agen = await this.usersService.findByUser(createProdukAgenDto.email)
 
     const result = await this.produkAgenRepository.insert(newProdukAgen)
      
