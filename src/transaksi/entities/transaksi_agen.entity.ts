@@ -22,7 +22,7 @@ export class transaksi_agen {
   id: string;
 
   @Column()
-  total_bayar: string;
+  total_bayar: number;
 
   @CreateDateColumn({
     type: 'timestamp with time zone',

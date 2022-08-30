@@ -124,6 +124,33 @@ export class TransaksiAgenService {
     await this.transaksiAgenRepository.delete(id);
   }
 
+  async findByAgenId(id: string) {
+    try {
+      return await this.transaksiAgenRepository.findAndCount({
+        relations: {
+          agen: true,
+        },
+        where: {
+          agen: {
+            id,
+          },
+        },
+      });
+    } catch (e) {
+      if (e instanceof EntityNotFoundError) {
+        throw new HttpException(
+          {
+            statusCode: HttpStatus.NOT_FOUND,
+            error: 'Data not found',
+          },
+          HttpStatus.NOT_FOUND,
+        );
+      } else {
+        throw e;
+      }
+    }
+  }
+
   async export(){
     const transaction = await this.transaksiAgenRepository.find({relations: ['agen', 'request', 'produkPusat', 'bank']})
 

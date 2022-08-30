@@ -3,6 +3,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import {
   IsDate,
   IsNotEmpty,
+  IsNumber,
   IsOptional,
   IsString,
 } from 'class-validator';
@@ -30,8 +31,7 @@ export class CreateTransaksiAgenDto {
 
   @ApiProperty({ required: true })
   @IsNotEmpty()
-  @IsString()
-  total_bayar: string;
+  total_bayar: number;
 
   @ApiProperty({ format:'binary' })
   @IsOptional()

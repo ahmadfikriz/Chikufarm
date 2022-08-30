@@ -36,7 +36,7 @@ export class TransaksiAgenController {
   @ApiConsumes('multipart/form-data')
   @ApiBody({ type: CreateTransaksiAgenDto })
   @UseInterceptors(
-    FileInterceptor('file', {
+    FileInterceptor('bukti_bayar', {
       storage: diskStorage({
         destination: './src/uploads/Transaksi Agen',
         filename: (req: any, file, cb) => {
@@ -88,6 +88,18 @@ export class TransaksiAgenController {
   async findOne(@Param('id', ParseUUIDPipe) id: string) {
     return {
       data: await this.transaksiAgenService.findOne(id),
+      statusCode: HttpStatus.OK,
+      message: 'success',
+    };
+  }
+
+  @Get('agen/:id')
+  async findByAgenId(@Param('id', ParseUUIDPipe) id: string) {
+    const [data, count] = await this.transaksiAgenService.findByAgenId(id);
+
+    return {
+      data,
+      count,
       statusCode: HttpStatus.OK,
       message: 'success',
     };
