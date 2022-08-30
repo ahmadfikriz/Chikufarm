@@ -36,7 +36,7 @@ export class ProdukAgenController {
   @ApiConsumes('multipart/form-data')
   @ApiBody({ type: CreateProdukAgenDto })
   @UseInterceptors(
-    FileInterceptor('file', {
+    FileInterceptor('foto', {
       storage: diskStorage({
         destination: './src/uploads/Produk Agen',
         filename: (req: any, file, cb) => {
@@ -88,14 +88,13 @@ export class ProdukAgenController {
     };
   }
 
-  @ApiBearerAuth()
-  @UseGuards(JwtGuard)
-  @Get('agen')
-  async findByAgenId(@Req() req) {
-    const data = await this.produkAgenService.findByIdAgen(req.id);
+  @Get('agen/:id')
+  async findByAgenId(@Param('id', ParseUUIDPipe) id: string) {
+    const [data, count] = await this.produkAgenService.findByAgenId(id);
 
     return {
       data,
+      count,
       statusCode: HttpStatus.OK,
       message: 'success',
     };

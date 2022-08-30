@@ -137,15 +137,18 @@ export class ProdukAgenService {
     }
   }
 
-  async findByIdAgen(id) {
+  async findByAgenId(id: string) {
     try {
-      const user = await this.usersService.findOne(id);
-
-      return await this.produkAgenRepository
-      .createQueryBuilder('agen')
-      .innerJoinAndSelect('agen.user', 'user')
-      .where('user.id = :id', { id: user.id })
-      .getMany();
+      return await this.produkAgenRepository.findAndCount({
+        relations: {
+          agen: true,
+        },
+        where: {
+          agen: {
+            id,
+          },
+        },
+      });
     } catch (e) {
       if (e instanceof EntityNotFoundError) {
         throw new HttpException(

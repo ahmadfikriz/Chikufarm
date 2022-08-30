@@ -22,7 +22,9 @@ import {
 } from 'src/file/file-handler';
 import * as fs from 'fs';
 import { JwtGuard } from 'src/auth/jwt.guard';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('File')
 @Controller('file')
 export class FileController {
   constructor(private fileService: FileService) {}
