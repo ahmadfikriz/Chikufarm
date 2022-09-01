@@ -133,7 +133,34 @@ export class CartService {
           },
           HttpStatus.NOT_FOUND,
         );
+      }
     }
   }
+
+  async findByIdPembeli(id: string) {
+    try {
+      return await this.cartRepository.findAndCount({
+        relations: {
+          pembeli: true,
+        },
+        where: {
+          pembeli: {
+            id,
+          },
+        },
+      });
+    } catch (e) {
+      if (e instanceof EntityNotFoundError) {
+        throw new HttpException(
+          {
+            statusCode: HttpStatus.NOT_FOUND,
+            error: 'Data not found',
+          },
+          HttpStatus.NOT_FOUND,
+        );
+      } else {
+        throw e;
+      }
+    }
   }
 }

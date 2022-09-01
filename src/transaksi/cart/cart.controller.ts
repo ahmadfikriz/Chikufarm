@@ -53,6 +53,18 @@ export class CartController {
     };
   }
 
+  @Get('pembeli/:id')
+  async findByIdPembeli(@Param('id', ParseUUIDPipe) id: string) {
+    const [data, count] = await this.cartService.findByIdPembeli(id);
+
+    return {
+      data,
+      count,
+      statusCode: HttpStatus.OK,
+      message: 'success',
+    };
+  }
+
   @Put(':id')
   async update(
     @Param('id', ParseUUIDPipe) id: string,
