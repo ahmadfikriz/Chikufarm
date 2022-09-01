@@ -21,7 +21,7 @@ export class transaksi_pembeli {
   id: string;
 
   @Column()
-  total_bayar: string;
+  total_bayar: number;
 
   @CreateDateColumn({
     type: 'timestamp with time zone',

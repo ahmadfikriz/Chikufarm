@@ -29,8 +29,7 @@ export class CreateTransaksiPembeliDto {
 
   @ApiProperty({ required: true })
   @IsNotEmpty()
-  @IsString()
-  total_bayar: string;
+  total_bayar: number;
 
   @ApiProperty({ format:'binary' })
   @IsOptional()

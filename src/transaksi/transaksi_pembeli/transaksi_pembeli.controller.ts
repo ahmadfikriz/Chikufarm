@@ -38,7 +38,7 @@ export class TransaksiPembeliController {
   @ApiConsumes('multipart/form-data')
   @ApiBody({ type: CreateTransaksiPembeliDto })
   @UseInterceptors(
-    FileInterceptor('file', {
+    FileInterceptor('bukti_bayar', {
       storage: diskStorage({
         destination: './src/uploads/Transaksi Agen',
         filename: (req: any, file, cb) => {
@@ -92,6 +92,18 @@ export class TransaksiPembeliController {
   async findOne(@Param('id', ParseUUIDPipe) id: string) {
     return {
       data: await this.transaksiPembeliService.findOne(id),
+      statusCode: HttpStatus.OK,
+      message: 'success',
+    };
+  }
+
+  @Get('pembeli/:id')
+  async findByIdPembeli(@Param('id', ParseUUIDPipe) id: string) {
+    const [data, count] = await this.transaksiPembeliService.findByIdPembeli(id);
+
+    return {
+      data,
+      count,
       statusCode: HttpStatus.OK,
       message: 'success',
     };

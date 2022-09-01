@@ -127,6 +127,33 @@ export class TransaksiPembeliService {
     await this.transaksiPembeliRepository.delete(id);
   }
 
+  async findByIdPembeli(id: string) {
+    try {
+      return await this.transaksiPembeliRepository.findAndCount({
+        relations: {
+          pembeli: true,
+        },
+        where: {
+          pembeli: {
+            id,
+          },
+        },
+      });
+    } catch (e) {
+      if (e instanceof EntityNotFoundError) {
+        throw new HttpException(
+          {
+            statusCode: HttpStatus.NOT_FOUND,
+            error: 'Data not found',
+          },
+          HttpStatus.NOT_FOUND,
+        );
+      } else {
+        throw e;
+      }
+    }
+  }
+
   async export(){
     const transaction = await this.transaksiPembeliRepository.find({relations: ['pembeli', 'cart', 'produkAgen', 'bank']})
 
