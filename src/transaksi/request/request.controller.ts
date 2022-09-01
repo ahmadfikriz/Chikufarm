@@ -66,6 +66,18 @@ export class RequestController {
     };
   }
 
+  @Get('agen/:id')
+  async findByIdAgen(@Param('id', ParseUUIDPipe) id: string) {
+    const [data, count] = await this.requestService.findByIdAgen(id);
+
+    return {
+      data,
+      count,
+      statusCode: HttpStatus.OK,
+      message: 'success',
+    };
+  }
+
   @Delete(':id')
   async remove(@Param('id', ParseUUIDPipe) id: string) {
     await this.requestService.remove(id);

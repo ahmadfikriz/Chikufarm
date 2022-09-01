@@ -135,4 +135,31 @@ export class RequestService {
       }
     }
   }
+
+  async findByIdAgen(id: string) {
+    try {
+      return await this.requestRepository.findAndCount({
+        relations: {
+          agen: true,
+        },
+        where: {
+          agen: {
+            id,
+          },
+        },
+      });
+    } catch (e) {
+      if (e instanceof EntityNotFoundError) {
+        throw new HttpException(
+          {
+            statusCode: HttpStatus.NOT_FOUND,
+            error: 'Data not found',
+          },
+          HttpStatus.NOT_FOUND,
+        );
+      } else {
+        throw e;
+      }
+    }
+  }
 }

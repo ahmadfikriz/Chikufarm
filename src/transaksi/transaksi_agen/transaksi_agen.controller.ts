@@ -94,8 +94,8 @@ export class TransaksiAgenController {
   }
 
   @Get('agen/:id')
-  async findByAgenId(@Param('id', ParseUUIDPipe) id: string) {
-    const [data, count] = await this.transaksiAgenService.findByAgenId(id);
+  async findByIdAgen(@Param('id', ParseUUIDPipe) id: string) {
+    const [data, count] = await this.transaksiAgenService.findByIdAgen(id);
 
     return {
       data,

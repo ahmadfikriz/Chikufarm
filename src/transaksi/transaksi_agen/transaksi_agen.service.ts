@@ -124,7 +124,7 @@ export class TransaksiAgenService {
     await this.transaksiAgenRepository.delete(id);
   }
 
-  async findByAgenId(id: string) {
+  async findByIdAgen(id: string) {
     try {
       return await this.transaksiAgenRepository.findAndCount({
         relations: {
