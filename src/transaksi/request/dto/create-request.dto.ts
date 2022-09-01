@@ -28,7 +28,4 @@ export class CreateRequestDto {
   @IsNotEmpty()
   @IsNumber()
   harga_produk: number;
-
-  @IsOptional()
-  status: StatusRequest
 }
