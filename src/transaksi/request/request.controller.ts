@@ -16,7 +16,6 @@ import { CreateRequestDto } from './dto/create-request.dto';
 import { UpdateRequestDto } from './dto/update-request.dto';
 import { ApiBearerAuth, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { JwtGuard } from 'src/auth/jwt.guard';
-import { ApproveDto } from './dto/approval.dto';
 
 @ApiTags('Request')
 @ApiBearerAuth()
@@ -70,7 +69,7 @@ export class RequestController {
   @Delete(':id')
   async remove(@Param('id', ParseUUIDPipe) id: string) {
     await this.requestService.remove(id);
-
+    
     return {
       statusCode: HttpStatus.OK,
       message: 'success',
