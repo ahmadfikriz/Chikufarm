@@ -58,10 +58,8 @@ export class ProdukAgenController {
     };
   }
 
-  @ApiBearerAuth()
-  @UseGuards(JwtGuard)
-  @Get('foto/:bukti_bayar')
-  async getBuktiBayar(@Param('bukti_bayar') foto: string, @Res() res) {
+  @Get('foto/:produk')
+  async getBuktiBayar(@Param('foto') foto: string, @Res() res) {
     return of(
       res.sendFile(
         join(process.cwd(), `uploads/Produk Agen/${foto}`),
