@@ -40,7 +40,7 @@ export class TransaksiPembeliController {
   @UseInterceptors(
     FileInterceptor('bukti_bayar', {
       storage: diskStorage({
-        destination: './src/uploads/Transaksi Agen',
+        destination: './uploads/Transaksi Agen',
         filename: (req: any, file, cb) => {
           const namaFile = [req.user.id, Date.now()].join('-');
           cb(null, namaFile + extname(file.originalname));
@@ -62,14 +62,14 @@ export class TransaksiPembeliController {
     };
   }
 
-  // @Get('bukti_bayar')
-  // async getBuktiBayar(@Param('bukti_bayar') bukti_bayar: string, @Res() res) {
-  //   return of(
-  //     res.sendFile(
-  //       join(process.cwd(), `./src/transaksi/transaksi_pembeli/bukti/${bukti_bayar}`),
-  //     ),
-  //   );
-  // }
+  @Get('foto/:bukti_bayar')
+  async getBuktiBayar(@Param('bukti_bayar') bukti_bayar: string, @Res() res) {
+    return of(
+      res.sendFile(
+        join(process.cwd(), `uploads/Transaksi Pembeli/${bukti_bayar}`),
+      ),
+    );
+  }
 
   @Get('export/data')
   async export(){

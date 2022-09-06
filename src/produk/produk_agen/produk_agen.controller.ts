@@ -38,7 +38,7 @@ export class ProdukAgenController {
   @UseInterceptors(
     FileInterceptor('foto', {
       storage: diskStorage({
-        destination: './src/uploads/Produk Agen',
+        destination: './uploads/Produk Agen',
         filename: (req: any, file, cb) => {
           const namaFile = [req.user.id, Date.now()].join('-');
           cb(null, namaFile + extname(file.originalname));
@@ -58,14 +58,16 @@ export class ProdukAgenController {
     };
   }
 
-  // @Get('foto')
-  // async getBuktiBayar(@Param('foto') foto: string, @Res() res) {
-  //   return of(
-  //     res.sendFile(
-  //       join(process.cwd(), `./src/produk/produk_agen/foto/${foto}`),
-  //     ),
-  //   );
-  // } 
+  @ApiBearerAuth()
+  @UseGuards(JwtGuard)
+  @Get('foto/:bukti_bayar')
+  async getBuktiBayar(@Param('bukti_bayar') foto: string, @Res() res) {
+    return of(
+      res.sendFile(
+        join(process.cwd(), `uploads/Produk Agen/${foto}`),
+      ),
+    );
+  }
 
   @Get()
   async findAll() {
