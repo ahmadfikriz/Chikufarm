@@ -79,7 +79,7 @@ export class ProdukAgenController {
     };
   }
 
-  @Get(':id')
+  @Get('produk/:id')
   async findOne(@Param('id', ParseUUIDPipe) id: string) {
     return {
       data: await this.produkAgenService.findOne(id),
