@@ -57,7 +57,7 @@ export class transaksi_agen {
   @ManyToOne(() => bank, (id_bank) => id_bank.id)
   bank: bank;
 
-  @ManyToOne(() => request, (id_request) => id_request.id)
+  @ManyToOne(() => request, (id_request) => id_request.id, {onDelete: "SET NULL"})
   request: request;
 
   @ManyToOne(() => produkPusat, (id_produkPusat) => id_produkPusat.id)

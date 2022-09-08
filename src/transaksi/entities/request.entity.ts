@@ -69,6 +69,6 @@ export class request {
   @ManyToOne(() => produkPusat, (id_produkPusat) => id_produkPusat.id)
   produkPusat: produkPusat;
 
-  @OneToMany(() => transaksi_agen, (id_request) => id_request.id)
+  @OneToMany(() => transaksi_agen, (id_request) => id_request.id, {onDelete: "SET NULL"})
   transaksi_agen: transaksi_agen;
 }
