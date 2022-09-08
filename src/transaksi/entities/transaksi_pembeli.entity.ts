@@ -56,7 +56,7 @@ export class transaksi_pembeli {
   @ManyToOne(() => bank, (id_bank) => id_bank.id)
   bank: bank;
 
-  @ManyToOne(() => cart, {onDelete: 'CASCADE'})
+  @ManyToOne(() => cart, {onDelete: 'SET NULL'})
   cart: cart;
 
   @ManyToOne(() =>produkAgen, (id_produkAgen) =>id_produkAgen.id)

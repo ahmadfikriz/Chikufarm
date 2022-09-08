@@ -68,6 +68,6 @@ export enum StatusCart {
     @ManyToOne(() =>produkAgen, (id_produkAgen) =>id_produkAgen.id)
     produkAgen: produkAgen;
 
-    @OneToMany(() => transaksi_pembeli, (id_cart) => id_cart.id, {onDelete: 'CASCADE'})
+    @OneToMany(() => transaksi_pembeli, (id_cart) => id_cart.id, {onDelete: "SET NULL"})
     transaksi_pembeli: transaksi_pembeli;
   }
