@@ -18,11 +18,6 @@ export const dataTransaksiPembeli = [
         width: 20
     },
     {
-        title: 'ID Cart',
-        dataIndex: 'cart.id',
-        width: 20
-    },
-    {
         title: 'Total Bayar',
         dataIndex: 'total_bayar',
         width: 20

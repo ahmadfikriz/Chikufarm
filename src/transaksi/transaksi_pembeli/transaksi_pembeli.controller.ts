@@ -40,7 +40,7 @@ export class TransaksiPembeliController {
   @UseInterceptors(
     FileInterceptor('bukti_bayar', {
       storage: diskStorage({
-        destination: './uploads/Transaksi Agen',
+        destination: './uploads/Transaksi Pembeli',
         filename: (req: any, file, cb) => {
           const namaFile = [req.user.id, Date.now()].join('-');
           cb(null, namaFile + extname(file.originalname));

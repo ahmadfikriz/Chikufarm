@@ -18,11 +18,6 @@ export const dataTransaksiAgen = [
         width: 20
     },
     {
-        title: 'ID Request',
-        dataIndex: 'request.id',
-        width: 20
-    },
-    {
         title: 'Total Bayar',
         dataIndex: 'total_bayar',
         width: 20

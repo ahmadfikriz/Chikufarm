@@ -93,7 +93,6 @@ async function setDataHitTransaksiAgen(dataHitLogApi) {
       filterElement['id'] = element?.id;
       filterElement['agen.nama'] = element?.agen.nama;
       filterElement['produkPusat.nama_produk'] = element?.produkPusat.nama_produk;
-      filterElement['request.id'] = element?.request.id;
       filterElement['total_bayar'] = element?.total_bayar;
       filterElement['bank.nama_bank'] = element?.bank.nama_bank;
       filterElement['bank.no_rekening'] = element?.bank.no_rekening;
@@ -126,7 +125,6 @@ async function setDataHitTransaksiAgen(dataHitLogApi) {
         filterElement['id'] = element?.id;
         filterElement['pembeli.nama'] = element?.pembeli.nama;
         filterElement['produkAgen.nama_produk'] = element?.produkAgen.nama_produk;
-        filterElement['cart.id'] = element?.cart.id;
         filterElement['total_bayar'] = element?.total_bayar;
         filterElement['bank.nama_bank'] = element?.bank.nama_bank;
         filterElement['bank.no_rekening'] = element?.bank.no_rekening;
