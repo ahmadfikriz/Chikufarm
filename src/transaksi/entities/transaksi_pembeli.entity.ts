@@ -15,6 +15,11 @@ import {
 import { bank } from './bank.entity';
 import { cart } from './cart.entity';
 
+export enum StatusTransaksiPembeli {
+  UNPAID = 'Menunggu Konfirmasi',
+  DONE = 'Selesai',
+}
+
 @Entity()
 export class transaksi_pembeli {
   @PrimaryGeneratedColumn('uuid')
@@ -31,6 +36,13 @@ export class transaksi_pembeli {
 
   @Column()
   bukti_bayar: string;
+
+  @Column({
+    type: 'enum',
+    enum: StatusTransaksiPembeli,
+    default: StatusTransaksiPembeli.UNPAID,
+  })
+  status: StatusTransaksiPembeli;
 
   @CreateDateColumn({
     type: 'timestamp with time zone',
