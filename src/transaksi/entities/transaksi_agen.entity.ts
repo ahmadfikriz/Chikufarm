@@ -16,6 +16,11 @@ import {
 import { bank } from './bank.entity';
 import { request } from './request.entity';
 
+export enum StatusTransaksiAgen {
+  UNPAID = 'Menunggu Konfirmasi',
+  DONE = 'Selesai',
+}
+
 @Entity()
 export class transaksi_agen {
   @PrimaryGeneratedColumn('uuid')
@@ -32,6 +37,13 @@ export class transaksi_agen {
 
   @Column()
   bukti_bayar: string;
+
+  @Column({
+    type: 'enum',
+    enum: StatusTransaksiAgen,
+    default: StatusTransaksiAgen.UNPAID,
+  })
+  status: StatusTransaksiAgen;
 
   @CreateDateColumn({
     type: 'timestamp with time zone',
