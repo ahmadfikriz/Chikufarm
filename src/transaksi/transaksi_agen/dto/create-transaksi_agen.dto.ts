@@ -31,6 +31,10 @@ export class CreateTransaksiAgenDto {
 
   @ApiProperty({ required: true })
   @IsNotEmpty()
+  jumlah_produk: number;
+
+  @ApiProperty({ required: true })
+  @IsNotEmpty()
   total_bayar: number;
 
   @ApiProperty({ format:'binary' })

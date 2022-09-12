@@ -5,7 +5,7 @@ import { CreateTransaksiAgenDto } from './create-transaksi_agen.dto';
 
 export class UpdateTransaksiAgenDto {
   @IsOptional()
-  no_rekening: string;
+  jumlah_produk: number;
 
   @IsOptional()
   total_bayar: number;

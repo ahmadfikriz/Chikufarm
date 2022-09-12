@@ -5,7 +5,7 @@ import { CreateTransaksiPembeliDto } from './create-transaksi_pembeli.dto';
 
 export class UpdateTransaksiPembeliDto {
   @IsOptional()
-  no_rekening: string;
+  jumlah_produk: number;
 
   @IsOptional()
   total_bayar: number;

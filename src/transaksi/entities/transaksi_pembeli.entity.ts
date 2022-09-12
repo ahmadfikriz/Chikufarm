@@ -26,6 +26,9 @@ export class transaksi_pembeli {
   id: string;
 
   @Column()
+  jumlah_produk: number;
+
+  @Column()
   total_bayar: number;
 
   @CreateDateColumn({

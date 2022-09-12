@@ -25,6 +25,7 @@ export class TransaksiPembeliService {
   async create(createTransaksiPembeliDto: CreateTransaksiPembeliDto) {
     console.log(createTransaksiPembeliDto)
     const newTransaksi = new transaksi_pembeli();
+      newTransaksi.jumlah_produk = createTransaksiPembeliDto.jumlah_produk
       newTransaksi.total_bayar = createTransaksiPembeliDto.total_bayar
       newTransaksi.bukti_bayar = createTransaksiPembeliDto.bukti_bayar
       newTransaksi.pembeli = await this.usersService.findByUser(createTransaksiPembeliDto.email)

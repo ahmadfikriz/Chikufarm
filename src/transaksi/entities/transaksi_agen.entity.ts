@@ -27,6 +27,9 @@ export class transaksi_agen {
   id: string;
 
   @Column()
+  jumlah_produk: number;
+
+  @Column()
   total_bayar: number;
 
   @CreateDateColumn({

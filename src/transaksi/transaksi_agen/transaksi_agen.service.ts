@@ -25,6 +25,7 @@ export class TransaksiAgenService {
   async create(createTransaksiAgenDto: CreateTransaksiAgenDto) {
     console.log(createTransaksiAgenDto)
     const newTransaksi = new transaksi_agen();
+      newTransaksi.jumlah_produk = createTransaksiAgenDto.jumlah_produk
       newTransaksi.total_bayar = createTransaksiAgenDto.total_bayar
       newTransaksi.bukti_bayar = createTransaksiAgenDto.bukti_bayar
       newTransaksi.agen = await this.usersService.findByUser(createTransaksiAgenDto.email)
