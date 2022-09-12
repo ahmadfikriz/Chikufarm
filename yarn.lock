@@ -4824,6 +4824,11 @@ nestjs-pino@^2.6.0:
   resolved "https://registry.npmjs.org/nestjs-pino/-/nestjs-pino-2.6.0.tgz"
   integrity sha512-sudCZ5wTjXf4L2iL1G1eh5PL15S5ADtjaW8bnNlg02ZKB81ySdSa0CJ4gMhB3UlGLWS80JoZVp+R3jeRizoJYA==
 
+nestjs-typeorm-paginate@^4.0.2:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/nestjs-typeorm-paginate/-/nestjs-typeorm-paginate-4.0.2.tgz#8c4bb25d801574210832db0c8292318e5b9beee7"
+  integrity sha512-9rUXFy3A2BKeWkGwP2aDB4KNQrJsTSNzmVyMW+N07tWhzqcrRiEaJNDxmfT/eiN53A/AVHQTeTucJ/f5iqYZPQ==
+
 node-addon-api@^3.1.0:
   version "3.2.1"
   resolved "https://registry.npmjs.org/node-addon-api/-/node-addon-api-3.2.1.tgz"

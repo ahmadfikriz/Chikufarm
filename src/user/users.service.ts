@@ -8,55 +8,68 @@ import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
 import { RoleService } from './role/role.service';
 import { generateExcel } from 'src/helper/export_excel';
+import { IPaginationOptions, paginate, Pagination } from 'nestjs-typeorm-paginate';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
-    
+
     private roleService: RoleService
   ) {}
 
   async create(createUserDto: CreateUserDto) {
-    console.log(createUserDto)
-    const newUser = new User();
-      newUser.nama = createUserDto.nama
-      newUser.email = createUserDto.email
-      newUser.password = createUserDto.password
-      newUser.no_hp = createUserDto.no_hp
-      newUser.alamat = createUserDto.alamat
-      newUser.role = await this.roleService.findByRoleName(createUserDto.roles)
+    console.log(createUserDto);
 
-      // createUserDto.password = this.hash(createUserDto.password) 
-      const result = await this.usersRepository.insert(newUser)
-     
-      
+    const newUser = new User();
+
+      newUser.nama = createUserDto.nama;
+      newUser.email = createUserDto.email;
+      newUser.password = createUserDto.password;
+      newUser.no_hp = createUserDto.no_hp;
+      newUser.alamat = createUserDto.alamat;
+      newUser.role = await this.roleService.findByRoleName(createUserDto.roles);
+
+      // createUserDto.password = this.hash(createUserDto.password)
+      const result = await this.usersRepository.insert(newUser);
+
+
     return this.usersRepository.findOneOrFail({
       where: {
         id: result.identifiers[0].id,
-      },relations: ['role']
+      },
+relations: ['role'],
     });
   }
 
   async findAll(type) {
     let role;
     let q;
-    if(type){
-      console.log("masuk sini?")
-      role =await this.roleService.findOne(type);
-      console.log("role", role)
+
+    if (type) {
+      console.log('masuk sini?');
+      role = await this.roleService.findOne(type);
+      console.log('role', role);
       q =  this.usersRepository.createQueryBuilder('user')
       .leftJoinAndSelect('user.role', 'role')
       .where('role_id =:type', {type:type})
-      .getManyAndCount()
-    }else{
-      console.log("masuk sana")
+      .getManyAndCount();
+    } else {
+      console.log('masuk sana');
       q =  this.usersRepository.findAndCount({
-       relations: ['role']
+       relations: ['role'],
       });
     }
-   return q
+
+   return q;
+  }
+
+  async findAllPaginate(options: IPaginationOptions): Promise<Pagination<User>> {
+    const queryBuilder = this.usersRepository.createQueryBuilder('users')
+    .orderBy('users.nama', 'ASC');
+
+    return paginate<User>(queryBuilder, options);
   }
 
   async findOne(id: string) {
@@ -64,7 +77,8 @@ export class UsersService {
       return await this.usersRepository.findOneOrFail({
         where: {
           id,
-        }, relations: ['role']
+        },
+relations: ['role'],
       });
     } catch (e) {
       if (e instanceof EntityNotFoundError) {
@@ -80,12 +94,12 @@ export class UsersService {
       }
     }
   }
-  
+
   async findEmail(email) {
     return await this.usersRepository.createQueryBuilder('user')
     .leftJoinAndSelect('user.role', 'role')
     .where('email = :email', {email:email})
-    .getOne()
+    .getOne();
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
@@ -142,25 +156,25 @@ export class UsersService {
     await this.usersRepository.delete(id);
   }
 
-  hash(plainPassword){
-    const hash = bcrypt.hashSync(plainPassword, 20)
-    
-    return hash
-  }
-  compare(plainPassword, hash){
-    
-    const valid = bcrypt.compare(plainPassword, hash)
-    
-    return valid
+  hash(plainPassword) {
+    const hash = bcrypt.hashSync(plainPassword, 20);
+
+    return hash;
   }
 
-  async findByUser(email: string){
+  compare(plainPassword, hash) {
+    const valid = bcrypt.compare(plainPassword, hash);
+
+    return valid;
+  }
+
+  async findByUser(email: string) {
     try {
       return await this.usersRepository.findOneOrFail({
         where: {
-          email
-        }
-      })
+          email,
+        },
+      });
     } catch (error) {
       if (error instanceof EntityNotFoundError) {
         throw new HttpException(
@@ -174,8 +188,8 @@ export class UsersService {
   }
   }
 
-  async export(){
-    const dataUser = await this.usersRepository.find({relations: ['role']})
+  async export() {
+    const dataUser = await this.usersRepository.find({relations: ['role']});
 
     return generateExcel(dataUser, 'dataUser');
   }

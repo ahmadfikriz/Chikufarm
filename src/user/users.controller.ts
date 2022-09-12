@@ -11,12 +11,16 @@ import {
   HttpStatus,
   UseGuards,
   Query,
+  DefaultValuePipe,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtGuard } from 'src/auth/jwt.guard';
+import { Pagination } from 'nestjs-typeorm-paginate';
+import { User } from './entities/user.entity';
 
 @ApiTags('User')
 // @ApiBearerAuth()
@@ -35,6 +39,20 @@ export class UsersController {
   }
 
   @Get()
+  async findAllPaginate(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit = 10,
+    ): Promise<Pagination<User>> {
+    limit = limit > 100 ? 100 : limit;
+
+    return this.usersService.findAllPaginate({
+      page,
+      limit,
+      route: 'http://localhost:3222/users',
+    });
+  }
+
+  @Get('role')
   async findAll(@Query('type') type:number) {
     console.log(type, "isi type")
     const [data, count] =  await this.usersService.findAll(type);
