@@ -43,7 +43,7 @@ relations: ['role'],
     });
   }
 
-  async findAll(type) {
+  async findRole(type) {
     let role;
     let q;
 
@@ -65,7 +65,7 @@ relations: ['role'],
    return q;
   }
 
-  async findAllPaginate(options: IPaginationOptions): Promise<Pagination<User>> {
+  async findAll(options: IPaginationOptions): Promise<Pagination<User>> {
     const queryBuilder = this.usersRepository.createQueryBuilder('users')
     .orderBy('users.nama', 'ASC');
 

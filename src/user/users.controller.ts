@@ -39,13 +39,13 @@ export class UsersController {
   }
 
   @Get()
-  async findAllPaginate(
+  async findAll(
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit = 10,
     ): Promise<Pagination<User>> {
     limit = limit > 100 ? 100 : limit;
 
-    return this.usersService.findAllPaginate({
+    return this.usersService.findAll({
       page,
       limit,
       route: 'http://localhost:3222/users',
@@ -53,9 +53,9 @@ export class UsersController {
   }
 
   @Get('role')
-  async findAll(@Query('type') type:number) {
+  async findRole(@Query('type') type:number) {
     console.log(type, "isi type")
-    const [data, count] =  await this.usersService.findAll(type);
+    const [data, count] =  await this.usersService.findRole(type);
 
     return {
       data,
