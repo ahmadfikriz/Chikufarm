@@ -31,12 +31,12 @@ import { transaksi_agen } from '../entities/transaksi_agen.entity';
 import { Pagination } from 'nestjs-typeorm-paginate';
 
 @ApiTags('Transaksi Agen')
-@ApiBearerAuth()
-@UseGuards(JwtGuard)
 @Controller('transaksi_agen')
 export class TransaksiAgenController {
   constructor(private readonly transaksiAgenService: TransaksiAgenService) {}
 
+  @ApiBearerAuth()
+  @UseGuards(JwtGuard)
   @Post('create')
   @ApiConsumes('multipart/form-data')
   @ApiBody({ type: CreateTransaksiAgenDto })
@@ -72,6 +72,8 @@ export class TransaksiAgenController {
     );
   }
 
+  @ApiBearerAuth()
+  @UseGuards(JwtGuard)
   @Get()
   async findAll(
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
@@ -86,6 +88,8 @@ export class TransaksiAgenController {
     });
   }
 
+  @ApiBearerAuth()
+  @UseGuards(JwtGuard)
   @Get('export/data')
   async export(){
     return await this.transaksiAgenService.export()
@@ -103,6 +107,8 @@ export class TransaksiAgenController {
   //   };
   // }
 
+  @ApiBearerAuth()
+  @UseGuards(JwtGuard)
   @Get(':id')
   async findOne(@Param('id', ParseUUIDPipe) id: string) {
     return {
@@ -112,6 +118,8 @@ export class TransaksiAgenController {
     };
   }
 
+  @ApiBearerAuth()
+  @UseGuards(JwtGuard)
   @Get('agen/:id')
   async findByIdAgen(@Param('id', ParseUUIDPipe) id: string) {
     const [data, count] = await this.transaksiAgenService.findByIdAgen(id);
@@ -124,6 +132,8 @@ export class TransaksiAgenController {
     };
   }
 
+  @ApiBearerAuth()
+  @UseGuards(JwtGuard)
   @Put(':id')
   async update(
     @Param('id', ParseUUIDPipe) id: string,
@@ -136,6 +146,8 @@ export class TransaksiAgenController {
     };
   }
 
+  @ApiBearerAuth()
+  @UseGuards(JwtGuard)
   @Delete(':id')
   async remove(@Param('id', ParseUUIDPipe) id: string) {
     await this.transaksiAgenService.remove(id);

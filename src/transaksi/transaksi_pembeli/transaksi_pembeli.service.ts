@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { IPaginationOptions, paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { generateExcel } from 'src/helper/export_excel';
 import { ProdukAgenService } from 'src/produk/produk_agen/produk_agen.service';
 import { transaksi_pembeli } from 'src/transaksi/entities/transaksi_pembeli.entity';
@@ -43,10 +44,21 @@ export class TransaksiPembeliService {
     });
   }
 
-  findAll() {
-    return this.transaksiPembeliRepository.findAndCount({
-    where: {},relations: ['pembeli', 'cart', 'produkAgen', 'bank']
-  });
+//   findAll() {
+//     return this.transaksiPembeliRepository.findAndCount({
+//     where: {},relations: ['pembeli', 'cart', 'produkAgen', 'bank']
+//   });
+// }
+
+async findAll(options: IPaginationOptions): Promise<Pagination<transaksi_pembeli>> {
+  const queryBuilder = this.transaksiPembeliRepository.createQueryBuilder('transaksi_pembeli')
+  .innerJoinAndSelect('transaksi_pembeli.pembeli', 'nama')
+  .innerJoinAndSelect('transaksi_pembeli.cart', 'id')
+  .innerJoinAndSelect('transaksi_pembeli.produkAgen', 'nama_produk')
+  .innerJoinAndSelect('transaksi_pembeli.bank', 'nama_akun_bank')
+  .orderBy('transaksi_pembeli.id', 'ASC');
+
+  return paginate<transaksi_pembeli>(queryBuilder, options);
 }
 
   async findOne(id: string) {
