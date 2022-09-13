@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { IPaginationOptions, paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { ProdukPusatService } from 'src/produk/produk_pusat/produk_pusat.service';
 import { UsersService } from 'src/user/users.service';
 import { EntityNotFoundError, Repository } from 'typeorm';
@@ -34,10 +35,19 @@ export class RequestService {
     });
   }
 
-  findAll() {
-    return this.requestRepository.findAndCount({
-    where: {},relations: ['produkPusat', 'agen']
-  });
+//   findAll() {
+//     return this.requestRepository.findAndCount({
+//     where: {},relations: ['produkPusat', 'agen']
+//   });
+// }
+
+async findAll(options: IPaginationOptions): Promise<Pagination<request>> {
+  const queryBuilder = this.requestRepository.createQueryBuilder('request')
+  .innerJoinAndSelect('request.agen', 'nama')
+  .innerJoinAndSelect('request.produkPusat', 'nama_produk')
+  .orderBy('request.id', 'ASC');
+
+  return paginate<request>(queryBuilder, options);
 }
 
   async findOne(id: string) {

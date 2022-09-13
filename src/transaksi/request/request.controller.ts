@@ -10,12 +10,17 @@ import {
   HttpStatus,
   ParseUUIDPipe,
   Put,
+  Query,
+  DefaultValuePipe,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { RequestService } from './request.service';
 import { CreateRequestDto } from './dto/create-request.dto';
 import { UpdateRequestDto } from './dto/update-request.dto';
 import { ApiBearerAuth, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { JwtGuard } from 'src/auth/jwt.guard';
+import { request } from '../entities/request.entity';
+import { Pagination } from 'nestjs-typeorm-paginate';
 
 @ApiTags('Request')
 @ApiBearerAuth()
@@ -33,16 +38,30 @@ export class RequestController {
     };
   }
 
-  @Get()
-  async findAll() {
-    const [data, count] = await this.requestService.findAll();
+  // @Get()
+  // async findAll() {
+  //   const [data, count] = await this.requestService.findAll();
 
-    return {
-      data,
-      count,
-      statusCode: HttpStatus.OK,
-      message: 'success',
-    };
+  //   return {
+  //     data,
+  //     count,
+  //     statusCode: HttpStatus.OK,
+  //     message: 'success',
+  //   };
+  // }
+
+  @Get()
+  async findAll(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit = 10,
+    ): Promise<Pagination<request>> {
+    limit = limit > 100 ? 100 : limit;
+
+    return this.requestService.findAll({
+      page,
+      limit,
+      route: 'http://localhost:3222/request',
+    });
   }
 
   @Get(':id')
