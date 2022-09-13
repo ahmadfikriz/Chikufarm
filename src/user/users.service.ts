@@ -52,7 +52,7 @@ relations: ['role'],
       role = await this.roleService.findOne(type);
       console.log('role', role);
       q =  this.usersRepository.createQueryBuilder('user')
-      .leftJoinAndSelect('user.role', 'role')
+      .leftJoinAndSelect('user.role', 'nama')
       .where('role_id =:type', {type:type})
       .getManyAndCount();
     } else {
@@ -67,6 +67,7 @@ relations: ['role'],
 
   async findAll(options: IPaginationOptions): Promise<Pagination<User>> {
     const queryBuilder = this.usersRepository.createQueryBuilder('user')
+    .innerJoinAndSelect('user.role', 'nama')
     .orderBy('user.nama', 'ASC');
 
     return paginate<User>(queryBuilder, options);

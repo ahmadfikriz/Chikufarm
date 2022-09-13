@@ -42,6 +42,7 @@ export class BankService {
 
 async findAll(options: IPaginationOptions): Promise<Pagination<bank>> {
   const queryBuilder = this.bankRepository.createQueryBuilder('bank')
+  .innerJoinAndSelect('bank.user', 'nama')
   .orderBy('bank.nama_akun_bank', 'ASC');
 
   return paginate<bank>(queryBuilder, options);
