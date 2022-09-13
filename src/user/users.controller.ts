@@ -25,7 +25,7 @@ import { User } from './entities/user.entity';
 @ApiTags('User')
 // @ApiBearerAuth()
 // @UseGuards(JwtGuard)
-@Controller('users')
+@Controller('user')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
@@ -48,7 +48,7 @@ export class UsersController {
     return this.usersService.findAll({
       page,
       limit,
-      route: 'http://localhost:3222/users',
+      route: 'http://localhost:3222/user',
     });
   }
 

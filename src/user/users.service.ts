@@ -66,8 +66,8 @@ relations: ['role'],
   }
 
   async findAll(options: IPaginationOptions): Promise<Pagination<User>> {
-    const queryBuilder = this.usersRepository.createQueryBuilder('users')
-    .orderBy('users.nama', 'ASC');
+    const queryBuilder = this.usersRepository.createQueryBuilder('user')
+    .orderBy('user.nama', 'ASC');
 
     return paginate<User>(queryBuilder, options);
   }

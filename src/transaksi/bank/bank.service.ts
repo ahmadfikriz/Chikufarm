@@ -1,5 +1,7 @@
+/* eslint-disable prettier/prettier */
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { IPaginationOptions, paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { UsersService } from 'src/user/users.service';
 import { Repository, EntityNotFoundError } from 'typeorm';
 import { bank } from '../entities/bank.entity';
@@ -32,10 +34,17 @@ export class BankService {
     });
   }
 
-  findAll() {
-    return this.bankRepository.findAndCount({
-    where: {},relations: ['user']
-  });
+//   findAll() {
+//     return this.bankRepository.findAndCount({
+//     where: {},relations: ['user']
+//   });
+// }
+
+async findAll(options: IPaginationOptions): Promise<Pagination<bank>> {
+  const queryBuilder = this.bankRepository.createQueryBuilder('bank')
+  .orderBy('bank.nama_akun_bank', 'ASC');
+
+  return paginate<bank>(queryBuilder, options);
 }
 
   async findOne(id: string) {

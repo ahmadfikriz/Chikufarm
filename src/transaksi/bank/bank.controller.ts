@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {
   Controller,
   Get,
@@ -9,9 +10,15 @@ import {
   ParseUUIDPipe,
   Put,
   UseGuards,
+  Query,
+  DefaultValuePipe,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { Pagination } from 'nestjs-typeorm-paginate';
 import { JwtGuard } from 'src/auth/jwt.guard';
+import { User } from 'src/user/entities/user.entity';
+import { bank } from '../entities/bank.entity';
 import { BankService } from './bank.service';
 import { CreateBankDto } from './dto/create-bank.dto';
 import { UpdateBankDto } from './dto/update-bank.dto';
@@ -32,16 +39,30 @@ export class BankController {
     };
   }
 
-  @Get()
-  async findAll() {
-    const [data, count] = await this.bankService.findAll();
+  // @Get()
+  // async findAll() {
+  //   const [data, count] = await this.bankService.findAll();
 
-    return {
-      data,
-      count,
-      statusCode: HttpStatus.OK,
-      message: 'success',
-    };
+  //   return {
+  //     data,
+  //     count,
+  //     statusCode: HttpStatus.OK,
+  //     message: 'success',
+  //   };
+  // }
+
+  @Get()
+  async findAll(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit = 10,
+    ): Promise<Pagination<bank>> {
+    limit = limit > 100 ? 100 : limit;
+
+    return this.bankService.findAll({
+      page,
+      limit,
+      route: 'http://localhost:3222/bank',
+    });
   }
 
   @Get(':id')
