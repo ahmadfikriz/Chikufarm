@@ -53,7 +53,7 @@ export class TransaksiAgenService {
   async findAll(options: IPaginationOptions): Promise<Pagination<transaksi_agen>> {
     const queryBuilder = this.transaksiAgenRepository.createQueryBuilder('transaksi_agen')
     .innerJoinAndSelect('transaksi_agen.agen', 'nama')
-    .innerJoinAndSelect('transaksi_agen.request', 'id')
+    // .innerJoinAndSelect('transaksi_agen.request', 'id')
     .innerJoinAndSelect('transaksi_agen.produkPusat', 'nama_produk')
     .innerJoinAndSelect('transaksi_agen.bank', 'nama_akun_bank')
     .orderBy('transaksi_agen.id', 'ASC');
