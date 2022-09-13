@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { IPaginationOptions, paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { generateExcel } from 'src/helper/export_excel';
 import { ProdukPusatService } from 'src/produk/produk_pusat/produk_pusat.service';
 import { UsersService } from 'src/user/users.service';
@@ -43,10 +44,21 @@ export class TransaksiAgenService {
     });
   }
 
-  findAll() {
-    return this.transaksiAgenRepository.findAndCount({
-    where: {},relations: ['agen', 'request', 'produkPusat', 'bank']
-    });
+  // findAll() {
+  //   return this.transaksiAgenRepository.findAndCount({
+  //   where: {},relations: ['agen', 'request', 'produkPusat', 'bank']
+  //   });
+  // }
+
+  async findAll(options: IPaginationOptions): Promise<Pagination<transaksi_agen>> {
+    const queryBuilder = this.transaksiAgenRepository.createQueryBuilder('transaksi_agen')
+    .innerJoinAndSelect('transaksi_agen.agen', 'nama')
+    .innerJoinAndSelect('transaksi_agen.request', 'id')
+    .innerJoinAndSelect('transaksi_agen.produkPusat', 'nama_produk')
+    .innerJoinAndSelect('transaksi_agen.bank', 'nama_akun_bank')
+    .orderBy('transaksi_agen.id', 'ASC');
+  
+    return paginate<transaksi_agen>(queryBuilder, options);
   }
 
   async findOne(id: string) {

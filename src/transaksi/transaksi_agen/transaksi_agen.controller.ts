@@ -13,6 +13,9 @@ import {
   UploadedFile,
   UseInterceptors,
   Res,
+  Query,
+  DefaultValuePipe,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { TransaksiAgenService } from './transaksi_agen.service';
 import { CreateTransaksiAgenDto } from './dto/create-transaksi_agen.dto';
@@ -24,6 +27,8 @@ import { diskStorage } from 'multer';
 import { Express } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { of } from 'rxjs';
+import { transaksi_agen } from '../entities/transaksi_agen.entity';
+import { Pagination } from 'nestjs-typeorm-paginate';
 
 @ApiTags('Transaksi Agen')
 @ApiBearerAuth()
@@ -67,22 +72,36 @@ export class TransaksiAgenController {
     );
   }
 
+  @Get()
+  async findAll(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit = 10,
+    ): Promise<Pagination<transaksi_agen>> {
+    limit = limit > 100 ? 100 : limit;
+
+    return this.transaksiAgenService.findAll({
+      page,
+      limit,
+      route: 'http://localhost:3222/transaksi_agen',
+    });
+  }
+
   @Get('export/data')
   async export(){
     return await this.transaksiAgenService.export()
   }
 
-  @Get()
-  async findAll() {
-    const [data, count] = await this.transaksiAgenService.findAll();
+  // @Get()
+  // async findAll() {
+  //   const [data, count] = await this.transaksiAgenService.findAll();
 
-    return {
-      data,
-      count,
-      statusCode: HttpStatus.OK,
-      message: 'success',
-    };
-  }
+  //   return {
+  //     data,
+  //     count,
+  //     statusCode: HttpStatus.OK,
+  //     message: 'success',
+  //   };
+  // }
 
   @Get(':id')
   async findOne(@Param('id', ParseUUIDPipe) id: string) {
