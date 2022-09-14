@@ -29,6 +29,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { of } from 'rxjs';
 import { transaksi_agen } from '../entities/transaksi_agen.entity';
 import { Pagination } from 'nestjs-typeorm-paginate';
+import moment from 'moment';
 
 @ApiTags('Transaksi Agen')
 @Controller('transaksi_agen')
@@ -88,11 +89,19 @@ export class TransaksiAgenController {
     });
   }
 
-  @ApiBearerAuth()
-  @UseGuards(JwtGuard)
+  // @ApiBearerAuth()
+  // @UseGuards(JwtGuard)
   @Get('export/data')
-  async export(){
+  async excelGenerator(){
     return await this.transaksiAgenService.export()
+  }
+
+  @Get('report-download')
+  async excelDownloader(@Res() res) {
+    return await res.download(
+      `./uploads/export/${await this.excelGenerator()}`,
+      `DataTransaksiAgen.xlsx`,
+    );
   }
 
   // @Get()

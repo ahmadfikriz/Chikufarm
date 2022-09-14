@@ -91,11 +91,19 @@ export class TransaksiPembeliController {
     });
   }
 
-  @ApiBearerAuth()
-  @UseGuards(JwtGuard)
+  // @ApiBearerAuth()
+  // @UseGuards(JwtGuard)
   @Get('export/data')
-  async export(){
+  async excelGenerator(){
     return await this.transaksiPembeliService.export()
+  }
+
+  @Get('report-download')
+  async excelDownloader(@Res() res) {
+    return await res.download(
+      `./uploads/export/${await this.excelGenerator()}`,
+      `DataTransaksiPembeli.xlsx`,
+    );
   }
 
   // @Get()
