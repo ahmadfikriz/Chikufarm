@@ -78,8 +78,7 @@ relations: ['role'],
       return await this.usersRepository.findOneOrFail({
         where: {
           id,
-        },
-relations: ['role'],
+        },relations: ['role'],
       });
     } catch (e) {
       if (e instanceof EntityNotFoundError) {

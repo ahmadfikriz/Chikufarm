@@ -13,6 +13,7 @@ import {
   Query,
   DefaultValuePipe,
   ParseIntPipe,
+  Res,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -66,8 +67,16 @@ export class UsersController {
   }
 
   @Get('export/data')
-  async export(){
+  async excelGenerator(){
     return await this.usersService.export()
+  }
+
+  @Get('report-download')
+  async excelDownloader(@Res() res) {
+    return await res.download(
+      `./uploads/export/${await this.excelGenerator()}`,
+      `DataUser.xlsx`,
+    );
   }
 
   @Get(':id')
