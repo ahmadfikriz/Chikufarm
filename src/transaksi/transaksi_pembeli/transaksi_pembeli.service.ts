@@ -66,7 +66,7 @@ async findAll(options: IPaginationOptions): Promise<Pagination<transaksi_pembeli
       return await this.transaksiPembeliRepository.findOneOrFail({
         where: {
           id,
-        },
+        },relations: ['pembeli', 'cart', 'produkAgen', 'bank']
       });
     } catch (e) {
       if (e instanceof EntityNotFoundError) {
@@ -145,6 +145,9 @@ async findAll(options: IPaginationOptions): Promise<Pagination<transaksi_pembeli
       return await this.transaksiPembeliRepository.findAndCount({
         relations: {
           pembeli: true,
+          cart: true,
+          produkAgen: true,
+          bank: true,
         },
         where: {
           pembeli: {

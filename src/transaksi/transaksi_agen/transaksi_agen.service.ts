@@ -66,7 +66,7 @@ export class TransaksiAgenService {
       return await this.transaksiAgenRepository.findOneOrFail({
         where: {
           id,
-        },
+        },relations: ['agen', 'request', 'produkPusat', 'bank']
       });
     } catch (e) {
       if (e instanceof EntityNotFoundError) {
@@ -142,6 +142,9 @@ export class TransaksiAgenService {
       return await this.transaksiAgenRepository.findAndCount({
         relations: {
           agen: true,
+          request: true,
+          produkPusat: true,
+          bank: true,
         },
         where: {
           agen: {
