@@ -18,7 +18,6 @@ import { BankModule } from './transaksi/bank/bank.module';
 import { ProdukAgenModule } from './produk/produk_agen/produk_agen.module';
 import { ProdukPusatModule } from './produk/produk_pusat/produk_pusat.module';
 import { FileModule } from './file/file.module';
-import { PasswordModule } from './user/password/password.module';
 
 @Module({
   imports: [
@@ -96,7 +95,6 @@ import { PasswordModule } from './user/password/password.module';
     BankModule,
     ProdukPusatModule,
     FileModule,
-    PasswordModule,
   ],
 })
 export class AppModule {}
