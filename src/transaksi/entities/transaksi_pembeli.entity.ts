@@ -16,7 +16,8 @@ import { bank } from './bank.entity';
 import { cart } from './cart.entity';
 
 export enum StatusTransaksiPembeli {
-  UNPAID = 'Menunggu Konfirmasi',
+  WAIT = 'Menunggu Konfirmasi',
+  REJECT = 'Ditolak',
   DONE = 'Selesai',
 }
 

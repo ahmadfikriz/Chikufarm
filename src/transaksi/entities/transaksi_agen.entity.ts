@@ -17,7 +17,8 @@ import { bank } from './bank.entity';
 import { request } from './request.entity';
 
 export enum StatusTransaksiAgen {
-  UNPAID = 'Menunggu Konfirmasi',
+  WAIT = 'Menunggu Konfirmasi',
+  REJECT = 'Ditolak',
   DONE = 'Selesai',
 }
 
@@ -44,7 +45,7 @@ export class transaksi_agen {
   @Column({
     type: 'enum',
     enum: StatusTransaksiAgen,
-    default: StatusTransaksiAgen.UNPAID,
+    default: StatusTransaksiAgen.WAIT,
   })
   status: StatusTransaksiAgen;
 
