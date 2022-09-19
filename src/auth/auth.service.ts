@@ -7,15 +7,15 @@ import { UsersService } from 'src/user/users.service';
 @Injectable()
 export class AuthService {
   constructor(
-    private userService: UsersService,
+    private usersService: UsersService,
     private jwtService: JwtService,
   ) {}
 
   async  cekUser(email, password) {
-    const user = await this.userService.findEmail(email);
+    const user = await this.usersService.findEmail(email);
 
     if (user) {
-      const valid = this.userService.compare(password, user.password);
+      const valid = await this.usersService.compare(password, user.password);
 
       if (valid) {
         return user;

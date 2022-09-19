@@ -4,11 +4,12 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { EntityNotFoundError, Repository } from 'typeorm';
 import { User } from './entities/user.entity';
-import { InjectRepository } from '@nestjs/typeorm';
+import { generateString, InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
 import { RoleService } from './role/role.service';
 import { generateExcel } from 'src/helper/export_excel';
 import { IPaginationOptions, paginate, Pagination } from 'nestjs-typeorm-paginate';
+import { EditPasswordDto } from './dto/edit-password.dto';
 
 @Injectable()
 export class UsersService {
@@ -131,6 +132,38 @@ relations: ['role'],
       },
     });
   }
+
+  async updatePassword(id: string, editPasswordDto: EditPasswordDto) {
+    await this.usersRepository.findOneOrFail({where: {
+      id: id
+    },
+  });
+  
+  // await this.usersRepository.update()
+  
+  if(editPasswordDto.password === editPasswordDto.confirm_password) {
+    const salt = await bcrypt.genSalt()
+    const passwordBaru = await bcrypt.hash(editPasswordDto.password, salt);
+    // const data = new Users()
+    const data = await this.usersRepository.findOneOrFail({
+      where: {
+        id: id
+      },
+    });
+    data.password = passwordBaru;
+        
+    await this.usersRepository.update({id}, data );
+    return await this.usersRepository.findOneOrFail({where: {id,}});
+  } else {
+    throw new HttpException(
+      {
+        statusCode: HttpStatus.BAD_REQUEST,
+        error: 'Password Harus Sama',
+      },
+      HttpStatus.BAD_REQUEST,
+    );
+  }
+}
 
   async remove(id: string) {
     try {

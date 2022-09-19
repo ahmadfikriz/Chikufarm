@@ -22,6 +22,7 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtGuard } from 'src/auth/jwt.guard';
 import { Pagination } from 'nestjs-typeorm-paginate';
 import { User } from './entities/user.entity';
+import { EditPasswordDto } from './dto/edit-password.dto';
 
 @ApiTags('User')
 // @ApiBearerAuth()
@@ -95,6 +96,18 @@ export class UsersController {
   ) {
     return {
       data: await this.usersService.update(id, updateUserDto),
+      statusCode: HttpStatus.OK,
+      message: 'success',
+    };
+  }
+
+  @Put('update/Password/:id')
+  async updatePassword(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() editPasswordDto: EditPasswordDto,
+  ) {
+    return {
+      data: await this.usersService.updatePassword(id, editPasswordDto),
       statusCode: HttpStatus.OK,
       message: 'success',
     };
