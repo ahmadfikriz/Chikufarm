@@ -44,7 +44,7 @@ export class transaksi_pembeli {
   @Column({
     type: 'enum',
     enum: StatusTransaksiPembeli,
-    default: StatusTransaksiPembeli.UNPAID,
+    default: StatusTransaksiPembeli.WAIT,
   })
   status: StatusTransaksiPembeli;
 
