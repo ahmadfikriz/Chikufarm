@@ -67,6 +67,11 @@ export class UsersController {
     };
   }
 
+  @Get('search/:nama')
+    async searchByNama(@Param('nama') nama: string){
+      return await this.usersService.searchByNama(nama);
+  }
+
   @Get('export/data')
   async excelGenerator(){
     return await this.usersService.export()

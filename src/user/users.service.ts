@@ -219,7 +219,14 @@ relations: ['role'],
         );
     }
   }
-  }
+}
+
+async searchByNama(nama: string){
+  return await this.usersRepository.createQueryBuilder("user")
+  .innerJoinAndSelect('user.role', 'nama')
+  .where("user.nama LIKE :nama", {nama: `%` + `${nama}` + `%`})
+  .getMany()
+}
 
   async export() {
     const dataUser = await this.usersRepository.find({relations: ['role']});
