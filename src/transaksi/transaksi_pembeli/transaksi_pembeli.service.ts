@@ -78,6 +78,7 @@ async findTransaksi(
         .orWhere('produkAgen.nama_produk LIKE :search', {search: `%${search}%`})
         .orWhere('bank.nama_akun LIKE :search', {search: `%${search}%`})
         .orWhere('bank.nama_bank LIKE :search', {search: `%${search}%`})
+        .orWhere('transaksi_pembeli.status = :search', {search})
     )
 
     else(
