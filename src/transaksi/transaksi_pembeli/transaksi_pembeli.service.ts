@@ -61,6 +61,32 @@ async findAll(options: IPaginationOptions): Promise<Pagination<transaksi_pembeli
   return paginate<transaksi_pembeli>(queryBuilder, options);
 }
 
+async findTransaksi(
+  options: IPaginationOptions,
+  search: string,
+  ): Promise<Pagination<transaksi_pembeli>> {
+    const query = this.transaksiPembeliRepository.createQueryBuilder('transaksi_pembeli')
+    .innerJoinAndSelect('transaksi_pembeli.pembeli', 'user')
+    // .leftJoinAndSelect('transaksi_pembeli.cart', 'id')
+    .innerJoinAndSelect('transaksi_pembeli.produkAgen', 'produkAgen')
+    .innerJoinAndSelect('transaksi_pembeli.bank', 'bank')
+    // .orderBy('transaksi_pembeli.id', 'ASC');
+
+    if(search)(
+      query
+        .where('user.nama LIKE :search', {search: `%${search}%`})
+        .orWhere('produkAgen.nama_produk LIKE :search', {search: `%${search}%`})
+        .orWhere('bank.nama_akun_bank LIKE :search', {search: `%${search}%`})
+        .orWhere('bank.nama_bank LIKE :search', {search: `%${search}%`})
+    )
+
+    else(
+      query.getMany()
+    )
+    await query.getMany()
+    return paginate<transaksi_pembeli>(query, options)
+  }
+
   async findOne(id: string) {
     try {
       return await this.transaksiPembeliRepository.findOneOrFail({

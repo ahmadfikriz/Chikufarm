@@ -91,6 +91,21 @@ export class TransaksiPembeliController {
     });
   }
 
+  @Get('search')
+    async findTransaksi(
+      @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
+      @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit = 10,
+      @Query('search') search: string,
+    ): Promise<Pagination<transaksi_pembeli>>{
+      limit = limit > 100 ? 100 : limit;
+      return this.transaksiPembeliService.findTransaksi(
+          {page, 
+          limit, 
+          route: 'http://localhost:3222/transaksi_pembeli/search'},
+          search,
+        );
+    }
+
   // @ApiBearerAuth()
   // @UseGuards(JwtGuard)
   @Get('export/data')
