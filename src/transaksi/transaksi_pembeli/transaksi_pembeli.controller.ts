@@ -66,6 +66,8 @@ export class TransaksiPembeliController {
     };
   }
 
+  @ApiBearerAuth()
+  @UseGuards(JwtGuard)
   @Get('foto/:bukti_bayar')
   async getBuktiBayar(@Param('bukti_bayar') bukti_bayar: string, @Res() res) {
     return of(
@@ -91,6 +93,8 @@ export class TransaksiPembeliController {
     });
   }
 
+  @ApiBearerAuth()
+  @UseGuards(JwtGuard)
   @Get('search')
     async findTransaksi(
       @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
@@ -106,13 +110,15 @@ export class TransaksiPembeliController {
         );
     }
 
-  // @ApiBearerAuth()
-  // @UseGuards(JwtGuard)
+  @ApiBearerAuth()
+  @UseGuards(JwtGuard)
   @Get('export/data')
   async excelGenerator(){
     return await this.transaksiPembeliService.export()
   }
 
+  @ApiBearerAuth()
+  @UseGuards(JwtGuard)
   @Get('report-download')
   async excelDownloader(@Res() res) {
     return await res.download(
