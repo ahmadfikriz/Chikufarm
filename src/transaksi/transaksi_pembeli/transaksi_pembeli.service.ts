@@ -67,10 +67,10 @@ async findTransaksi(
   ): Promise<Pagination<transaksi_pembeli>> {
     const query = this.transaksiPembeliRepository.createQueryBuilder('transaksi_pembeli')
     .innerJoinAndSelect('transaksi_pembeli.pembeli', 'user')
-    // .leftJoinAndSelect('transaksi_pembeli.cart', 'id')
+    .leftJoinAndSelect('transaksi_pembeli.cart', 'id')
     .innerJoinAndSelect('transaksi_pembeli.produkAgen', 'produkAgen')
     .innerJoinAndSelect('transaksi_pembeli.bank', 'bank')
-    // .orderBy('transaksi_pembeli.id', 'ASC');
+    .orderBy('transaksi_pembeli.created_at', 'ASC');
 
     if(search)(
       query
