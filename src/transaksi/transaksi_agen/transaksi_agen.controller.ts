@@ -64,6 +64,8 @@ export class TransaksiAgenController {
     };
   }
 
+  @ApiBearerAuth()
+  @UseGuards(JwtGuard)
   @Get('foto/:bukti_bayar')
   async getBuktiBayar(@Param('bukti_bayar') bukti_bayar: string, @Res() res) {
     return of(
@@ -89,13 +91,32 @@ export class TransaksiAgenController {
     });
   }
 
-  // @ApiBearerAuth()
-  // @UseGuards(JwtGuard)
+  @ApiBearerAuth()
+  @UseGuards(JwtGuard)
+  @Get('search')
+    async findTransaksi(
+      @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
+      @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit = 10,
+      @Query('search') search: string,
+    ): Promise<Pagination<transaksi_agen>>{
+      limit = limit > 100 ? 100 : limit;
+      return this.transaksiAgenService.findTransaksi(
+          {page, 
+          limit, 
+          route: 'http://localhost:3222/transaksi_pembeli/search'},
+          search,
+        );
+    }
+
+  @ApiBearerAuth()
+  @UseGuards(JwtGuard)
   @Get('export/data')
   async excelGenerator(){
     return await this.transaksiAgenService.export()
   }
 
+  @ApiBearerAuth()
+  @UseGuards(JwtGuard)
   @Get('report-download')
   async excelDownloader(@Res() res) {
     return await res.download(
