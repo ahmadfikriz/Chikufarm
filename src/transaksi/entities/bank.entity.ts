@@ -24,7 +24,7 @@ import { transaksi_pembeli } from './transaksi_pembeli.entity';
     nama_bank: string;
   
     @Column()
-    nama_akun_bank: string;
+    nama_akun: string;
   
     @Column()
     no_rekening: string;

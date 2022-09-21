@@ -15,7 +15,7 @@ export class CreateBankDto {
   @ApiProperty({ required: true })
   @IsNotEmpty()
   @IsString()
-  nama_akun_bank: string;
+  nama_akun: string;
 
   @ApiProperty({ required: true })
   @IsNotEmpty()

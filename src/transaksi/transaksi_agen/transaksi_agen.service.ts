@@ -55,7 +55,7 @@ export class TransaksiAgenService {
     .innerJoinAndSelect('transaksi_agen.agen', 'nama')
     .leftJoinAndSelect('transaksi_agen.request', 'id')
     .innerJoinAndSelect('transaksi_agen.produkPusat', 'nama_produk')
-    .innerJoinAndSelect('transaksi_agen.bank', 'nama_akun_bank')
+    .innerJoinAndSelect('transaksi_agen.bank', 'nama_akun')
     .orderBy('transaksi_agen.id', 'ASC');
   
     return paginate<transaksi_agen>(queryBuilder, options);

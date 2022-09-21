@@ -55,7 +55,7 @@ async findAll(options: IPaginationOptions): Promise<Pagination<transaksi_pembeli
   .innerJoinAndSelect('transaksi_pembeli.pembeli', 'nama')
   .leftJoinAndSelect('transaksi_pembeli.cart', 'id')
   .innerJoinAndSelect('transaksi_pembeli.produkAgen', 'nama_produk')
-  .innerJoinAndSelect('transaksi_pembeli.bank', 'nama_akun_bank')
+  .innerJoinAndSelect('transaksi_pembeli.bank', 'nama_akun')
   .orderBy('transaksi_pembeli.id', 'ASC');
 
   return paginate<transaksi_pembeli>(queryBuilder, options);
@@ -76,7 +76,7 @@ async findTransaksi(
       query
         .where('user.nama LIKE :search', {search: `%${search}%`})
         .orWhere('produkAgen.nama_produk LIKE :search', {search: `%${search}%`})
-        .orWhere('bank.nama_akun_bank LIKE :search', {search: `%${search}%`})
+        .orWhere('bank.nama_akun LIKE :search', {search: `%${search}%`})
         .orWhere('bank.nama_bank LIKE :search', {search: `%${search}%`})
     )
 

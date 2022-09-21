@@ -20,7 +20,7 @@ export class BankService {
     console.log(createBankDto)
     const newBank = new bank();
     newBank.nama_bank = createBankDto.nama_bank
-    newBank.nama_akun_bank = createBankDto.nama_akun_bank
+    newBank.nama_akun = createBankDto.nama_akun
     newBank.no_rekening = createBankDto.no_rekening
     newBank.user = await this.usersService.findByUser(createBankDto.nama_user)
 
@@ -43,7 +43,7 @@ export class BankService {
 async findAll(options: IPaginationOptions): Promise<Pagination<bank>> {
   const queryBuilder = this.bankRepository.createQueryBuilder('bank')
   .innerJoinAndSelect('bank.user', 'nama')
-  .orderBy('bank.nama_akun_bank', 'ASC');
+  .orderBy('bank.nama_akun', 'ASC');
 
   return paginate<bank>(queryBuilder, options);
 }
