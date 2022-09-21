@@ -78,6 +78,7 @@ export class TransaksiAgenService {
           .orWhere('produkPusat.nama_produk LIKE :search', {search: `%${search}%`})
           .orWhere('bank.nama_akun LIKE :search', {search: `%${search}%`})
           .orWhere('bank.nama_bank LIKE :search', {search: `%${search}%`})
+          .orWhere('transaksi_agen.status = :search', {search})
       )
   
       else(
