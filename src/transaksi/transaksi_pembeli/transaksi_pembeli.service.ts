@@ -56,7 +56,7 @@ async findAll(options: IPaginationOptions): Promise<Pagination<transaksi_pembeli
   .leftJoinAndSelect('transaksi_pembeli.cart', 'id')
   .innerJoinAndSelect('transaksi_pembeli.produkAgen', 'nama_produk')
   .innerJoinAndSelect('transaksi_pembeli.bank', 'nama_akun')
-  .orderBy('transaksi_pembeli.id', 'ASC');
+  .orderBy('transaksi_pembeli.created_at', 'ASC');
 
   return paginate<transaksi_pembeli>(queryBuilder, options);
 }
