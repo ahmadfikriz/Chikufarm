@@ -221,12 +221,41 @@ relations: ['role'],
   }
 }
 
-async searchByNama(nama: string){
-  return await this.usersRepository.createQueryBuilder("user")
-  .innerJoinAndSelect('user.role', 'nama')
-  .where("user.nama LIKE :nama", {nama: `%` + `${nama}` + `%`})
-  .getMany()
-}
+// async searchByNama(nama: string){
+//   return await this.usersRepository.createQueryBuilder("user")
+//   .innerJoinAndSelect('user.role', 'nama')
+//   .where("user.nama LIKE :nama", {nama: `%` + `${nama}` + `%`})
+//   .getMany()
+// }
+
+async findUser(
+  options: IPaginationOptions,
+  search: string,
+  // role: string,
+  ): Promise<Pagination<User>> {
+    const query = this.usersRepository.createQueryBuilder('user').innerJoinAndSelect('user.role', 'nama')
+
+    // const roleName = ['admin', 'agen', 'pembeli']
+
+    // if (roleName.includes(role)){
+    //   query
+    //     .where('role.nama LIKE :role', {role: `%${role}%`})
+    //     .andWhere('user.nama LIKE :search', {search: `%${search}%`})
+    //     .andWhere('user.email LIKE :search', {search: `%${search}%`})
+    // }
+
+    if(search)(
+      query
+        .where('user.nama LIKE :search', {search: `%${search}%`})
+        .orWhere('user.email LIKE :search', {search: `%${search}%`})
+    )
+
+    else(
+      query.getMany()
+    )
+    await query.getMany()
+    return paginate<User>(query, options)
+  }
 
   async export() {
     const dataUser = await this.usersRepository.find({relations: ['role']});

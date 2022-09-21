@@ -67,10 +67,27 @@ export class UsersController {
     };
   }
 
-  @Get('search/:nama')
-    async searchByNama(@Param('nama') nama: string){
-      return await this.usersService.searchByNama(nama);
-  }
+  // @Get('search/:nama')
+  //   async searchByNama(@Param('nama') nama: string){
+  //     return await this.usersService.searchByNama(nama);
+  // }
+
+  @Get('search')
+    async findUser(
+      @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
+      @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit = 10,
+      @Query('search') search: string,
+      // @Query('role') role: string
+    ): Promise<Pagination<User>>{
+      limit = limit > 100 ? 100 : limit;
+      return this.usersService.findUser(
+          {page, 
+          limit, 
+          route: 'http://localhost:3222/user/search'},
+          search,
+          // role
+        );
+    }
 
   @Get('export/data')
   async excelGenerator(){
