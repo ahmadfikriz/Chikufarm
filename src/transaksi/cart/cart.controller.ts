@@ -65,6 +65,21 @@ export class CartController {
     });
   }
 
+  @Get('search')
+    async findCart(
+      @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
+      @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit = 10,
+      @Query('search') search: string,
+    ): Promise<Pagination<cart>>{
+      limit = limit > 100 ? 100 : limit;
+      return this.cartService.findCart(
+          {page, 
+          limit, 
+          route: 'http://localhost:3222/cart/search'},
+          search,
+        );
+    }
+
   @Get(':id')
   async findOne(@Param('id', ParseUUIDPipe) id: string) {
     return {

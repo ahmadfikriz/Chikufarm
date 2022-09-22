@@ -46,10 +46,33 @@ async findAll(options: IPaginationOptions): Promise<Pagination<cart>> {
   const queryBuilder = this.cartRepository.createQueryBuilder('cart')
   .innerJoinAndSelect('cart.pembeli', 'nama')
   .innerJoinAndSelect('cart.produkAgen', 'nama_produk')
-  .orderBy('cart.id', 'ASC');
+  .orderBy('cart.tanggal', 'ASC');
 
   return paginate<cart>(queryBuilder, options);
 }
+
+async findCart(
+  options: IPaginationOptions,
+  search: string,
+  ): Promise<Pagination<cart>> {
+    const query = this.cartRepository.createQueryBuilder('cart')
+    .innerJoinAndSelect('cart.pembeli', 'user')
+    .innerJoinAndSelect('cart.produkAgen', 'produkAgen')
+    .orderBy('cart.tanggal', 'ASC');
+
+    if(search)(
+      query
+        .where('user.nama LIKE :search', {search: `%${search}%`})
+        .orWhere('produkAgen.nama_produk LIKE :search', {search: `%${search}%`})
+        // .orWhere('cart.status = :search', {search})
+    )
+
+    else(
+      query.getMany()
+    )
+    await query.getMany()
+    return paginate<cart>(query, options)
+  }
 
   async findOne(id: string) {
     try {
