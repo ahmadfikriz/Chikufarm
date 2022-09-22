@@ -45,7 +45,7 @@ async findAll(options: IPaginationOptions): Promise<Pagination<request>> {
   const queryBuilder = this.requestRepository.createQueryBuilder('request')
   .innerJoinAndSelect('request.agen', 'nama')
   .innerJoinAndSelect('request.produkPusat', 'nama_produk')
-  .orderBy('request.id', 'ASC');
+  .orderBy('request.tanggal', 'ASC');
 
   return paginate<request>(queryBuilder, options);
 }
