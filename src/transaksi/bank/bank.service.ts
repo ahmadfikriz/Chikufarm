@@ -48,6 +48,28 @@ async findAll(options: IPaginationOptions): Promise<Pagination<bank>> {
   return paginate<bank>(queryBuilder, options);
 }
 
+async findBank(
+  options: IPaginationOptions,
+  search: string,
+  ): Promise<Pagination<bank>> {
+    const query = this.bankRepository.createQueryBuilder('bank')
+    .innerJoinAndSelect('bank.user', 'user')
+    .orderBy('bank.nama_bank', 'ASC');
+
+    if(search)(
+      query
+        .where('user.nama LIKE :search', {search: `%${search}%`})
+        .orWhere('bank.nama_bank LIKE :search', {search: `%${search}%`})
+        .orWhere('bank.nama_akun LIKE :search', {search: `%${search}%`})
+    )
+
+    else(
+      query.getMany()
+    )
+    await query.getMany()
+    return paginate<bank>(query, options)
+  }
+
   async findOne(id: string) {
     try {
       return await this.bankRepository.findOneOrFail({
