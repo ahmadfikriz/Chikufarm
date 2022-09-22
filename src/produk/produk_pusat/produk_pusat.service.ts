@@ -1,5 +1,7 @@
+/* eslint-disable prettier/prettier */
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { IPaginationOptions, paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { Repository, EntityNotFoundError } from 'typeorm';
 import { produkPusat } from '../entities/produk_pusat.entity';
 import { CreateProdukPusatDto } from './dto/create-produk_pusat.dto';
@@ -27,6 +29,23 @@ export class ProdukPusatService {
   findAll() {
     return this.produkPusatRepository.findAndCount();
   }
+
+  async findProduk(
+    options: IPaginationOptions,
+    search: string,
+    ): Promise<Pagination<produkPusat>> {
+      const query = this.produkPusatRepository.createQueryBuilder('produkPusat')
+  
+      if(search)(
+        query
+          .where('produkPusat.nama_produk LIKE :search', {search: `%${search}%`})
+      )
+      else(
+        query.getMany()
+      )
+      await query.getMany()
+      return paginate<produkPusat>(query, options)
+    }
 
   async findOne(id: string) {
     try {

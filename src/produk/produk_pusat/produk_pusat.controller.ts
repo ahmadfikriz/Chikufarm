@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {
   Controller,
   Get,
@@ -10,12 +11,18 @@ import {
   ParseUUIDPipe,
   Put,
   UseGuards,
+  Query,
+  DefaultValuePipe,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { ProdukPusatService } from './produk_pusat.service';
 import { CreateProdukPusatDto } from './dto/create-produk_pusat.dto';
 import { UpdateProdukPusatDto } from './dto/update-produk_pusat.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtGuard } from 'src/auth/jwt.guard';
+import { Pagination } from 'nestjs-typeorm-paginate';
+import { User } from 'src/user/entities/user.entity';
+import { produkPusat } from '../entities/produk_pusat.entity';
 
 @ApiTags('Produk Pusat')
 @ApiBearerAuth()
@@ -44,6 +51,21 @@ export class ProdukPusatController {
       message: 'success',
     };
   }
+
+  @Get('search')
+    async findProduk(
+      @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
+      @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit = 10,
+      @Query('search') search: string,
+    ): Promise<Pagination<produkPusat>>{
+      limit = limit > 100 ? 100 : limit;
+      return this.produkPusatService.findProduk(
+          {page, 
+          limit, 
+          route: 'http://localhost:3222/produk_pusat/search'},
+          search,
+        );
+    }
 
   @Get(':id')
   async findOne(@Param('id', ParseUUIDPipe) id: string) {
