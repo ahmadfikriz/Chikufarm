@@ -64,6 +64,21 @@ export class RequestController {
     });
   }
 
+  @Get('search')
+    async findRequest(
+      @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
+      @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit = 10,
+      @Query('search') search: string,
+    ): Promise<Pagination<request>>{
+      limit = limit > 100 ? 100 : limit;
+      return this.requestService.findRequest(
+          {page, 
+          limit, 
+          route: 'http://localhost:3222/request/search'},
+          search,
+        );
+    }
+
   @Get(':id')
   async findOne(@Param('id', ParseUUIDPipe) id: string) {
     return {

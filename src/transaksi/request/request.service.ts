@@ -50,6 +50,29 @@ async findAll(options: IPaginationOptions): Promise<Pagination<request>> {
   return paginate<request>(queryBuilder, options);
 }
 
+async findRequest(
+  options: IPaginationOptions,
+  search: string,
+  ): Promise<Pagination<request>> {
+    const query = this.requestRepository.createQueryBuilder('request')
+    .innerJoinAndSelect('request.agen', 'user')
+    .innerJoinAndSelect('request.produkPusat', 'produkPusat')
+    .orderBy('request.tanggal', 'ASC');
+
+    if(search)(
+      query
+        .where('user.nama LIKE :search', {search: `%${search}%`})
+        .orWhere('produkPusat.nama_produk LIKE :search', {search: `%${search}%`})
+        // .orWhere('request.status = :search', {search})
+    )
+
+    else(
+      query.getMany()
+    )
+    await query.getMany()
+    return paginate<request>(query, options)
+  }
+
   async findOne(id: string) {
     try {
       return await this.requestRepository.findOneOrFail({
