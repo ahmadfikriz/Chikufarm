@@ -41,15 +41,17 @@ export class ProdukPusatController {
   }
 
   @Get()
-  async findAll() {
-    const [data, count] = await this.produkPusatService.findAll();
+  async findAll(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit = 10,
+    ): Promise<Pagination<produkPusat>> {
+    limit = limit > 100 ? 100 : limit;
 
-    return {
-      data,
-      count,
-      statusCode: HttpStatus.OK,
-      message: 'success',
-    };
+    return this.produkPusatService.findAll({
+      page,
+      limit,
+      route: 'http://localhost:3222/produk_pusat',
+    });
   }
 
   @Get('search')

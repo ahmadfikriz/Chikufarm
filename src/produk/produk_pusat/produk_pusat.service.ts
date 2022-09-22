@@ -26,8 +26,11 @@ export class ProdukPusatService {
     });
   }
 
-  findAll() {
-    return this.produkPusatRepository.findAndCount();
+  async findAll(options: IPaginationOptions): Promise<Pagination<produkPusat>> {
+    const queryBuilder = this.produkPusatRepository.createQueryBuilder('produkPusat')
+    .orderBy('produkPusat.nama_produk', 'ASC');
+  
+    return paginate<produkPusat>(queryBuilder, options);
   }
 
   async findProduk(
@@ -35,6 +38,7 @@ export class ProdukPusatService {
     search: string,
     ): Promise<Pagination<produkPusat>> {
       const query = this.produkPusatRepository.createQueryBuilder('produkPusat')
+      .orderBy('produkPusat.nama_produk', 'ASC');
   
       if(search)(
         query
