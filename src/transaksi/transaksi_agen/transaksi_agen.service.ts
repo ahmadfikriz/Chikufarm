@@ -64,6 +64,7 @@ export class TransaksiAgenService {
   async findTransaksi(
     options: IPaginationOptions,
     search: string,
+    // status: string;
     ): Promise<Pagination<transaksi_agen>> {
       const query = this.transaksiAgenRepository.createQueryBuilder('transaksi_agen')
       .innerJoinAndSelect('transaksi_agen.agen', 'user')
@@ -78,8 +79,11 @@ export class TransaksiAgenService {
           .orWhere('produkPusat.nama_produk LIKE :search', {search: `%${search}%`})
           .orWhere('bank.nama_akun LIKE :search', {search: `%${search}%`})
           .orWhere('bank.nama_bank LIKE :search', {search: `%${search}%`})
-          .orWhere('transaksi_agen.status = :search', {search})
       )
+
+   // if (status)(
+    //   query.where('transaksi_agen.status = :status', {status})
+   // )
   
       else(
         query.getMany()
@@ -87,6 +91,27 @@ export class TransaksiAgenService {
       await query.getMany()
       return paginate<transaksi_agen>(query, options)
     }
+
+    async findStatus(
+      options: IPaginationOptions,
+      status: string,
+      ): Promise<Pagination<transaksi_agen>> {
+        const query = this.transaksiAgenRepository.createQueryBuilder('transaksi_agen')
+        .innerJoinAndSelect('transaksi_agen.agen', 'user')
+        .leftJoinAndSelect('transaksi_agen.request', 'id')
+        .innerJoinAndSelect('transaksi_agen.produkPusat', 'produkPusat')
+        .innerJoinAndSelect('transaksi_agen.bank', 'bank')
+        .orderBy('transaksi_agen.created_at', 'ASC');
+    
+        if(status)(
+          query.where('transaksi_agen.status = :status', {status})
+        )
+        else(
+          query.getMany()
+        )
+        await query.getMany()
+        return paginate<transaksi_agen>(query, options)
+      }
 
   async findOne(id: string) {
     try {

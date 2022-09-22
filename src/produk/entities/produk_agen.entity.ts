@@ -55,6 +55,6 @@ export class produkAgen {
   @ManyToOne(()=>User, user=>user.id)
   agen: User;
 
-  @OneToMany(() => cart, (id_produkAgen) => id_produkAgen.id)
+  @OneToMany(() => cart, (id_produkAgen) => id_produkAgen.id, {onDelete: "SET NULL"})
   produkAgen: cart;
 }

@@ -63,7 +63,7 @@ export class ProdukAgenController {
     };
   }
 
-  @Get(':foto')
+  @Get('produk/:foto')
   async getBuktiBayar(@Param('foto') foto: string, @Res() res) {
     return of(
       res.sendFile(

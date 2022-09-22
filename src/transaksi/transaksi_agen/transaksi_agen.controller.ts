@@ -98,13 +98,32 @@ export class TransaksiAgenController {
       @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
       @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit = 10,
       @Query('search') search: string,
+      // @Query('status') status: string,
     ): Promise<Pagination<transaksi_agen>>{
       limit = limit > 100 ? 100 : limit;
       return this.transaksiAgenService.findTransaksi(
           {page, 
           limit, 
-          route: 'http://localhost:3222/transaksi_pembeli/search'},
+          route: 'http://localhost:3222/transaksi_agen/search'},
           search,
+          // status
+        );
+    }
+
+  @ApiBearerAuth()
+  @UseGuards(JwtGuard)
+  @Get('status')
+    async findStatus(
+      @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
+      @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit = 10,
+      @Query('status') status: string,
+    ): Promise<Pagination<transaksi_agen>>{
+      limit = limit > 100 ? 100 : limit;
+      return this.transaksiAgenService.findStatus(
+          {page, 
+          limit, 
+          route: 'http://localhost:3222/transaksi_agen/status'},
+          status,
         );
     }
 

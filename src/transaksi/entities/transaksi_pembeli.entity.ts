@@ -75,6 +75,6 @@ export class transaksi_pembeli {
   @ManyToOne(() => cart, {onDelete: 'SET NULL'})
   cart: cart;
 
-  @ManyToOne(() =>produkAgen, (id_produkAgen) =>id_produkAgen.id)
+  @ManyToOne(() =>produkAgen, (id_produkAgen) =>id_produkAgen.id, {onDelete: "SET NULL"})
   produkAgen: produkAgen;
 }
