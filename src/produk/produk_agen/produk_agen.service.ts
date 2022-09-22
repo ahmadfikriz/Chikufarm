@@ -6,6 +6,7 @@ import { produkAgen } from '../entities/produk_agen.entity';
 import { CreateProdukAgenDto } from './dto/create-produk_agen.dto';
 import { UpdateProdukAgenDto } from './dto/update-produk_agen.dto';
 import { UsersService } from 'src/user/users.service';
+import { IPaginationOptions, paginate, Pagination } from 'nestjs-typeorm-paginate';
 
 @Injectable()
 export class ProdukAgenService {
@@ -35,11 +36,33 @@ export class ProdukAgenService {
     });
   }
 
-  findAll() {
-    return this.produkAgenRepository.findAndCount({
-    where: {},relations: ['agen']
-    });
+  async findAll(options: IPaginationOptions): Promise<Pagination<produkAgen>> {
+    const queryBuilder = this.produkAgenRepository.createQueryBuilder('produkAgen')
+    .innerJoinAndSelect('produkAgen.agen', 'user')
+    .orderBy('produkAgen.nama_produk', 'ASC');
+  
+    return paginate<produkAgen>(queryBuilder, options);
   }
+
+  async findProduk(
+    options: IPaginationOptions,
+    search: string,
+    ): Promise<Pagination<produkAgen>> {
+      const query = this.produkAgenRepository.createQueryBuilder('produkAgen')
+      .innerJoinAndSelect('produkAgen.agen', 'user')
+      .orderBy('produkAgen.nama_produk', 'ASC');
+  
+      if(search)(
+        query
+          .where('produkAgen.nama_produk LIKE :search', {search: `%${search}%`})
+          .orWhere('user.nama LIKE :search', {search: `%${search}%`})
+      )
+      else(
+        query.getMany()
+      )
+      await query.getMany()
+      return paginate<produkAgen>(query, options)
+    }
 
   async findOne(id: string) {
     try {

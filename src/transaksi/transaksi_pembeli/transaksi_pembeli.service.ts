@@ -64,6 +64,7 @@ async findAll(options: IPaginationOptions): Promise<Pagination<transaksi_pembeli
 async findTransaksi(
   options: IPaginationOptions,
   search: string,
+  // status: string,
   ): Promise<Pagination<transaksi_pembeli>> {
     const query = this.transaksiPembeliRepository.createQueryBuilder('transaksi_pembeli')
     .innerJoinAndSelect('transaksi_pembeli.pembeli', 'user')
@@ -78,8 +79,11 @@ async findTransaksi(
         .orWhere('produkAgen.nama_produk LIKE :search', {search: `%${search}%`})
         .orWhere('bank.nama_akun LIKE :search', {search: `%${search}%`})
         .orWhere('bank.nama_bank LIKE :search', {search: `%${search}%`})
-        .orWhere('transaksi_pembeli.status = :search', {search})
     )
+
+    // if (status)(
+    //   query.where('transaksi_pembeli.status = :status', {status})
+    // )
 
     else(
       query.getMany()
@@ -87,6 +91,27 @@ async findTransaksi(
     await query.getMany()
     return paginate<transaksi_pembeli>(query, options)
   }
+
+  async findStatus(
+    options: IPaginationOptions,
+    status: string,
+    ): Promise<Pagination<transaksi_pembeli>> {
+      const query = this.transaksiPembeliRepository.createQueryBuilder('transaksi_pembeli')
+      .innerJoinAndSelect('transaksi_pembeli.pembeli', 'user')
+      .leftJoinAndSelect('transaksi_pembeli.cart', 'id')
+      .innerJoinAndSelect('transaksi_pembeli.produkAgen', 'produkAgen')
+      .innerJoinAndSelect('transaksi_pembeli.bank', 'bank')
+      .orderBy('transaksi_pembeli.created_at', 'ASC');
+
+      if (status)(
+        query.where('transaksi_pembeli.status = :status', {status})
+      )
+      else(
+        query.getMany()
+      )
+      await query.getMany()
+      return paginate<transaksi_pembeli>(query, options)
+    }
 
   async findOne(id: string) {
     try {

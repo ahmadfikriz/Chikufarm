@@ -14,13 +14,18 @@ import {
   UseInterceptors,
   Res,
   Req,
+  Query,
+  DefaultValuePipe,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { diskStorage } from 'multer';
+import { Pagination } from 'nestjs-typeorm-paginate';
 import { extname, join } from 'path';
 import { of } from 'rxjs';
 import { JwtGuard } from 'src/auth/jwt.guard';
+import { produkAgen } from '../entities/produk_agen.entity';
 import { CreateProdukAgenDto } from './dto/create-produk_agen.dto';
 import { UpdateProdukAgenDto } from './dto/update-produk_agen.dto';
 import { ProdukAgenService } from './produk_agen.service';
@@ -68,16 +73,33 @@ export class ProdukAgenController {
   }
 
   @Get()
-  async findAll() {
-    const [data, count] = await this.produkAgenService.findAll();
+  async findAll(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit = 10,
+    ): Promise<Pagination<produkAgen>> {
+    limit = limit > 100 ? 100 : limit;
 
-    return {
-      data,
-      count,
-      statusCode: HttpStatus.OK,
-      message: 'success',
-    };
+    return this.produkAgenService.findAll({
+      page,
+      limit,
+      route: 'http://localhost:3222/produk_agen',
+    });
   }
+
+  @Get('search')
+    async findProduk(
+      @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
+      @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit = 10,
+      @Query('search') search: string,
+    ): Promise<Pagination<produkAgen>>{
+      limit = limit > 100 ? 100 : limit;
+      return this.produkAgenService.findProduk(
+          {page, 
+          limit, 
+          route: 'http://localhost:3222/produk_agen/search'},
+          search,
+        );
+    }
 
   @Get('produk/:id')
   async findOne(@Param('id', ParseUUIDPipe) id: string) {
