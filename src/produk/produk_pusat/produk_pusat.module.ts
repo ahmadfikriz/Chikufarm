@@ -10,6 +10,7 @@ import { role } from 'src/user/entities/role.entity';
 import { User } from 'src/user/entities/user.entity';
 import { produkAgen } from '../entities/produk_agen.entity';
 import { produkPusat } from '../entities/produk_pusat.entity';
+import { Review } from '../entities/review.entity';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { produkPusat } from '../entities/produk_pusat.entity';
       cart,
       transaksi_agen,
       transaksi_pembeli,
+      Review,
     ]),
   ],
   controllers: [ProdukPusatController],

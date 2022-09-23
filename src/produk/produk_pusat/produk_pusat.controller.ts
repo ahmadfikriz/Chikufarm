@@ -23,6 +23,7 @@ import { JwtGuard } from 'src/auth/jwt.guard';
 import { Pagination } from 'nestjs-typeorm-paginate';
 import { User } from 'src/user/entities/user.entity';
 import { produkPusat } from '../entities/produk_pusat.entity';
+import { ReviewDto } from '../produk_agen/dto/review-produk_agen.dto';
 
 @ApiTags('Produk Pusat')
 @ApiBearerAuth()
@@ -39,6 +40,31 @@ export class ProdukPusatController {
       message: 'success',
     };
   }
+
+  @Post('review')
+    async addReview(
+        @Body() reviewDto: ReviewDto,
+        ) {
+        try {
+            return {
+                data: await this.produkPusatService.addReview(reviewDto),
+                statusCode: 200,
+                message: 'berhasil'
+            }
+        }catch(error) {
+            return {
+                message: 'error',
+                error
+            } 
+        } 
+    }
+    
+    @Get('rating/produk/:id')
+    rating(
+        @Param('id', ParseUUIDPipe) id: string
+    ) {
+        return this.produkPusatService.rating(id)
+    }
 
   @Get()
   async findAll(

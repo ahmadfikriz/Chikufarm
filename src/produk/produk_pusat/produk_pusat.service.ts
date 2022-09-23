@@ -2,8 +2,11 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IPaginationOptions, paginate, Pagination } from 'nestjs-typeorm-paginate';
+import { User } from 'src/user/entities/user.entity';
 import { Repository, EntityNotFoundError } from 'typeorm';
 import { produkPusat } from '../entities/produk_pusat.entity';
+import { Review } from '../entities/review.entity';
+import { ReviewDto } from '../produk_agen/dto/review-produk_agen.dto';
 import { CreateProdukPusatDto } from './dto/create-produk_pusat.dto';
 import { UpdateProdukPusatDto } from './dto/update-produk_pusat.dto';
 
@@ -12,6 +15,10 @@ export class ProdukPusatService {
   constructor(
     @InjectRepository(produkPusat)
     private produkPusatRepository: Repository<produkPusat>,
+    @InjectRepository(User)
+    private usersRepository: Repository<User>,
+    @InjectRepository(Review)
+    private reviewRepository: Repository<Review>,
   ) {}
 
   async create(createProdukPusatDto: CreateProdukPusatDto) {
@@ -25,6 +32,25 @@ export class ProdukPusatService {
       },
     });
   }
+
+  async addReview(reviewDto: ReviewDto) {
+
+    const agen: any = await this.usersRepository.findOneOrFail({where: {email: reviewDto.email_agen}})
+    const produk: any = await this.produkPusatRepository.findOneOrFail({where: {nama_produk: reviewDto.nama_produk}})
+
+    const review = new Review()
+    review.komentar = reviewDto.komentar
+    review.rating = reviewDto.rating
+    review.agen = agen
+    review.produkPusat = produk
+    
+    await this.reviewRepository.insert(review)
+    return this.reviewRepository.findOneOrFail({
+        where: {
+            id: review.id
+        },relations: ['agen', 'produkPusat']
+    })
+}
 
   async findAll(options: IPaginationOptions): Promise<Pagination<produkPusat>> {
     const queryBuilder = this.produkPusatRepository.createQueryBuilder('produkPusat')
@@ -145,5 +171,26 @@ export class ProdukPusatService {
         );
       }
     }
+  }
+
+  getReview(){
+    return this.reviewRepository.findAndCount({
+        relations: ['agen', 'produkPusat']
+    })
+  }
+
+  async rating(id: string) {
+    const rating = await this.reviewRepository.find({
+        where: {
+            produkPusat: {id: id}
+        },
+        relations: {
+          produkPusat: true
+        }
+    })
+    const arr = []
+    rating.map(result => arr.push(result.rating))
+    const average = arr.reduce((a, b) => a + b, 0)
+    return `average: ${average}`
   }
 }

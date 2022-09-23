@@ -1,17 +1,17 @@
 /* eslint-disable prettier/prettier */
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
 
 export class ReviewDto {
     @ApiProperty({ required: true })
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
-    pembeli: string;
+    email_pembeli: string;
 
     @ApiProperty({ required: true })
     @IsNotEmpty()
     @IsString()
-    agen: string;
+    email_agen: string;
 
     @ApiProperty({ required: true })
     @IsNotEmpty()

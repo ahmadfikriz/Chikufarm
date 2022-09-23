@@ -45,8 +45,8 @@ export class ProdukAgenService {
 
   async addReview(reviewDto: ReviewDto) {
 
-    const pembeli: any = await this.usersRepository.findOneOrFail({where: {nama: reviewDto.pembeli}})
-    const agen: any = await this.usersRepository.findOneOrFail({where: {nama: reviewDto.agen}})
+    const pembeli: any = await this.usersRepository.findOneOrFail({where: {email: reviewDto.email_pembeli}})
+    const agen: any = await this.usersRepository.findOneOrFail({where: {nama: reviewDto.email_agen}})
     const produk: any = await this.produkAgenRepository.findOneOrFail({where: {nama_produk: reviewDto.nama_produk}})
 
     const review = new Review()
