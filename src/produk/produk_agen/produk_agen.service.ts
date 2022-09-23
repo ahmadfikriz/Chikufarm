@@ -221,4 +221,19 @@ export class ProdukAgenService {
       }
     }
   }
+
+  async rating(id: string) {
+    const rating = await this.reviewRepository.find({
+        where: {
+            produkAgen: {id: id}
+        },
+        relations: {
+          produkAgen: true
+        }
+    })
+    const arr = []
+    rating.map(result => arr.push(result.rating))
+    const average = arr.reduce((a, b) => a + b, 0)
+    return `average: ${average}`
+}
 }

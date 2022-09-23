@@ -80,7 +80,14 @@ export class ProdukAgenController {
                 error
             } 
         } 
-    } 
+    }
+    
+    @Get('rating/produk/:id')
+    rating(
+        @Param('id', ParseUUIDPipe) id: string
+    ) {
+        return this.produkAgenService.rating(id)
+    }
 
   @Get('produk/:foto')
   async getBuktiBayar(@Param('foto') foto: string, @Res() res) {
