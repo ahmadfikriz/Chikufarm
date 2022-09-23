@@ -64,8 +64,8 @@ export class TransaksiAgenController {
     };
   }
 
-  @ApiBearerAuth()
-  @UseGuards(JwtGuard)
+  // @ApiBearerAuth()
+  // @UseGuards(JwtGuard)
   @Get('foto/:bukti_bayar')
   async getBuktiBayar(@Param('bukti_bayar') bukti_bayar: string, @Res() res) {
     return of(
