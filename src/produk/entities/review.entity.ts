@@ -9,9 +9,6 @@ export class Review {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  // @Column()
-  // nama: string;
-
   @Column()
   rating: number;
 
@@ -19,7 +16,10 @@ export class Review {
   komentar: string;
 
   @ManyToOne(() => User, (user) => user.id)
-  user: User;
+  pembeli: User;
+
+  @ManyToOne(() => User, (user) => user.id)
+  agen: User;
 
   @ManyToOne(() => produkPusat, (produkPusat) => produkPusat.id)
   produkPusat: produkPusat;

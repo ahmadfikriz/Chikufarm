@@ -45,19 +45,22 @@ export class ProdukAgenService {
 
   async addReview(reviewDto: ReviewDto) {
 
-    const user: any = await this.usersRepository.findOneOrFail({where: {nama: reviewDto.nama}})
-    const produk : any = await this.produkAgenRepository.findOneOrFail({where: {nama_produk: reviewDto.nama_produk}})
+    const pembeli: any = await this.usersRepository.findOneOrFail({where: {nama: reviewDto.pembeli}})
+    const agen: any = await this.usersRepository.findOneOrFail({where: {nama: reviewDto.agen}})
+    const produk: any = await this.produkAgenRepository.findOneOrFail({where: {nama_produk: reviewDto.nama_produk}})
 
     const review = new Review()
     review.komentar = reviewDto.komentar
     review.rating = reviewDto.rating
+    review.pembeli = pembeli
+    review.agen = agen
     review.produkAgen = produk
-    review.user = user
+    
     await this.reviewRepository.insert(review)
     return this.reviewRepository.findOneOrFail({
         where: {
             id: review.id
-        },relations: ['user', 'produkAgen']
+        },relations: ['pembeli', 'agen', 'produkAgen']
     })
 }
 
@@ -113,7 +116,7 @@ export class ProdukAgenService {
 
   getReview(){
     return this.reviewRepository.findAndCount({
-        relations: ['user', 'produkAgen']
+        relations: ['pembeli', 'agen', 'produkAgen']
     })
 }
 

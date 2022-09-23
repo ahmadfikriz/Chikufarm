@@ -6,7 +6,12 @@ export class ReviewDto {
     @ApiProperty({ required: true })
     @IsNotEmpty()
     @IsString()
-    nama: string;
+    pembeli: string;
+
+    @ApiProperty({ required: true })
+    @IsNotEmpty()
+    @IsString()
+    agen: string;
 
     @ApiProperty({ required: true })
     @IsNotEmpty()

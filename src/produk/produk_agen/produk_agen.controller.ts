@@ -78,9 +78,9 @@ export class ProdukAgenController {
             return {
                 message: 'error',
                 error
-            }
-        }
-    }
+            } 
+        } 
+    } 
 
   @Get('produk/:foto')
   async getBuktiBayar(@Param('foto') foto: string, @Res() res) {
