@@ -13,6 +13,7 @@ import {
   UpdateDateColumn,
   VersionColumn,
 } from 'typeorm';
+import { Review } from './review.entity';
 
 @Entity()
 export class produkAgen {
@@ -57,4 +58,7 @@ export class produkAgen {
 
   @OneToMany(() => cart, (id_produkAgen) => id_produkAgen.id, {onDelete: "SET NULL"})
   produkAgen: cart;
+
+  @OneToMany(()=> Review, id_produkAgen=>id_produkAgen.id)
+  review: Review;
 }

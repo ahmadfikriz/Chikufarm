@@ -27,6 +27,7 @@ import { of } from 'rxjs';
 import { JwtGuard } from 'src/auth/jwt.guard';
 import { produkAgen } from '../entities/produk_agen.entity';
 import { CreateProdukAgenDto } from './dto/create-produk_agen.dto';
+import { ReviewDto } from './dto/review-produk_agen.dto';
 import { UpdateProdukAgenDto } from './dto/update-produk_agen.dto';
 import { ProdukAgenService } from './produk_agen.service';
 
@@ -63,6 +64,24 @@ export class ProdukAgenController {
     };
   }
 
+  @Post('review')
+    async addReview(
+        @Body() reviewDto: ReviewDto,
+        ) {
+        try {
+            return {
+                data: await this.produkAgenService.addReview(reviewDto),
+                statusCode: 200,
+                message: 'berhasil'
+            }
+        }catch(error) {
+            return {
+                message: 'error',
+                error
+            }
+        }
+    }
+
   @Get('produk/:foto')
   async getBuktiBayar(@Param('foto') foto: string, @Res() res) {
     return of(
@@ -85,6 +104,11 @@ export class ProdukAgenController {
       route: 'http://localhost:3222/produk_agen',
     });
   }
+
+  @Get('review')
+    async getReview(){
+        return this.produkAgenService.getReview()
+    }
 
   @Get('search')
     async findProduk(

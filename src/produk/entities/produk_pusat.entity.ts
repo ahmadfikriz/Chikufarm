@@ -11,6 +11,7 @@ import {
   UpdateDateColumn,
   VersionColumn,
 } from 'typeorm';
+import { Review } from './review.entity';
 
 @Entity()
 export class produkPusat {
@@ -46,4 +47,7 @@ export class produkPusat {
 
   @OneToMany(() => request, (id_produkPusat) => id_produkPusat.id)
   produkPusat: request;
+
+  @OneToMany(()=> Review, id_produkPusat=>id_produkPusat.id)
+  review: Review;
 }

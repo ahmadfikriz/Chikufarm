@@ -23,6 +23,7 @@ import {
   UpdateDateColumn,
   VersionColumn,
 } from 'typeorm';
+import { Review } from 'src/produk/entities/review.entity';
 
 @Entity()
 export class User {
@@ -82,6 +83,9 @@ export class User {
 
   @OneToMany(() => bank, (id_user) => id_user.id)
   bank: bank;
+
+  @OneToMany(()=> Review, id_user=>id_user.id)
+  review: Review;
   
   static password: any;
   static id: any;

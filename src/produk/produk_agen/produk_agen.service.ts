@@ -7,13 +7,20 @@ import { CreateProdukAgenDto } from './dto/create-produk_agen.dto';
 import { UpdateProdukAgenDto } from './dto/update-produk_agen.dto';
 import { UsersService } from 'src/user/users.service';
 import { IPaginationOptions, paginate, Pagination } from 'nestjs-typeorm-paginate';
+import { ReviewDto } from './dto/review-produk_agen.dto';
+import { Review } from '../entities/review.entity';
+import { User } from 'src/user/entities/user.entity';
 
 @Injectable()
 export class ProdukAgenService {
   constructor(
     @InjectRepository(produkAgen)
     private produkAgenRepository: Repository<produkAgen>,
+    @InjectRepository(User)
+    private usersRepository: Repository<User>,
     private usersService: UsersService,
+    @InjectRepository(Review)
+    private reviewRepository: Repository<Review>,
   ) {}
 
   async create(createProdukAgenDto: CreateProdukAgenDto) {
@@ -35,6 +42,24 @@ export class ProdukAgenService {
       },relations: ['agen']
     });
   }
+
+  async addReview(reviewDto: ReviewDto) {
+
+    const user: any = await this.usersRepository.findOneOrFail({where: {nama: reviewDto.nama}})
+    const produk : any = await this.produkAgenRepository.findOneOrFail({where: {nama_produk: reviewDto.nama_produk}})
+
+    const review = new Review()
+    review.komentar = reviewDto.komentar
+    review.rating = reviewDto.rating
+    review.produkAgen = produk
+    review.user = user
+    await this.reviewRepository.insert(review)
+    return this.reviewRepository.findOneOrFail({
+        where: {
+            id: review.id
+        },relations: ['user', 'produkAgen']
+    })
+}
 
   async findAll(options: IPaginationOptions): Promise<Pagination<produkAgen>> {
     const queryBuilder = this.produkAgenRepository.createQueryBuilder('produkAgen')
@@ -85,6 +110,13 @@ export class ProdukAgenService {
       }
     }
   }
+
+  getReview(){
+    return this.reviewRepository.findAndCount({
+        relations: ['user', 'produkAgen']
+    })
+}
+
 
   async update(id: string, updateProdukAgenDto: UpdateProdukAgenDto) {
     try {

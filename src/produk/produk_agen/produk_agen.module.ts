@@ -11,6 +11,7 @@ import { role } from 'src/user/entities/role.entity';
 import { produkAgen } from '../entities/produk_agen.entity';
 import { produkPusat } from '../entities/produk_pusat.entity';
 import { UsersModule } from 'src/user/users.module';
+import { Review } from '../entities/review.entity';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { UsersModule } from 'src/user/users.module';
       cart,
       transaksi_agen,
       transaksi_pembeli,
+      Review,
     ]),
     UsersModule,
   ],
