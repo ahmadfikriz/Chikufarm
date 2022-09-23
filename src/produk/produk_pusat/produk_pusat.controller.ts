@@ -58,6 +58,11 @@ export class ProdukPusatController {
             } 
         } 
     }
+
+    @Get('review')
+    async getReview(){
+        return this.produkPusatService.getReview()
+    }
     
     @Get('rating/produk/:id')
     rating(
@@ -116,13 +121,22 @@ export class ProdukPusatController {
     };
   }
 
-  @Delete(':id')
-  async remove(@Param('id', ParseUUIDPipe) id: string) {
-    await this.produkPusatService.remove(id);
+  @Delete('produk/:id')
+  async removeProduk(@Param('id', ParseUUIDPipe) id: string) {
+    await this.produkPusatService.removeProduk(id);
 
     return {
       statusCode: HttpStatus.OK,
       message: 'success',
     };
+  }
+
+  @Delete('review/:id')
+  async removeReview(@Param('id', ParseUUIDPipe) id: string) {
+    await this.produkPusatService.removeReview(id)
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'success'
+    }
   }
 }

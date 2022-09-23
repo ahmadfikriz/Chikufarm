@@ -129,7 +129,7 @@ export class ProdukPusatService {
     });
   }
 
-  async remove(id: string) {
+  async removeProduk(id: string) {
     try {
       await this.produkPusatRepository.findOneOrFail({
         where: {
@@ -151,6 +151,30 @@ export class ProdukPusatService {
     }
 
     await this.produkPusatRepository.delete(id);
+  }
+
+  async removeReview(id: string) {
+    try {
+      await this.reviewRepository.findOneOrFail({
+        where: {
+          id,
+        },
+      });
+    } catch (e) {
+      if (e instanceof EntityNotFoundError) {
+        throw new HttpException(
+          {
+            statusCode: HttpStatus.NOT_FOUND,
+            error: 'Data not found',
+          },
+          HttpStatus.NOT_FOUND,
+        );
+      } else {
+        throw e;
+      }
+    }
+
+    await this.reviewRepository.delete(id);
   }
 
   async findByProdukPusat(nama_produk: string) {

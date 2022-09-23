@@ -81,6 +81,11 @@ export class ProdukAgenController {
             } 
         } 
     }
+
+    @Get('review')
+    async getReview(){
+        return this.produkAgenService.getReview()
+    }
     
     @Get('rating/produk/:id')
     rating(
@@ -111,11 +116,6 @@ export class ProdukAgenController {
       route: 'http://localhost:3222/produk_agen',
     });
   }
-
-  @Get('review')
-    async getReview(){
-        return this.produkAgenService.getReview()
-    }
 
   @Get('search')
     async findProduk(
@@ -169,13 +169,22 @@ export class ProdukAgenController {
 
   @ApiBearerAuth()
   @UseGuards(JwtGuard)
-  @Delete(':id')
-  async remove(@Param('id', ParseUUIDPipe) id: string) {
-    await this.produkAgenService.remove(id);
+  @Delete('produk/:id')
+  async removeProduk(@Param('id', ParseUUIDPipe) id: string) {
+    await this.produkAgenService.removeProduk(id);
 
     return {
       statusCode: HttpStatus.OK,
       message: 'success',
     };
+  }
+
+  @Delete('review/:id')
+  async removeReview(@Param('id', ParseUUIDPipe) id: string) {
+    await this.produkAgenService.removeReview(id)
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'success'
+    }
   }
 }

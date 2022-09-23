@@ -151,7 +151,7 @@ export class ProdukAgenService {
     });
   }
 
-  async remove(id: string) {
+  async removeProduk(id: string) {
     try {
       await this.produkAgenRepository.findOneOrFail({
         where: {
@@ -173,6 +173,30 @@ export class ProdukAgenService {
     }
 
     await this.produkAgenRepository.delete(id);
+  }
+
+  async removeReview(id: string) {
+    try {
+      await this.reviewRepository.findOneOrFail({
+        where: {
+          id,
+        },
+      });
+    } catch (e) {
+      if (e instanceof EntityNotFoundError) {
+        throw new HttpException(
+          {
+            statusCode: HttpStatus.NOT_FOUND,
+            error: 'Data not found',
+          },
+          HttpStatus.NOT_FOUND,
+        );
+      } else {
+        throw e;
+      }
+    }
+
+    await this.reviewRepository.delete(id);
   }
 
   async findByProdukAgen(nama_produk: string) {
