@@ -64,6 +64,8 @@ export class ProdukAgenController {
     };
   }
 
+  @ApiBearerAuth()
+  @UseGuards(JwtGuard)
   @Post('review')
     async addReview(
         @Body() reviewDto: ReviewDto,
@@ -179,6 +181,8 @@ export class ProdukAgenController {
     };
   }
 
+  @ApiBearerAuth()
+  @UseGuards(JwtGuard)
   @Delete('review/:id')
   async removeReview(@Param('id', ParseUUIDPipe) id: string) {
     await this.produkAgenService.removeReview(id)
